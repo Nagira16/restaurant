@@ -1,0 +1,29 @@
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc --watch",
+        "dev": "nodemon ./dist/server.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "express": "^4.21.1"
+    },
+    "devDependencies": {
+        "@types/express": "^5.0.0",
+        "@types/node": "^22.8.4",
+        "nodemon": "^3.1.7",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.6.3"
+    },
+    "prettier": {
+        "trailingComma": "none",
+        "tabWidth": 4,
+        "semi": true,
+        "doubleQuote": true
+    }
+}

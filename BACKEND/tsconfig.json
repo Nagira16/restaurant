@@ -1,13 +1,13 @@
 {
     "compilerOptions": {
-        "outDir": "./dist", // Carpeta de salida para los archivos compilados
-        "module": "commonjs", // Usa el sistema de módulos CommonJS
-        "target": "es6", // Target de JavaScript compatible con ES6
-        "strict": true, // Activa las comprobaciones estrictas de TypeScript
-        "esModuleInterop": true, // Permite la interoperabilidad con módulos ES6
-        "skipLibCheck": true, // Omite la verificación de bibliotecas de tipo para mejorar la velocidad de compilación
-        "forceConsistentCasingInFileNames": true // Obliga a utilizar mayúsculas y minúsculas consistentes en los nombres de archivo
+        "outDir": "./dist",
+        "module": "commonjs",
+        "target": "es6",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
     },
-    "include": ["src/**/*"], // Incluye todos los archivos TypeScript dentro de la carpeta src
-    "exclude": ["node_modules", "dist"] // Excluye las carpetas node_modules y dist
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist"]
 }

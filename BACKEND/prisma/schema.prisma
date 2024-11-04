@@ -12,3 +12,93 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  role_id  Int
+  phone    String?
+  email    String
+  address  String?
+  clerk_id Int?
+}
+
+model Table {
+  id        Int    @id @default(autoincrement())
+  number    Int    @unique
+  capacity  Int
+  available Boolean
+}
+
+model Role {
+  id        Int    @id @default(autoincrement())
+  role_name String @unique
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  menu_id    Int
+  star       Int
+  comments   String?
+  created_at DateTime
+}
+
+model Menu {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String?
+  price       Int
+  category_id Int
+}
+
+model ItemOrderDetails {
+  id             Int    @id @default(autoincrement())
+  order_details_id Int
+  menu_id        Int
+  quantity       Int
+}
+
+model Category {
+  id           Int    @id @default(autoincrement())
+  category_name String @unique
+}
+
+model Nutrients {
+  id            Int    @id @default(autoincrement())
+  menu_id       Int
+  calories      Decimal
+  protein       Decimal
+  carbohydrates Decimal
+  fats          Decimal
+  fiber         Decimal
+  sugar         Decimal
+  sodium        Decimal
+}
+
+model OrderDetails {
+  id        Int    @id @default(autoincrement())
+  payment_id Int
+  user_id    Int
+  status     String @default("PENDING")
+}
+
+model Reservation {
+  id              Int      @id @default(autoincrement())
+  user_id         Int
+  table_id        Int
+  number_of_guests Int
+  status          String   @default("PENDING")
+  created_at      DateTime
+}
+
+model Payment {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  stripe_id  String?
+  amount     Int
+  currency   String
+  method     String
+  status     String   @default("PENDING")
+  created_at DateTime
+}

@@ -6,39 +6,38 @@
 
 // schema.prisma
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id       String   @id @default(uuid())
-  name     String
-  role_id  String
-  phone    String?
-  email    String
-  address  String?
-  clerk_id Int
+datasource db {
+  provider = "postgresql" 
+  url      = env("DATABASE_URL")
+}
 
-  // Relations
-  role           Role           @relation(fields: [role_id], references: [id])
-  reviews        Review[]
-  reservations   Reservation[]
-  payments       Payment[]
-  orderDetails   OrderDetails[]
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  role_id   String
+  email     String   @unique
+  phone     Int?
+  address   String?
+  clerk_id  String?  @unique
+
+  role      Role     @relation(fields: [role_id], references: [id])
+  reviews   Review[]
+  orders    Order_Details[]
+  payments  Payment[]
+  reservations Reservation[]
 }
 
 model Table {
-  id        String   @id @default(uuid())
-  number    Int      @unique
-  capacity  Int
-  available Boolean
+  id          String   @id @default(uuid())
+  number      Int      @unique
+  capacity    Int
+  available   Boolean
 
-  // Relations
   reservations Reservation[]
 }
 
@@ -46,108 +45,105 @@ model Role {
   id        String   @id @default(uuid())
   role_name String   @unique
 
-  // Relations
-  users      User[]
+  users     User[]
 }
 
 model Review {
   id         String   @id @default(uuid())
   user_id    String
   menu_id    String
-  star       Int
+  stars      Int
   comments   String?
-  created_at DateTime
+  created_at DateTime @default(now())
 
-  // Relations
   user       User     @relation(fields: [user_id], references: [id])
   menu       Menu     @relation(fields: [menu_id], references: [id])
 }
 
 model Menu {
   id          String   @id @default(uuid())
-  name        String
+  name        String   
   description String?
-  price       Int
-  category_id String
-  image       String?  
+  price       Decimal
+  category_id String?
+  image       String?
 
-  // Relations
-  category          Category         @relation(fields: [category_id], references: [id])
-  reviews           Review[]
-  nutrients         Nutrients?
-  itemOrderDetails  ItemOrderDetails[]
+  category    Category? @relation(fields: [category_id], references: [id])
+  reviews     Review[]
+  nutrients   Nutrients?
+  item_orders Item_Order_Details[]
 }
 
-
-model ItemOrderDetails {
-  id               String   @id @default(uuid())
+model Item_Order_Details {
+  id               String @id @default(uuid())
   order_details_id String
   menu_id          String
   quantity         Int
 
-  // Relations
+  order_details    Order_Details @relation(fields: [order_details_id], references: [id])
   menu             Menu          @relation(fields: [menu_id], references: [id])
-  orderDetails     OrderDetails  @relation(fields: [order_details_id], references: [id])
 }
 
 model Category {
-  id           String   @id @default(uuid())
-  category_name String  @unique
+  id            String @id @default(uuid())
+  category_name String @unique
 
-  // Relations
-  menus         Menu[]
+  menus        Menu[]
 }
 
 model Nutrients {
-  id            String   @id @default(uuid())
-  menu_id       String   @unique
-  calories      Decimal
-  protein       Decimal
-  carbohydrates Decimal
-  fats          Decimal
-  fiber         Decimal
+  id             String   @id @default(uuid())
+  menu_id        String   @unique
+  calories       Decimal
+  protein        Decimal
+  carbohydrates  Decimal
+  fats           Decimal
+  fiber          Decimal
+  sugar          Decimal
+  sodium         Decimal
 
-  // Relations
-  menu          Menu     @relation(fields: [menu_id], references: [id])
+  menu        Menu     @relation(fields: [menu_id], references: [id])
 }
 
+model Order_Details {
+  id          String   @id @default(uuid())
+  payment_id  String
+  total_price Decimal
+  user_id     String
+  date        DateTime @default(now())
+  status      String
 
-model OrderDetails {
-  id                String           @id @default(uuid())
-  payment_id        String
-  user_id           String
-  status            String           @default("PENDING")
-
-  // Relations
-  payment           Payment          @relation(fields: [payment_id], references: [id])
-  user              User             @relation(fields: [user_id], references: [id])
-  itemOrderDetails  ItemOrderDetails[]
+  payment     Payment  @relation(fields: [payment_id], references: [id])
+  user        User     @relation(fields: [user_id], references: [id])
+  items       Item_Order_Details[]
 }
 
 model Reservation {
-  id               String     @id @default(uuid())
-  user_id          String
-  table_id         String
-  number_of_guests Int
-  status           String     @default("PENDING")
-  created_at       DateTime
+  id              String   @id @default(uuid())
+  user_id         String
+  num_of_people   Int
+  table_id        String?
+  status          String
+  location        String
+  created_at      DateTime @default(now())
 
-  // Relations
-  user             User       @relation(fields: [user_id], references: [id])
-  table            Table      @relation(fields: [table_id], references: [id])
+  user            User     @relation(fields: [user_id], references: [id])
+  table           Table?   @relation(fields: [table_id], references: [id])
 }
+
 
 model Payment {
-  id              String    @id @default(uuid())
-  user_id         String
-  stripe_id       String?
-  amount          Int
-  currency        String
-  method          String
-  status          String     @default("PENDING")
-  created_at      DateTime
+  id          String   @id @default(uuid())
+  user_id     String
+  stripe_id   String?  @unique
+  amount      Decimal
+  currency    String
+  method      String
+  status      String
+  created_at  DateTime @default(now())
 
-  // Relations
-  user            User       @relation(fields: [user_id], references: [id])
-  orderDetails    OrderDetails[]
+  user        User     @relation(fields: [user_id], references: [id])
+  orders      Order_Details[]
 }
+
+

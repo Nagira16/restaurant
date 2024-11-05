@@ -111,7 +111,7 @@ model Order_Details {
   total_price Decimal
   user_id     String
   date        DateTime @default(now())
-  status      String
+  status      String   @default("PENDING")
 
   payment     Payment  @relation(fields: [payment_id], references: [id])
   user        User     @relation(fields: [user_id], references: [id])
@@ -123,7 +123,7 @@ model Reservation {
   user_id         String
   num_of_people   Int
   table_id        String?
-  status          String
+  status          String   @default("PENDING")
   location        String
   created_at      DateTime @default(now())
 
@@ -139,7 +139,7 @@ model Payment {
   amount      Decimal
   currency    String
   method      String
-  status      String
+  status      String   @default("PENDING")
   created_at  DateTime @default(now())
 
   user        User     @relation(fields: [user_id], references: [id])

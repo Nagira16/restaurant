@@ -93,7 +93,7 @@ CREATE TABLE "Order_Details" (
     "total_price" DECIMAL(65,30) NOT NULL,
     "user_id" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "status" TEXT NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'PENDING',
 
     CONSTRAINT "Order_Details_pkey" PRIMARY KEY ("id")
 );
@@ -104,7 +104,7 @@ CREATE TABLE "Reservation" (
     "user_id" TEXT NOT NULL,
     "num_of_people" INTEGER NOT NULL,
     "table_id" TEXT,
-    "status" TEXT NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'PENDING',
     "location" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -119,7 +119,7 @@ CREATE TABLE "Payment" (
     "amount" DECIMAL(65,30) NOT NULL,
     "currency" TEXT NOT NULL,
     "method" TEXT NOT NULL,
-    "status" TEXT NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'PENDING',
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Payment_pkey" PRIMARY KEY ("id")

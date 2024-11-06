@@ -4,101 +4,146 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// schema.prisma
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "postgresql" 
   url      = env("DATABASE_URL")
 }
 
+
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  role_id  Int
-  phone    String?
-  email    String
-  address  String?
-  clerk_id Int?
+  id        String   @id @default(uuid())
+  name      String
+  role_id   String
+  email     String   @unique
+  phone     Int?
+  address   String?
+  clerk_id  String?  @unique
+
+  role      Role     @relation(fields: [role_id], references: [id])
+  reviews   Review[]
+  orders    Order_Details[]
+  payments  Payment[]
+  reservations Reservation[]
 }
 
 model Table {
-  id        Int    @id @default(autoincrement())
-  number    Int    @unique
-  capacity  Int
-  available Boolean
+  id          String   @id @default(uuid())
+  number      Int      @unique
+  capacity    Int
+  available   Boolean
+
+  reservations Reservation[]
 }
 
 model Role {
-  id        Int    @id @default(autoincrement())
-  role_name String @unique
+  id        String   @id @default(uuid())
+  role_name String   @unique
+
+  users     User[]
 }
 
 model Review {
-  id         Int      @id @default(autoincrement())
-  user_id    Int
-  menu_id    Int
-  star       Int
+  id         String   @id @default(uuid())
+  user_id    String
+  menu_id    String
+  stars      Int
   comments   String?
-  created_at DateTime
+  created_at DateTime @default(now())
+
+  user       User     @relation(fields: [user_id], references: [id])
+  menu       Menu     @relation(fields: [menu_id], references: [id])
 }
 
 model Menu {
-  id          Int    @id @default(autoincrement())
-  name        String
+  id          String   @id @default(uuid())
+  name        String   
   description String?
-  price       Int
-  category_id Int
+  price       Decimal
+  category_id String?
+  image       String?
+
+  category    Category? @relation(fields: [category_id], references: [id])
+  reviews     Review[]
+  nutrients   Nutrients?
+  item_orders Item_Order_Details[]
 }
 
-model ItemOrderDetails {
-  id             Int    @id @default(autoincrement())
-  order_details_id Int
-  menu_id        Int
-  quantity       Int
+model Item_Order_Details {
+  id               String @id @default(uuid())
+  order_details_id String
+  menu_id          String
+  quantity         Int
+
+  order_details    Order_Details @relation(fields: [order_details_id], references: [id])
+  menu             Menu          @relation(fields: [menu_id], references: [id])
 }
 
 model Category {
-  id           Int    @id @default(autoincrement())
+  id            String @id @default(uuid())
   category_name String @unique
+
+  menus        Menu[]
 }
 
 model Nutrients {
-  id            Int    @id @default(autoincrement())
-  menu_id       Int
-  calories      Decimal
-  protein       Decimal
-  carbohydrates Decimal
-  fats          Decimal
-  fiber         Decimal
-  sugar         Decimal
-  sodium        Decimal
+  id             String   @id @default(uuid())
+  menu_id        String   @unique
+  calories       Decimal
+  protein        Decimal
+  carbohydrates  Decimal
+  fats           Decimal
+  fiber          Decimal
+  sugar          Decimal
+  sodium         Decimal
+
+  menu        Menu     @relation(fields: [menu_id], references: [id])
 }
 
-model OrderDetails {
-  id        Int    @id @default(autoincrement())
-  payment_id Int
-  user_id    Int
-  status     String @default("PENDING")
+model Order_Details {
+  id          String   @id @default(uuid())
+  payment_id  String
+  total_price Decimal
+  user_id     String
+  date        DateTime @default(now())
+  status      String   @default("PENDING")
+
+  payment     Payment  @relation(fields: [payment_id], references: [id])
+  user        User     @relation(fields: [user_id], references: [id])
+  items       Item_Order_Details[]
 }
 
 model Reservation {
-  id              Int      @id @default(autoincrement())
-  user_id         Int
-  table_id        Int
-  number_of_guests Int
+  id              String   @id @default(uuid())
+  user_id         String
+  num_of_people   Int
+  table_id        String?
   status          String   @default("PENDING")
-  created_at      DateTime
+  location        String
+  created_at      DateTime @default(now())
+
+  user            User     @relation(fields: [user_id], references: [id])
+  table           Table?   @relation(fields: [table_id], references: [id])
 }
 
+
 model Payment {
-  id         Int      @id @default(autoincrement())
-  user_id    Int
-  stripe_id  String?
-  amount     Int
-  currency   String
-  method     String
-  status     String   @default("PENDING")
-  created_at DateTime
+  id          String   @id @default(uuid())
+  user_id     String
+  stripe_id   String?  @unique
+  amount      Decimal
+  currency    String
+  method      String
+  status      String   @default("PENDING")
+  created_at  DateTime @default(now())
+
+  user        User     @relation(fields: [user_id], references: [id])
+  orders      Order_Details[]
 }
+
+

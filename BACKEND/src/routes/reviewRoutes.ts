@@ -1,18 +1,18 @@
-// import { Router } from "express";
-// import {
-//     getAllReviews,
-//     getReviewById,
-//     createReview,
-//     updateReview,
-//     deleteReview
-// } from "../controllers/reviewController";
+import { Router } from "express";
+import {
+    getAllReviewsByMenu,
+    getReviewById,
+    createReview,
+    updateReview,
+    deleteReview
+} from "../controllers/reviewController";
 
-// const router = Router();
+const router = Router();
 
-// router.get("/", getAllReviews);
-// router.post("/", createReview);
-// router.get("/:id", getReviewById);
-// router.put("/:id", updateReview);
-// router.delete("/:id", deleteReview);
+router.get("/", getAllReviewsByMenu); // admin only
+router.post("/", createReview);
+router.get("/:id", getReviewById);
+router.put("/:id", updateReview);
+router.delete("/:id", deleteReview);
 
-// export default router;
+export default router;

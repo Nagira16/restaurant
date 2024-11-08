@@ -1,16 +1,11 @@
 "use strict";
-// import { Router } from "express";
-// import {
-//     getAllReviews,
-//     getReviewById,
-//     createReview,
-//     updateReview,
-//     deleteReview
-// } from "../controllers/reviewController";
-// const router = Router();
-// router.get("/", getAllReviews);
-// router.post("/", createReview);
-// router.get("/:id", getReviewById);
-// router.put("/:id", updateReview);
-// router.delete("/:id", deleteReview);
-// export default router;
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const reviewController_1 = require("../controllers/reviewController");
+const router = (0, express_1.Router)();
+router.get("/", reviewController_1.getAllReviewsByMenu); // admin only
+router.post("/", reviewController_1.createReview);
+router.get("/:id", reviewController_1.getReviewById);
+router.put("/:id", reviewController_1.updateReview);
+router.delete("/:id", reviewController_1.deleteReview);
+exports.default = router;

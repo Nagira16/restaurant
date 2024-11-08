@@ -47,10 +47,10 @@ export const createMenu = async (
     try {
         // Check if current user role is Admin
         const user_id: string | null = req.auth?.userId;
-        if (!user_id) return;
+        if (!user_id) throw new Error();
 
         const isAdmin: boolean = await adminAuth(user_id);
-        if (!isAdmin) return;
+        if (!isAdmin) throw new Error();
 
         const {
             name,
@@ -101,10 +101,10 @@ export const updateMenu = async (
     try {
         // Check if current user role is Admin
         const user_id: string | null = req.auth?.userId;
-        if (!user_id) return;
+        if (!user_id) throw new Error();
 
         const isAdmin: boolean = await adminAuth(user_id);
-        if (!isAdmin) return;
+        if (!isAdmin) throw new Error();
 
         const id: string = req.params.id;
         const {
@@ -173,10 +173,10 @@ export const deleteMenu = async (
     try {
         // Check if current user role is Admin
         const user_id: string | null = req.auth?.userId;
-        if (!user_id) return;
+        if (!user_id) throw new Error();
 
         const isAdmin: boolean = await adminAuth(user_id);
-        if (!isAdmin) return;
+        if (!isAdmin) throw new Error();
 
         const id: string = req.params.id;
         const menu: Menu | null = await prisma.menu.findUnique({

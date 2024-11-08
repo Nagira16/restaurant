@@ -9,10 +9,10 @@ export const getAllUsers = async (
     try {
         // Check if current user role is Admin
         const user_id: string | null = req.auth?.userId;
-        if (!user_id) return;
+        if (!user_id) throw new Error();
 
         const isAdmin: boolean = await adminAuth(user_id);
-        if (!isAdmin) return;
+        if (!isAdmin) throw new Error();
 
         const allUsers: User[] = await prisma.user.findMany();
 

@@ -1,16 +1,11 @@
 "use strict";
-// import { Router } from "express";
-// import {
-//     getAllMenus,
-//     getMenuById,
-//     createMenu,
-//     updateMenu,
-//     deleteMenu
-// } from "../controllers/menuController";
-// const router = Router();
-// router.get("/", getAllMenus);
-// router.post("/", createMenu);
-// router.get("/:id", getMenuById);
-// router.put("/:id", updateMenu);
-// router.delete("/:id", deleteMenu);
-// export default router;
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const menuController_1 = require("../controllers/menuController");
+const router = (0, express_1.Router)();
+router.get("/", menuController_1.getAllMenus);
+router.post("/", menuController_1.createMenu);
+router.get("/:id", menuController_1.getMenuById);
+router.put("/:id", menuController_1.updateMenu);
+router.delete("/:id", menuController_1.deleteMenu);
+exports.default = router;

@@ -2,10 +2,7 @@ import { Role, User } from "@prisma/client";
 import { prisma } from "../prismaClient";
 import { NextFunction, Request, Response } from "express";
 
-export const getAllUsers = async (
-    req: Request,
-    res: Response
-): Promise<void> => {
+export const getAllUsers = async (_: Request, res: Response): Promise<void> => {
     try {
         // Check if current user role is Admin
 
@@ -27,9 +24,11 @@ export const getUserById = async (
 ): Promise<void> => {
     try {
         const id: string = req.params.id;
+
         const user: User | null = await prisma.user.findUnique({
             where: { id }
         });
+
         if (user) {
             res.status(200).json({ user, message: "User Found Successfully" });
         } else {

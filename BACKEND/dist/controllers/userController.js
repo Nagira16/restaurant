@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
 const prismaClient_1 = require("../prismaClient");
-const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllUsers = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Check if current user role is Admin
         const allUsers = yield prismaClient_1.prisma.user.findMany();

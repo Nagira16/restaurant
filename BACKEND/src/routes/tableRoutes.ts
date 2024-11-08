@@ -1,18 +1,18 @@
-// import { Router } from "express";
-// import {
-//     getAllTables,
-//     getTableById,
-//     createTable,
-//     updateTable,
-//     deleteTable
-// } from "../controllers/tableController";
+import { Router } from "express";
+import {
+    getAllTables,
+    getTableById,
+    createTable,
+    updateTable,
+    deleteTable
+} from "../controllers/tableController";
 
-// const router = Router();
+const router = Router();
 
-// router.get("/", getAllTables);
-// router.post("/", createTable);
-// router.get("/:id", getTableById);
-// router.put("/:id", updateTable);
-// router.delete("/:id", deleteTable);
+router.get("/", getAllTables);
+// router.post("/", createTable); // admin only
+router.get("/:id", getTableById);
+// router.put("/:id", updateTable); // admin only
+// router.delete("/:id", deleteTable); // admin only
 
-// export default router;
+export default router;

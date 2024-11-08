@@ -6,11 +6,10 @@ import {
     updateUser,
     deleteUser
 } from "../controllers/userController";
-import { adminMiddleware } from "../middleware";
 
 const router = Router();
 
-router.get("/", adminMiddleware, getAllUsers);
+// router.get("/", getAllUsers); // admin only
 router.post("/", createUser);
 router.get("/:id", getUserById);
 router.put("/:id", updateUser);

@@ -1,7 +1,9 @@
 import express from "express";
 import userRouter from "./routes/userRoutes";
 import menuRouter from "./routes/menuRoutes";
+import adminRouter from "./routes/adminRoutes";
 import { clerkMiddleware } from "@clerk/express";
+import { adminMiddleware } from "./middleware";
 
 const app = express();
 
@@ -17,6 +19,7 @@ app.get("/", (req, res) => {
     res.send({ messege: "worksss!!!" });
 });
 
+app.use("/admin", adminMiddleware, adminRouter);
 app.use("/users", userRouter);
 app.use("/menus", menuRouter);
 

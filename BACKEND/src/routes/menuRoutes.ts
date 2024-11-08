@@ -6,14 +6,13 @@ import {
     updateMenu,
     deleteMenu
 } from "../controllers/menuController";
-import { adminMiddleware } from "../middleware";
 
 const router = Router();
 
 router.get("/", getAllMenus);
-router.post("/", adminMiddleware, createMenu);
+// router.post("/", createMenu); // admin only
 router.get("/:id", getMenuById);
-router.put("/:id", adminMiddleware, updateMenu);
-router.delete("/:id", adminMiddleware, deleteMenu);
+// router.put("/:id", updateMenu); // admin only
+// router.delete("/:id", deleteMenu); // admin only
 
 export default router;

@@ -6,25 +6,37 @@ export const adminMiddleware = async (
     req: Request,
     res: Response,
     next: NextFunction
-): Promise<void | Response> => {
+): Promise<void> => {
     const id: string | null = req.auth.userId;
-    if (!id) return res.status(404).json({ message: "User Id Not Found" });
+    if (!id) {
+        res.status(404).json({ message: "User Id Not Found" });
+        return;
+    }
 
     const user: User | null = await prisma.user.findUnique({
         where: { id }
     });
 
-    if (!user) return res.status(404).json({ message: "User Not Found" });
+    if (!user) {
+        res.status(404).json({ message: "User Not Found" });
+        return;
+    }
 
     const role: Role | null = await prisma.role.findUnique({
         where: { id: user.role_id }
     });
 
-    if (!role) return res.status(404).json({ message: "Role Not Found" });
+    if (!role) {
+        res.status(404).json({ message: "Role Not Found" });
+        return;
+    }
 
     if (role.role_name === "Admin") {
         next();
     } else {
-        return res.status(404).json({ message: "No Permission" });
+        {
+            res.status(404).json({ message: "No Permission" });
+            return;
+        }
     }
 };

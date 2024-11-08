@@ -13,23 +13,32 @@ exports.adminMiddleware = void 0;
 const prismaClient_1 = require("./prismaClient");
 const adminMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.auth.userId;
-    if (!id)
-        return res.status(404).json({ message: "User Id Not Found" });
+    if (!id) {
+        res.status(404).json({ message: "User Id Not Found" });
+        return;
+    }
     const user = yield prismaClient_1.prisma.user.findUnique({
         where: { id }
     });
-    if (!user)
-        return res.status(404).json({ message: "User Not Found" });
+    if (!user) {
+        res.status(404).json({ message: "User Not Found" });
+        return;
+    }
     const role = yield prismaClient_1.prisma.role.findUnique({
         where: { id: user.role_id }
     });
-    if (!role)
-        return res.status(404).json({ message: "Role Not Found" });
+    if (!role) {
+        res.status(404).json({ message: "Role Not Found" });
+        return;
+    }
     if (role.role_name === "Admin") {
         next();
     }
     else {
-        return res.status(404).json({ message: "No Permission" });
+        {
+            res.status(404).json({ message: "No Permission" });
+            return;
+        }
     }
 });
 exports.adminMiddleware = adminMiddleware;

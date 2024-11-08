@@ -2,9 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const userController_1 = require("../controllers/userController");
-const middleware_1 = require("../middleware");
 const router = (0, express_1.Router)();
-router.get("/", middleware_1.adminMiddleware, userController_1.getAllUsers);
+// router.get("/", getAllUsers); // admin only
 router.post("/", userController_1.createUser);
 router.get("/:id", userController_1.getUserById);
 router.put("/:id", userController_1.updateUser);

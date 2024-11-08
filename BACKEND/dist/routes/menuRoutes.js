@@ -2,10 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const menuController_1 = require("../controllers/menuController");
+const middleware_1 = require("../middleware");
 const router = (0, express_1.Router)();
 router.get("/", menuController_1.getAllMenus);
-router.post("/", menuController_1.createMenu);
+router.post("/", middleware_1.adminMiddleware, menuController_1.createMenu);
 router.get("/:id", menuController_1.getMenuById);
-router.put("/:id", menuController_1.updateMenu);
-router.delete("/:id", menuController_1.deleteMenu);
+router.put("/:id", middleware_1.adminMiddleware, menuController_1.updateMenu);
+router.delete("/:id", middleware_1.adminMiddleware, menuController_1.deleteMenu);
 exports.default = router;

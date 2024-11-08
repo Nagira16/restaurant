@@ -1,6 +1,6 @@
 import { Role, User } from "@prisma/client";
 import { prisma } from "../prismaClient";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 export const getAllUsers = async (
     req: Request,
@@ -8,11 +8,6 @@ export const getAllUsers = async (
 ): Promise<void> => {
     try {
         // Check if current user role is Admin
-        const user_id: string | null = req.auth?.userId;
-        if (!user_id) throw new Error();
-
-        const isAdmin: boolean = await adminAuth(user_id);
-        if (!isAdmin) throw new Error();
 
         const allUsers: User[] = await prisma.user.findMany();
 
@@ -204,22 +199,4 @@ const findUserByEmail = async (email: string): Promise<boolean> => {
     });
 
     return user ? true : false;
-};
-
-export const adminAuth = async (user_id: string): Promise<boolean> => {
-    const user: User | null = await prisma.user.findUnique({
-        where: { id: user_id }
-    });
-
-    if (!user) return false;
-
-    const role: Role | null = await prisma.role.findUnique({
-        where: { id: user.role_id }
-    });
-
-    if (!role) return false;
-
-    if (role.role_name === "Admin") return true;
-
-    return false;
 };

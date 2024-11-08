@@ -1,5 +1,6 @@
 import express from "express";
 import userRouter from "./routes/userRoutes";
+import menuRouter from "./routes/menuRoutes";
 import { clerkMiddleware } from "@clerk/express";
 
 const app = express();
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
     res.send({ messege: "worksss!!!" });
 });
 
-app.use("/user", userRouter);
+app.use("/users", userRouter);
+app.use("/menus", menuRouter);
 
 export default app;

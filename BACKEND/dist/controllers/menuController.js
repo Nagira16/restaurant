@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteMenu = exports.updateMenu = exports.createMenu = exports.getMenuById = exports.getAllMenus = void 0;
 const prismaClient_1 = require("../prismaClient");
-const userController_1 = require("./userController");
 const getAllMenus = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allMenus = yield prismaClient_1.prisma.menu.findMany();
@@ -49,15 +48,8 @@ const getMenuById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.getMenuById = getMenuById;
 const createMenu = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     try {
         // Check if current user role is Admin
-        const user_id = (_a = req.auth) === null || _a === void 0 ? void 0 : _a.userId;
-        if (!user_id)
-            throw new Error();
-        const isAdmin = yield (0, userController_1.adminAuth)(user_id);
-        if (!isAdmin)
-            throw new Error();
         const { name, description, price, category_name, image } = req.body;
         const category = yield prismaClient_1.prisma.category.findUnique({
             where: { category_name }
@@ -86,15 +78,8 @@ const createMenu = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.createMenu = createMenu;
 const updateMenu = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     try {
         // Check if current user role is Admin
-        const user_id = (_a = req.auth) === null || _a === void 0 ? void 0 : _a.userId;
-        if (!user_id)
-            throw new Error();
-        const isAdmin = yield (0, userController_1.adminAuth)(user_id);
-        if (!isAdmin)
-            throw new Error();
         const id = req.params.id;
         const { name, description, price, category_name, image } = req.body;
         const menu = yield prismaClient_1.prisma.menu.findUnique({
@@ -139,15 +124,8 @@ const updateMenu = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.updateMenu = updateMenu;
 const deleteMenu = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     try {
         // Check if current user role is Admin
-        const user_id = (_a = req.auth) === null || _a === void 0 ? void 0 : _a.userId;
-        if (!user_id)
-            throw new Error();
-        const isAdmin = yield (0, userController_1.adminAuth)(user_id);
-        if (!isAdmin)
-            throw new Error();
         const id = req.params.id;
         const menu = yield prismaClient_1.prisma.menu.findUnique({
             where: { id }

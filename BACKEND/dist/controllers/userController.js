@@ -9,18 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.adminAuth = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
+exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
 const prismaClient_1 = require("../prismaClient");
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     try {
         // Check if current user role is Admin
-        const user_id = (_a = req.auth) === null || _a === void 0 ? void 0 : _a.userId;
-        if (!user_id)
-            throw new Error();
-        const isAdmin = yield (0, exports.adminAuth)(user_id);
-        if (!isAdmin)
-            throw new Error();
         const allUsers = yield prismaClient_1.prisma.user.findMany();
         res.status(200).json({
             users: allUsers,
@@ -165,19 +158,3 @@ const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* (
     });
     return user ? true : false;
 });
-const adminAuth = (user_id) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = yield prismaClient_1.prisma.user.findUnique({
-        where: { id: user_id }
-    });
-    if (!user)
-        return false;
-    const role = yield prismaClient_1.prisma.role.findUnique({
-        where: { id: user.role_id }
-    });
-    if (!role)
-        return false;
-    if (role.role_name === "Admin")
-        return true;
-    return false;
-});
-exports.adminAuth = adminAuth;

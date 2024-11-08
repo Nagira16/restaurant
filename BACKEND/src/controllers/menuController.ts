@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
 import { Category, Menu } from "@prisma/client";
-import { adminAuth } from "./userController";
 
 export const getAllMenus = async (_: Request, res: Response): Promise<void> => {
     try {
@@ -46,11 +45,6 @@ export const createMenu = async (
 ): Promise<void> => {
     try {
         // Check if current user role is Admin
-        const user_id: string | null = req.auth?.userId;
-        if (!user_id) throw new Error();
-
-        const isAdmin: boolean = await adminAuth(user_id);
-        if (!isAdmin) throw new Error();
 
         const {
             name,
@@ -100,11 +94,6 @@ export const updateMenu = async (
 ): Promise<void> => {
     try {
         // Check if current user role is Admin
-        const user_id: string | null = req.auth?.userId;
-        if (!user_id) throw new Error();
-
-        const isAdmin: boolean = await adminAuth(user_id);
-        if (!isAdmin) throw new Error();
 
         const id: string = req.params.id;
         const {
@@ -172,11 +161,6 @@ export const deleteMenu = async (
 ): Promise<void> => {
     try {
         // Check if current user role is Admin
-        const user_id: string | null = req.auth?.userId;
-        if (!user_id) throw new Error();
-
-        const isAdmin: boolean = await adminAuth(user_id);
-        if (!isAdmin) throw new Error();
 
         const id: string = req.params.id;
         const menu: Menu | null = await prisma.menu.findUnique({

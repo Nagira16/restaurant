@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
+const menuRoutes_1 = __importDefault(require("./routes/menuRoutes"));
 const express_2 = require("@clerk/express");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -15,5 +16,6 @@ app.use((0, express_2.clerkMiddleware)({
 app.get("/", (req, res) => {
     res.send({ messege: "worksss!!!" });
 });
-app.use("/user", userRoutes_1.default);
+app.use("/users", userRoutes_1.default);
+app.use("/menus", menuRoutes_1.default);
 exports.default = app;

@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
     res.send({ messege: "worksss!!!" });
 });
 
-app.use("/admin", adminRouter);
+app.use("/admin", adminMiddleware, adminRouter);
 app.use("/users", userRouter);
 app.use("/menus", menuRouter);
 

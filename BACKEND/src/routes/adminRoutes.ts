@@ -10,6 +10,13 @@ import {
     deleteTable,
     updateTable
 } from "../controllers/tableController";
+import {
+    createRole,
+    deleteRole,
+    getAllRoles,
+    getRoleById,
+    updateRole
+} from "../controllers/roleController";
 
 const router = Router();
 
@@ -24,6 +31,12 @@ router.delete("/menus/:id", deleteMenu);
 router.post("/table", createTable);
 router.put("/table/:id", updateTable);
 router.delete("/table/:id", deleteTable);
+
+router.get("/role", getAllRoles);
+router.post("/role", createRole);
+router.get("/role/:id", getRoleById);
+router.put("/role/:id", updateRole);
+router.delete("/role/:id", deleteRole);
 
 router.get("/", (_: Request, res: Response) => {
     res.status(200).json({ message: "Work Admin Routes" });

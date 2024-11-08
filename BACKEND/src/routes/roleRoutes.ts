@@ -9,10 +9,10 @@
 
 // const router = Router();
 
-// router.get("/", getAllRoles);
-// router.post("/", createRole);
-// router.get("/:id", getRoleById);
-// router.put("/:id", updateRole);
-// router.delete("/:id", deleteRole);
+// router.get("/", getAllRoles); // admin only
+// router.post("/", createRole); // admin only
+// router.get("/:id", getRoleById); // admin only
+// router.put("/:id", updateRole); // admin only
+// router.delete("/:id", deleteRole); // admin only
 
 // export default router;

@@ -10,8 +10,8 @@ import {
 const router = Router();
 
 router.get("/", getAllMenus);
-router.get("/:id", getMenuById);
 router.post("/", createMenu);
+router.get("/:id", getMenuById);
 router.put("/:id", updateMenu);
 router.delete("/:id", deleteMenu);
 

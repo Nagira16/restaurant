@@ -12,13 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminMiddleware = void 0;
 const prismaClient_1 = require("./prismaClient");
 const adminMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.auth.userId;
-    if (!id) {
-        res.status(404).json({ message: "User Id Not Found" });
+    const clerk_id = req.auth.userId;
+    if (!clerk_id) {
+        res.status(401).json({ message: "Unauthorized" });
         return;
     }
     const user = yield prismaClient_1.prisma.user.findUnique({
-        where: { id }
+        where: { clerk_id }
     });
     if (!user) {
         res.status(404).json({ message: "User Not Found" });
@@ -36,7 +36,7 @@ const adminMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
     else {
         {
-            res.status(404).json({ message: "No Permission" });
+            res.status(403).json({ message: "Forbidden: Admin only" });
             return;
         }
     }

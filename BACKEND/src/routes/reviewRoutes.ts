@@ -9,7 +9,7 @@ import {
 
 const router = Router();
 
-router.get("/", getAllReviewsByMenu); // admin only
+router.get("/", getAllReviewsByMenu);
 router.post("/", createReview);
 router.get("/:id", getReviewById);
 router.put("/:id", updateReview);

@@ -1,6 +1,6 @@
 import { Role, User } from "@prisma/client";
 import { prisma } from "../prismaClient";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 
 export const getAllUsers = async (_: Request, res: Response): Promise<void> => {
     try {
@@ -108,14 +108,12 @@ export const updateUser = async (
             email,
             phone,
             address,
-            clerk_id,
             role_name
         }: {
             name?: string;
             email?: string;
             phone?: string;
             address?: string;
-            clerk_id?: string;
             role_name?: string;
         } = req.body;
 
@@ -144,13 +142,12 @@ export const updateUser = async (
         }
 
         const updatedUser: User = await prisma.user.update({
-            where: { id },
+            where: { id: user.id },
             data: {
                 name: name || user.name,
                 email: email || user.email,
                 phone: phone || user.phone,
                 address: address || user.address,
-                clerk_id: clerk_id || user.clerk_id,
                 role_id: role_id || user.role_id
             }
         });
@@ -180,7 +177,9 @@ export const deleteUser = async (
             return;
         }
 
-        const deletedUser: User = await prisma.user.delete({ where: { id } });
+        const deletedUser: User = await prisma.user.delete({
+            where: { id: user.id }
+        });
 
         res.status(200).json({
             user: deletedUser,
@@ -198,4 +197,17 @@ const findUserByEmail = async (email: string): Promise<boolean> => {
     });
 
     return user ? true : false;
+};
+
+export const findUserByClerkId = async (req: Request): Promise<User | null> => {
+    const clerk_id: string | null = req.auth.userId;
+
+    if (!clerk_id) {
+        return null;
+    }
+    const user: User | null = await prisma.user.findUnique({
+        where: { clerk_id }
+    });
+
+    return user ? user : null;
 };

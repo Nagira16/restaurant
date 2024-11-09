@@ -7,14 +7,14 @@ export const adminMiddleware = async (
     res: Response,
     next: NextFunction
 ): Promise<void> => {
-    const id: string | null = req.auth.userId;
-    if (!id) {
-        res.status(404).json({ message: "User Id Not Found" });
+    const clerk_id: string | null = req.auth.userId;
+    if (!clerk_id) {
+        res.status(401).json({ message: "Unauthorized" });
         return;
     }
 
     const user: User | null = await prisma.user.findUnique({
-        where: { id }
+        where: { clerk_id }
     });
 
     if (!user) {
@@ -35,7 +35,7 @@ export const adminMiddleware = async (
         next();
     } else {
         {
-            res.status(404).json({ message: "No Permission" });
+            res.status(403).json({ message: "Forbidden: Admin only" });
             return;
         }
     }

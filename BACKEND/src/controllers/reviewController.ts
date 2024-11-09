@@ -1,6 +1,24 @@
-import { Review } from "@prisma/client";
+import { Review, User } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
+import { findUserByClerkId } from "./userController";
+
+export const getAllReviews = async (
+    _: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const allReviews: Review[] = await prisma.review.findMany();
+
+        res.status(200).json({
+            reviews: allReviews,
+            message: "Reviews Found Successfully"
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server Failed" });
+    }
+};
 
 export const getAllReviewsByMenu = async (
     req: Request,
@@ -53,21 +71,22 @@ export const createReview = async (
     res: Response
 ): Promise<void> => {
     try {
-        const user_id: string | null = req.auth.userId;
         const {
             menu_id,
             stars,
             comments
         }: { menu_id: string; stars: number; comments: string } = req.body;
 
-        if (!user_id) {
-            res.status(404).json({ message: "Error User Auth" });
+        const user: User | null = await findUserByClerkId(req);
+
+        if (!user) {
+            res.status(404).json({ message: "User Not Found" });
             return;
         }
 
         const newReview: Review = await prisma.review.create({
             data: {
-                user_id,
+                user_id: user.id,
                 menu_id,
                 stars,
                 comments

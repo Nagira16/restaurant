@@ -125,6 +125,7 @@ model Reservation {
   table_id        String?  @db.Uuid
   status          String   @default("PENDING")
   location        String
+  reservationDateTime DateTime
   created_at      DateTime @default(now())
 
   user            User     @relation(fields: [user_id], references: [id])

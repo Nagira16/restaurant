@@ -17,6 +17,9 @@ import {
     getRoleById,
     updateRole
 } from "../controllers/roleController";
+import { getAllReviews } from "../controllers/reviewController";
+import { getAllReservations } from "../controllers/reservationController";
+// import { getAllReservations } from "../controllers/reservationController";
 
 const router = Router();
 
@@ -37,6 +40,10 @@ router.post("/roles", createRole);
 router.get("/roles/:id", getRoleById);
 router.put("/roles/:id", updateRole);
 router.delete("/roles/:id", deleteRole);
+
+router.get("/reviews", getAllReviews);
+
+router.get("/reservations", getAllReservations);
 
 router.get("/", (_: Request, res: Response) => {
     res.status(200).json({ message: "Work Admin Routes" });

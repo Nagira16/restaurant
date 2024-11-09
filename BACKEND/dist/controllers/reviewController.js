@@ -9,8 +9,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteReview = exports.updateReview = exports.createReview = exports.getReviewById = exports.getAllReviewsByMenu = void 0;
+exports.deleteReview = exports.updateReview = exports.createReview = exports.getReviewById = exports.getAllReviewsByMenu = exports.getAllReviews = void 0;
 const prismaClient_1 = require("../prismaClient");
+const userController_1 = require("./userController");
+const getAllReviews = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const allReviews = yield prismaClient_1.prisma.review.findMany();
+        res.status(200).json({
+            reviews: allReviews,
+            message: "Reviews Found Successfully"
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server Failed" });
+    }
+});
+exports.getAllReviews = getAllReviews;
 const getAllReviewsByMenu = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { menu_id } = req.body;
@@ -52,15 +67,15 @@ const getReviewById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.getReviewById = getReviewById;
 const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user_id = req.auth.userId;
         const { menu_id, stars, comments } = req.body;
-        if (!user_id) {
-            res.status(404).json({ message: "Error User Auth" });
+        const user = yield (0, userController_1.findUserByClerkId)(req);
+        if (!user) {
+            res.status(404).json({ message: "User Not Found" });
             return;
         }
         const newReview = yield prismaClient_1.prisma.review.create({
             data: {
-                user_id,
+                user_id: user.id,
                 menu_id,
                 stars,
                 comments

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
+exports.findUserByClerkId = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
 const prismaClient_1 = require("../prismaClient");
 const getAllUsers = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -87,7 +87,7 @@ exports.createUser = createUser;
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
-        const { name, email, phone, address, clerk_id, role_name } = req.body;
+        const { name, email, phone, address, role_name } = req.body;
         const user = yield prismaClient_1.prisma.user.findUnique({
             where: { id }
         });
@@ -109,13 +109,12 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             role_id = role.id;
         }
         const updatedUser = yield prismaClient_1.prisma.user.update({
-            where: { id },
+            where: { id: user.id },
             data: {
                 name: name || user.name,
                 email: email || user.email,
                 phone: phone || user.phone,
                 address: address || user.address,
-                clerk_id: clerk_id || user.clerk_id,
                 role_id: role_id || user.role_id
             }
         });
@@ -140,7 +139,9 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             res.status(404).json({ user, message: "User Not Found" });
             return;
         }
-        const deletedUser = yield prismaClient_1.prisma.user.delete({ where: { id } });
+        const deletedUser = yield prismaClient_1.prisma.user.delete({
+            where: { id: user.id }
+        });
         res.status(200).json({
             user: deletedUser,
             message: "User Deleted Successfully"
@@ -158,3 +159,14 @@ const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* (
     });
     return user ? true : false;
 });
+const findUserByClerkId = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    const clerk_id = req.auth.userId;
+    if (!clerk_id) {
+        return null;
+    }
+    const user = yield prismaClient_1.prisma.user.findUnique({
+        where: { clerk_id }
+    });
+    return user ? user : null;
+});
+exports.findUserByClerkId = findUserByClerkId;

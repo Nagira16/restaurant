@@ -95,7 +95,7 @@ export const updateTable = async (
         }
 
         const updatedTable: Table = await prisma.table.update({
-            where: { id },
+            where: { id: table.id },
             data: {
                 number: number || table.number,
                 capacity: capacity || table.capacity,
@@ -128,7 +128,7 @@ export const deleteTable = async (
         }
 
         const deletedTable: Table = await prisma.table.delete({
-            where: { id }
+            where: { id: table.id }
         });
 
         res.status(200).json({

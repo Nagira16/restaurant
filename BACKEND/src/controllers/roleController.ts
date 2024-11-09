@@ -71,17 +71,17 @@ export const updateRole = async (
         const id: string = req.params.id;
         const { role_name }: { role_name: string } = req.body;
 
-        const Role: Role | null = await prisma.role.findUnique({
+        const role: Role | null = await prisma.role.findUnique({
             where: { id }
         });
 
-        if (!Role) {
-            res.status(404).json({ Role, message: "Role Not Found" });
+        if (!role) {
+            res.status(404).json({ role, message: "Role Not Found" });
             return;
         }
 
         const updatedRole: Role = await prisma.role.update({
-            where: { id },
+            where: { id: role.id },
             data: {
                 role_name
             }
@@ -102,17 +102,17 @@ export const deleteRole = async (
 ): Promise<void> => {
     try {
         const id: string = req.params.id;
-        const Role: Role | null = await prisma.role.findUnique({
+        const role: Role | null = await prisma.role.findUnique({
             where: { id }
         });
 
-        if (!Role) {
-            res.status(404).json({ Role, message: "Role Not Found" });
+        if (!role) {
+            res.status(404).json({ role, message: "Role Not Found" });
             return;
         }
 
         const deletedRole: Role = await prisma.role.delete({
-            where: { id }
+            where: { id: role.id }
         });
 
         res.status(200).json({

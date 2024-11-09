@@ -121,7 +121,7 @@ export const updateReview = async (
         }
 
         const updatedReview: Review = await prisma.review.update({
-            where: { id },
+            where: { id: review.id },
             data: {
                 stars: stars || review.stars,
                 comments: comments || review.comments
@@ -153,7 +153,7 @@ export const deleteReview = async (
         }
 
         const deletedReview: Review = await prisma.review.delete({
-            where: { id }
+            where: { id: review.id }
         });
 
         res.status(200).json({

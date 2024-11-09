@@ -104,7 +104,7 @@ const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             return;
         }
         const updatedReview = yield prismaClient_1.prisma.review.update({
-            where: { id },
+            where: { id: review.id },
             data: {
                 stars: stars || review.stars,
                 comments: comments || review.comments
@@ -132,7 +132,7 @@ const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             return;
         }
         const deletedReview = yield prismaClient_1.prisma.review.delete({
-            where: { id }
+            where: { id: review.id }
         });
         res.status(200).json({
             review: deletedReview,

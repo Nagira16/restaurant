@@ -115,7 +115,7 @@ const updateReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
             return;
         }
         const updatedReservation = yield prismaClient_1.prisma.reservation.update({
-            where: { id },
+            where: { id: reservation.id },
             data: {
                 num_of_people: num_of_people || reservation.num_of_people,
                 table_id: table_id || reservation.table_id,
@@ -149,7 +149,7 @@ const deleteReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
             return;
         }
         const deletedReservation = yield prismaClient_1.prisma.reservation.delete({
-            where: { id }
+            where: { id: reservation.id }
         });
         res.status(200).json({
             Reservation: deletedReservation,

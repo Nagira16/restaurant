@@ -70,15 +70,15 @@ const updateRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const id = req.params.id;
         const { role_name } = req.body;
-        const Role = yield prismaClient_1.prisma.role.findUnique({
+        const role = yield prismaClient_1.prisma.role.findUnique({
             where: { id }
         });
-        if (!Role) {
-            res.status(404).json({ Role, message: "Role Not Found" });
+        if (!role) {
+            res.status(404).json({ role, message: "Role Not Found" });
             return;
         }
         const updatedRole = yield prismaClient_1.prisma.role.update({
-            where: { id },
+            where: { id: role.id },
             data: {
                 role_name
             }
@@ -97,15 +97,15 @@ exports.updateRole = updateRole;
 const deleteRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
-        const Role = yield prismaClient_1.prisma.role.findUnique({
+        const role = yield prismaClient_1.prisma.role.findUnique({
             where: { id }
         });
-        if (!Role) {
-            res.status(404).json({ Role, message: "Role Not Found" });
+        if (!role) {
+            res.status(404).json({ role, message: "Role Not Found" });
             return;
         }
         const deletedRole = yield prismaClient_1.prisma.role.delete({
-            where: { id }
+            where: { id: role.id }
         });
         res.status(200).json({
             Role: deletedRole,

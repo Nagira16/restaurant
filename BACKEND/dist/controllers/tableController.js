@@ -80,7 +80,7 @@ const updateTable = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             return;
         }
         const updatedTable = yield prismaClient_1.prisma.table.update({
-            where: { id },
+            where: { id: table.id },
             data: {
                 number: number || table.number,
                 capacity: capacity || table.capacity,
@@ -109,7 +109,7 @@ const deleteTable = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             return;
         }
         const deletedTable = yield prismaClient_1.prisma.table.delete({
-            where: { id }
+            where: { id: table.id }
         });
         res.status(200).json({
             table: deletedTable,

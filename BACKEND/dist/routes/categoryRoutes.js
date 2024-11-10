@@ -1,16 +1,11 @@
 "use strict";
-// import { Router } from "express";
-// import {
-//     getAllCategories,
-//     getCategoryById,
-//     createCategory,
-//     updateCategory,
-//     deleteCategory
-// } from "../controllers/categoryController";
-// const router = Router();
-// router.get("/", getAllCategories);
-// router.post("/", createCategory);
-// router.get("/:id", getCategoryById);
-// router.put("/:id", updateCategory);
-// router.delete("/:id", deleteCategory);
-// export default router;
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const categoryController_1 = require("../controllers/categoryController");
+const router = (0, express_1.Router)();
+router.get("/", categoryController_1.getAllCategories);
+// router.post("/", createCategory); // admin only
+router.get("/:id", categoryController_1.getAllMenusByCategoryId);
+// router.put("/:id", updateCategory); // admin only
+// router.delete("/:id", deleteCategory); // admin only
+exports.default = router;

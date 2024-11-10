@@ -1,18 +1,18 @@
-// import { Router } from "express";
-// import {
-//     getAllCategories,
-//     getCategoryById,
-//     createCategory,
-//     updateCategory,
-//     deleteCategory
-// } from "../controllers/categoryController";
+import { Router } from "express";
+import {
+    getAllCategories,
+    getAllMenusByCategoryId
+    // createCategory,
+    // updateCategory,
+    // deleteCategory
+} from "../controllers/categoryController";
 
-// const router = Router();
+const router = Router();
 
-// router.get("/", getAllCategories);
-// router.post("/", createCategory);
-// router.get("/:id", getCategoryById);
-// router.put("/:id", updateCategory);
-// router.delete("/:id", deleteCategory);
+router.get("/", getAllCategories);
+// router.post("/", createCategory); // admin only
+router.get("/:id", getAllMenusByCategoryId);
+// router.put("/:id", updateCategory); // admin only
+// router.delete("/:id", deleteCategory); // admin only
 
-// export default router;
+export default router;

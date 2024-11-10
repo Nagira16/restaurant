@@ -25,6 +25,12 @@ import {
     getAllNutrients,
     updateNutrient
 } from "../controllers/nutrientsController";
+import {
+    createCategory,
+    deleteCategory,
+    updateCategory
+} from "../controllers/categoryController";
+import { getAllOrderDetails } from "../controllers/orderDetailsController";
 // import { getAllReservations } from "../controllers/reservationController";
 
 const router = Router();
@@ -41,9 +47,7 @@ router.post("/tables", createTable);
 router.put("/tables/:id", updateTable);
 router.delete("/tables/:id", deleteTable);
 
-router.get("/roles", getAllRoles);
 router.post("/roles", createRole);
-router.get("/roles/:id", getRoleById);
 router.put("/roles/:id", updateRole);
 router.delete("/roles/:id", deleteRole);
 
@@ -51,10 +55,16 @@ router.get("/reviews", getAllReviews);
 
 router.get("/reservations", getAllReservations);
 
+router.get("/orderDetails", getAllOrderDetails);
+
 router.get("/nutrients", getAllNutrients);
 router.post("/nutrients", createNutrient);
 router.put("/nutrients/:id", updateNutrient);
 router.delete("/nutrients/:id", deleteNutrient);
+
+router.post("/category", createCategory);
+router.put("/category/:id", updateCategory);
+router.delete("/category/:id", deleteCategory);
 
 router.get("/", (_: Request, res: Response) => {
     res.status(200).json({ message: "Work Admin Routes" });

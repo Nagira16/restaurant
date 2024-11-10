@@ -1,18 +1,18 @@
-// import { Router } from "express";
-// import {
-//     getAllItemOrderDetails,
-//     getItemOrderDetailsById,
-//     createItemOrderDetails,
-//     updateItemOrderDetails,
-//     deleteItemOrderDetails
-// } from "../controllers/itemOrderDetailsController";
+import { Router } from "express";
+import {
+    getAllItemOrderDetailsByOrderId,
+    getItemOrderDetailsById,
+    createItemOrderDetails,
+    updateItemOrderDetails,
+    deleteItemOrderDetails
+} from "../controllers/itemOrderDetailsController";
 
-// const router = Router();
+const router = Router();
 
-// router.get("/", getAllItemOrderDetails);
-// router.post("/", createItemOrderDetails);
-// router.get("/:id", getItemOrderDetailsById);
-// router.put("/:id", updateItemOrderDetails);
-// router.delete("/:id", deleteItemOrderDetails);
+router.get("/", getAllItemOrderDetailsByOrderId);
+router.post("/", createItemOrderDetails);
+router.get("/:id", getItemOrderDetailsById);
+router.put("/:id", updateItemOrderDetails);
+router.delete("/:id", deleteItemOrderDetails);
 
-// export default router;
+export default router;

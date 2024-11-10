@@ -10,6 +10,7 @@ const reservationController_1 = require("../controllers/reservationController");
 const nutrientsController_1 = require("../controllers/nutrientsController");
 const categoryController_1 = require("../controllers/categoryController");
 const orderDetailsController_1 = require("../controllers/orderDetailsController");
+const itemOrderDetailsController_1 = require("../controllers/itemOrderDetailsController");
 // import { getAllReservations } from "../controllers/reservationController";
 const router = (0, express_1.Router)();
 // http://localhost:3001/admin
@@ -33,6 +34,7 @@ router.delete("/nutrients/:id", nutrientsController_1.deleteNutrient);
 router.post("/category", categoryController_1.createCategory);
 router.put("/category/:id", categoryController_1.updateCategory);
 router.delete("/category/:id", categoryController_1.deleteCategory);
+router.get("/itemOrderDetails", itemOrderDetailsController_1.getAllItemOrderDetails);
 router.get("/", (_, res) => {
     res.status(200).json({ message: "Work Admin Routes" });
 });

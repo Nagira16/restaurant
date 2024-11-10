@@ -9,6 +9,7 @@ import paymentRouter from "./routes/paymentRoutes";
 import orderDetailsRouter from "./routes/orderDetailsRoutes";
 import nutrientsRouter from "./routes/nutrientsRoutes";
 import categoriesRouter from "./routes/categoryRoutes";
+import itemOrderDetailsRouter from "./routes/itemOrderDetailsRoutes";
 import adminRouter from "./routes/adminRoutes";
 import { clerkMiddleware } from "@clerk/express";
 import { adminMiddleware } from "./middleware";
@@ -38,5 +39,6 @@ app.use("/payments", paymentRouter);
 app.use("/orderDetails", orderDetailsRouter);
 app.use("/nutrients", nutrientsRouter);
 app.use("/categories", categoriesRouter);
+app.use("/itemOrderDetails", itemOrderDetailsRouter);
 
 export default app;

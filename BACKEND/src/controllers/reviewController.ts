@@ -21,7 +21,7 @@ export const getAllReviews = async (
     }
 };
 
-export const getAllReviewsByMenu = async (
+export const getAllReviewsByMenuId = async (
     req: Request,
     res: Response
 ): Promise<void> => {

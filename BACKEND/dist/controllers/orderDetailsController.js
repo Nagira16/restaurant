@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createOrderDetails = exports.getOrderDetailsById = exports.getAllOrderDetailsByUserId = exports.getAllOrderDetails = void 0;
+exports.deleteOrderDetails = exports.updateOrderDetails = exports.createOrderDetails = exports.getOrderDetailsById = exports.getAllOrderDetailsByUserId = exports.getAllOrderDetails = void 0;
 const prismaClient_1 = require("../prismaClient");
 const userController_1 = require("./userController");
 const getAllOrderDetails = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -17,7 +17,7 @@ const getAllOrderDetails = (_, res) => __awaiter(void 0, void 0, void 0, functio
         const allOrder_Details = yield prismaClient_1.prisma.order_Details.findMany();
         res.status(200).json({
             order_Details: allOrder_Details,
-            message: "Orders Found Successfully",
+            message: "order_Details Found Successfully",
             success: true
         });
     }
@@ -39,7 +39,7 @@ const getAllOrderDetailsByUserId = (req, res) => __awaiter(void 0, void 0, void 
         });
         res.status(200).json({
             order_Details: allOrders,
-            message: "Orders Found Successfully",
+            message: "order_Details Found Successfully",
             success: true
         });
     }
@@ -93,7 +93,7 @@ const createOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
         res.status(201).json({
             order_Details: newOrder_Details,
-            message: "Payment Created Successfully",
+            message: "order_Details Created Successfully",
             success: true
         });
     }
@@ -103,73 +103,67 @@ const createOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.createOrderDetails = createOrderDetails;
-// export const updatePayment = async (
-//     req: Request,
-//     res: Response
-// ): Promise<void> => {
-//     try {
-//         const id: string = req.params.id;
-//         const {
-//             payment_id,
-//             amount,
-//             currency,
-//             method,
-//             status
-//         }: {
-//             payment_id?: string;
-//             amount?: number;
-//             currency?: string;
-//             method?: string;
-//             status?: string;
-//         } = req.body;
-//         const payment: Payment | null = await prisma.payment.findUnique({
-//             where: { id }
-//         });
-//         if (!payment) {
-//             res.status(404).json({ payment, message: "Payment Not Found" });
-//             return;
-//         }
-//         const updatedPayment: Payment = await prisma.payment.update({
-//             where: { id: payment.id },
-//             data: {
-//                 payment_id: payment_id || payment.payment_id,
-//                 amount: amount || payment.amount,
-//                 currency: currency || payment.currency,
-//                 method: method || payment.method,
-//                 status: status || payment.status
-//             }
-//         });
-//         res.status(200).json({
-//             payment: updatedPayment,
-//             message: "Payment Updated Successfully"
-//         });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: "Server Failed" });
-//     }
-// };
-// export const deletePayment = async (
-//     req: Request,
-//     res: Response
-// ): Promise<void> => {
-//     try {
-//         const id: string = req.params.id;
-//         const payment: Payment | null = await prisma.payment.findUnique({
-//             where: { id }
-//         });
-//         if (!payment) {
-//             res.status(404).json({ payment, message: "Payment Not Found" });
-//             return;
-//         }
-//         const deletedPayment: Payment = await prisma.payment.delete({
-//             where: { id: payment.id }
-//         });
-//         res.status(200).json({
-//             payment: deletedPayment,
-//             message: "Payment Deleted Successfully"
-//         });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: "Server Failed" });
-//     }
-// };
+const updateOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        const { payment_id, total_price, status } = req.body;
+        const order_Details = yield prismaClient_1.prisma.order_Details.findUnique({
+            where: { id }
+        });
+        if (!order_Details) {
+            res.status(404).json({
+                order_Details,
+                message: "Order_Details Not Found",
+                success: false
+            });
+            return;
+        }
+        const updatedOrder_Details = yield prismaClient_1.prisma.order_Details.update({
+            where: { id: order_Details.id },
+            data: {
+                payment_id: payment_id || order_Details.payment_id,
+                total_price: total_price || order_Details.total_price,
+                status: status || order_Details.status
+            }
+        });
+        res.status(200).json({
+            order_Details: updatedOrder_Details,
+            message: "Order_Details Updated Successfully",
+            success: true
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server Failed", success: false });
+    }
+});
+exports.updateOrderDetails = updateOrderDetails;
+const deleteOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        const order_Details = yield prismaClient_1.prisma.order_Details.findUnique({
+            where: { id }
+        });
+        if (!order_Details) {
+            res.status(404).json({
+                order_Details,
+                message: "Order_Details Not Found",
+                success: false
+            });
+            return;
+        }
+        const deletedOrder_Details = yield prismaClient_1.prisma.order_Details.delete({
+            where: { id: order_Details.id }
+        });
+        res.status(200).json({
+            order_Details: deletedOrder_Details,
+            message: "Order_Details Deleted Successfully",
+            success: true
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server Failed", success: false });
+    }
+});
+exports.deleteOrderDetails = deleteOrderDetails;

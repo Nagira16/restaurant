@@ -1,16 +1,11 @@
 "use strict";
-// import { Router } from "express";
-// import {
-//     getAllNutrients,
-//     getNutrientById,
-//     createNutrient,
-//     updateNutrient,
-//     deleteNutrient
-// } from "../controllers/nutrientsController";
-// const router = Router();
-// router.get("/", getAllNutrients);
-// router.post("/", createNutrient);
-// router.get("/:id", getNutrientById);
-// router.put("/:id", updateNutrient);
-// router.delete("/:id", deleteNutrient);
-// export default router;
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const nutrientsController_1 = require("../controllers/nutrientsController");
+const router = (0, express_1.Router)();
+// router.get("/", getAllNutrients); // admin only
+// router.post("/", createNutrient); // admin only
+router.get("/:id", nutrientsController_1.getNutrientByMenuId);
+// router.put("/:id", updateNutrient); // admin only
+// router.delete("/:id", deleteNutrient); // admin only
+exports.default = router;

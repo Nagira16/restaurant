@@ -7,6 +7,7 @@ const tableController_1 = require("../controllers/tableController");
 const roleController_1 = require("../controllers/roleController");
 const reviewController_1 = require("../controllers/reviewController");
 const reservationController_1 = require("../controllers/reservationController");
+const nutrientsController_1 = require("../controllers/nutrientsController");
 // import { getAllReservations } from "../controllers/reservationController";
 const router = (0, express_1.Router)();
 // http://localhost:3001/admin
@@ -24,6 +25,10 @@ router.put("/roles/:id", roleController_1.updateRole);
 router.delete("/roles/:id", roleController_1.deleteRole);
 router.get("/reviews", reviewController_1.getAllReviews);
 router.get("/reservations", reservationController_1.getAllReservations);
+router.get("/nutrients", nutrientsController_1.getAllNutrients);
+router.post("/nutrients", nutrientsController_1.createNutrient);
+router.put("/nutrients/:id", nutrientsController_1.updateNutrient);
+router.delete("/nutrients/:id", nutrientsController_1.deleteNutrient);
 router.get("/", (_, res) => {
     res.status(200).json({ message: "Work Admin Routes" });
 });

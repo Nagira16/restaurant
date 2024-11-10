@@ -1,15 +1,15 @@
 import { Router } from "express";
 import {
-    getAllReviewsByMenu,
     getReviewById,
     createReview,
     updateReview,
-    deleteReview
+    deleteReview,
+    getAllReviewsByMenuId
 } from "../controllers/reviewController";
 
 const router = Router();
 
-router.get("/", getAllReviewsByMenu);
+router.get("/", getAllReviewsByMenuId);
 router.post("/", createReview);
 router.get("/:id", getReviewById);
 router.put("/:id", updateReview);

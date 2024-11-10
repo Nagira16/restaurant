@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteReview = exports.updateReview = exports.createReview = exports.getReviewById = exports.getAllReviewsByMenu = exports.getAllReviews = void 0;
+exports.deleteReview = exports.updateReview = exports.createReview = exports.getReviewById = exports.getAllReviewsByMenuId = exports.getAllReviews = void 0;
 const prismaClient_1 = require("../prismaClient");
 const userController_1 = require("./userController");
 const getAllReviews = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,7 +27,7 @@ const getAllReviews = (_, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getAllReviews = getAllReviews;
-const getAllReviewsByMenu = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllReviewsByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { menu_id } = req.body;
         const allReviews = yield prismaClient_1.prisma.review.findMany({
@@ -44,7 +44,7 @@ const getAllReviewsByMenu = (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(500).json({ message: "Server Failed", success: false });
     }
 });
-exports.getAllReviewsByMenu = getAllReviewsByMenu;
+exports.getAllReviewsByMenuId = getAllReviewsByMenuId;
 const getReviewById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;

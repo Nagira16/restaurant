@@ -10,11 +10,12 @@ export const getAllUsers = async (_: Request, res: Response): Promise<void> => {
 
         res.status(200).json({
             users: allUsers,
-            message: "Users Found Successfully"
+            message: "Users Found Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
 
@@ -30,9 +31,17 @@ export const getUserById = async (
         });
 
         if (user) {
-            res.status(200).json({ user, message: "User Found Successfully" });
+            res.status(200).json({
+                user,
+                message: "User Found Successfully",
+                success: true
+            });
         } else {
-            res.status(404).json({ user, message: "User Not Found" });
+            res.status(404).json({
+                user,
+                message: "User Not Found",
+                success: false
+            });
         }
     } catch (error) {
         console.error(error);
@@ -62,7 +71,8 @@ export const createUser = async (
         const exist: boolean = await findUserByEmail(email);
         if (exist) {
             res.status(409).json({
-                message: "User with this email already exists."
+                message: "User with this email already exists.",
+                success: false
             });
             return;
         }
@@ -89,11 +99,12 @@ export const createUser = async (
 
         res.status(201).json({
             user: newUser,
-            message: "User Created Successfully"
+            message: "User Created Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
 
@@ -122,7 +133,11 @@ export const updateUser = async (
         });
 
         if (!user) {
-            res.status(404).json({ user, message: "User Not Found" });
+            res.status(404).json({
+                user,
+                message: "User Not Found",
+                success: false
+            });
             return;
         }
 
@@ -133,7 +148,8 @@ export const updateUser = async (
             });
             if (!role) {
                 res.status(404).json({
-                    message: `Role ${role_name} Not Found.`
+                    message: `Role ${role_name} Not Found.`,
+                    success: false
                 });
                 return;
             }
@@ -154,11 +170,12 @@ export const updateUser = async (
 
         res.status(200).json({
             user: updatedUser,
-            message: "User Updated Successfully"
+            message: "User Updated Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
 

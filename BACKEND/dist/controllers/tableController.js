@@ -16,12 +16,13 @@ const getAllTables = (_, res) => __awaiter(void 0, void 0, void 0, function* () 
         const allTable = yield prismaClient_1.prisma.table.findMany();
         res.status(200).json({
             tables: allTable,
-            message: "Tables Found Successfully"
+            message: "Tables Found Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.getAllTables = getAllTables;
@@ -34,11 +35,16 @@ const getTableById = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (table) {
             res.status(200).json({
                 table,
-                message: "Table Found Successfully"
+                message: "Table Found Successfully",
+                success: true
             });
         }
         else {
-            res.status(404).json({ table, message: "Table Not Found" });
+            res.status(404).json({
+                table,
+                message: "Table Not Found",
+                success: false
+            });
         }
     }
     catch (error) {
@@ -59,12 +65,13 @@ const createTable = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
         res.status(201).json({
             table: newTable,
-            message: "Table Created Successfully"
+            message: "Table Created Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.createTable = createTable;
@@ -76,7 +83,11 @@ const updateTable = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             where: { id }
         });
         if (!table) {
-            res.status(404).json({ table, message: "Table Not Found" });
+            res.status(404).json({
+                table,
+                message: "Table Not Found",
+                success: false
+            });
             return;
         }
         const updatedTable = yield prismaClient_1.prisma.table.update({
@@ -89,12 +100,13 @@ const updateTable = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
         res.status(200).json({
             table: updatedTable,
-            message: "Table Updated Successfully"
+            message: "Table Updated Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.updateTable = updateTable;
@@ -105,7 +117,11 @@ const deleteTable = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             where: { id }
         });
         if (!table) {
-            res.status(404).json({ table, message: "Table Not Found" });
+            res.status(404).json({
+                table,
+                message: "Table Not Found",
+                success: false
+            });
             return;
         }
         const deletedTable = yield prismaClient_1.prisma.table.delete({
@@ -113,12 +129,13 @@ const deleteTable = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
         res.status(200).json({
             table: deletedTable,
-            message: "Table Deleted Successfully"
+            message: "Table Deleted Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.deleteTable = deleteTable;

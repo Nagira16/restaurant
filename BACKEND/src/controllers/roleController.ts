@@ -8,11 +8,12 @@ export const getAllRoles = async (_: Request, res: Response): Promise<void> => {
 
         res.status(200).json({
             role: allRoles,
-            message: "Roles Found Successfully"
+            message: "Roles Found Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
 
@@ -30,14 +31,19 @@ export const getRoleById = async (
         if (role) {
             res.status(200).json({
                 role,
-                message: "Role Found Successfully"
+                message: "Role Found Successfully",
+                success: true
             });
         } else {
-            res.status(404).json({ role, message: "Role Not Found" });
+            res.status(404).json({
+                role,
+                message: "Role Not Found",
+                success: false
+            });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
 
@@ -56,13 +62,15 @@ export const createRole = async (
 
         res.status(201).json({
             Role: newRole,
-            message: "Role Created Successfully"
+            message: "Role Created Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
+
 export const updateRole = async (
     req: Request,
     res: Response
@@ -76,7 +84,11 @@ export const updateRole = async (
         });
 
         if (!role) {
-            res.status(404).json({ role, message: "Role Not Found" });
+            res.status(404).json({
+                role,
+                message: "Role Not Found",
+                success: false
+            });
             return;
         }
 
@@ -89,13 +101,15 @@ export const updateRole = async (
 
         res.status(200).json({
             Role: updatedRole,
-            message: "Role Updated Successfully"
+            message: "Role Updated Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
+
 export const deleteRole = async (
     req: Request,
     res: Response
@@ -107,7 +121,11 @@ export const deleteRole = async (
         });
 
         if (!role) {
-            res.status(404).json({ role, message: "Role Not Found" });
+            res.status(404).json({
+                role,
+                message: "Role Not Found",
+                success: false
+            });
             return;
         }
 
@@ -117,10 +135,11 @@ export const deleteRole = async (
 
         res.status(200).json({
             Role: deletedRole,
-            message: "Role Deleted Successfully"
+            message: "Role Deleted Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };

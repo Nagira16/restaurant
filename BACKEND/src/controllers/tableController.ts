@@ -11,11 +11,12 @@ export const getAllTables = async (
 
         res.status(200).json({
             tables: allTable,
-            message: "Tables Found Successfully"
+            message: "Tables Found Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
 
@@ -33,10 +34,15 @@ export const getTableById = async (
         if (table) {
             res.status(200).json({
                 table,
-                message: "Table Found Successfully"
+                message: "Table Found Successfully",
+                success: true
             });
         } else {
-            res.status(404).json({ table, message: "Table Not Found" });
+            res.status(404).json({
+                table,
+                message: "Table Not Found",
+                success: false
+            });
         }
     } catch (error) {
         console.error(error);
@@ -65,13 +71,15 @@ export const createTable = async (
 
         res.status(201).json({
             table: newTable,
-            message: "Table Created Successfully"
+            message: "Table Created Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
+
 export const updateTable = async (
     req: Request,
     res: Response
@@ -90,7 +98,11 @@ export const updateTable = async (
         });
 
         if (!table) {
-            res.status(404).json({ table, message: "Table Not Found" });
+            res.status(404).json({
+                table,
+                message: "Table Not Found",
+                success: false
+            });
             return;
         }
 
@@ -105,13 +117,15 @@ export const updateTable = async (
 
         res.status(200).json({
             table: updatedTable,
-            message: "Table Updated Successfully"
+            message: "Table Updated Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
+
 export const deleteTable = async (
     req: Request,
     res: Response
@@ -123,7 +137,11 @@ export const deleteTable = async (
         });
 
         if (!table) {
-            res.status(404).json({ table, message: "Table Not Found" });
+            res.status(404).json({
+                table,
+                message: "Table Not Found",
+                success: false
+            });
             return;
         }
 
@@ -133,10 +151,11 @@ export const deleteTable = async (
 
         res.status(200).json({
             table: deletedTable,
-            message: "Table Deleted Successfully"
+            message: "Table Deleted Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };

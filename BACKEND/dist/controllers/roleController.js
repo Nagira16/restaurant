@@ -16,12 +16,13 @@ const getAllRoles = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
         const allRoles = yield prismaClient_1.prisma.role.findMany();
         res.status(200).json({
             role: allRoles,
-            message: "Roles Found Successfully"
+            message: "Roles Found Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.getAllRoles = getAllRoles;
@@ -34,16 +35,21 @@ const getRoleById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (role) {
             res.status(200).json({
                 role,
-                message: "Role Found Successfully"
+                message: "Role Found Successfully",
+                success: true
             });
         }
         else {
-            res.status(404).json({ role, message: "Role Not Found" });
+            res.status(404).json({
+                role,
+                message: "Role Not Found",
+                success: false
+            });
         }
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.getRoleById = getRoleById;
@@ -57,12 +63,13 @@ const createRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
         res.status(201).json({
             Role: newRole,
-            message: "Role Created Successfully"
+            message: "Role Created Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.createRole = createRole;
@@ -74,7 +81,11 @@ const updateRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             where: { id }
         });
         if (!role) {
-            res.status(404).json({ role, message: "Role Not Found" });
+            res.status(404).json({
+                role,
+                message: "Role Not Found",
+                success: false
+            });
             return;
         }
         const updatedRole = yield prismaClient_1.prisma.role.update({
@@ -85,12 +96,13 @@ const updateRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
         res.status(200).json({
             Role: updatedRole,
-            message: "Role Updated Successfully"
+            message: "Role Updated Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.updateRole = updateRole;
@@ -101,7 +113,11 @@ const deleteRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             where: { id }
         });
         if (!role) {
-            res.status(404).json({ role, message: "Role Not Found" });
+            res.status(404).json({
+                role,
+                message: "Role Not Found",
+                success: false
+            });
             return;
         }
         const deletedRole = yield prismaClient_1.prisma.role.delete({
@@ -109,12 +125,13 @@ const deleteRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
         res.status(200).json({
             Role: deletedRole,
-            message: "Role Deleted Successfully"
+            message: "Role Deleted Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.deleteRole = deleteRole;

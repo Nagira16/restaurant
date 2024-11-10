@@ -17,12 +17,13 @@ const getAllReservations = (_, res) => __awaiter(void 0, void 0, void 0, functio
         const allReservations = yield prismaClient_1.prisma.reservation.findMany();
         res.status(200).json({
             reservations: allReservations,
-            message: "Reservations Found Successfully"
+            message: "Reservations Found Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.getAllReservations = getAllReservations;
@@ -30,7 +31,7 @@ const getAllReservationsByUserId = (req, res) => __awaiter(void 0, void 0, void 
     try {
         const user = yield (0, userController_1.findUserByClerkId)(req);
         if (!user) {
-            res.status(404).json({ message: "User Not Found" });
+            res.status(404).json({ message: "User Not Found", success: false });
             return;
         }
         const allReservations = yield prismaClient_1.prisma.reservation.findMany({
@@ -38,12 +39,13 @@ const getAllReservationsByUserId = (req, res) => __awaiter(void 0, void 0, void 
         });
         res.status(200).json({
             reservations: allReservations,
-            message: "Reservations Found Successfully"
+            message: "Reservations Found Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.getAllReservationsByUserId = getAllReservationsByUserId;
@@ -56,19 +58,21 @@ const getReservationById = (req, res) => __awaiter(void 0, void 0, void 0, funct
         if (reservation) {
             res.status(200).json({
                 reservation,
-                message: "Reservation Found Successfully"
+                message: "Reservation Found Successfully",
+                success: true
             });
         }
         else {
             res.status(404).json({
                 reservation,
-                message: "Reservation Not Found"
+                message: "Reservation Not Found",
+                success: false
             });
         }
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.getReservationById = getReservationById;
@@ -77,7 +81,7 @@ const createReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
         const { num_of_people, table_id, location, reservationDateTime } = req.body;
         const user = yield (0, userController_1.findUserByClerkId)(req);
         if (!user) {
-            res.status(404).json({ message: "User Not Found" });
+            res.status(404).json({ message: "User Not Found", success: false });
             return;
         }
         const newReservation = yield prismaClient_1.prisma.reservation.create({
@@ -91,12 +95,13 @@ const createReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
         res.status(201).json({
             reservation: newReservation,
-            message: "Reservation Created Successfully"
+            message: "Reservation Created Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.createReservation = createReservation;
@@ -110,7 +115,8 @@ const updateReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
         if (!reservation) {
             res.status(404).json({
                 reservation,
-                message: "Reservation Not Found"
+                message: "Reservation Not Found",
+                success: false
             });
             return;
         }
@@ -126,12 +132,13 @@ const updateReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
         res.status(200).json({
             reservation: updatedReservation,
-            message: "Reservation Updated Successfully"
+            message: "Reservation Updated Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.updateReservation = updateReservation;
@@ -144,7 +151,8 @@ const deleteReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
         if (!reservation) {
             res.status(404).json({
                 reservation,
-                message: "Reservation Not Found"
+                message: "Reservation Not Found",
+                success: false
             });
             return;
         }
@@ -153,12 +161,13 @@ const deleteReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
         res.status(200).json({
             Reservation: deletedReservation,
-            message: "Reservation Deleted Successfully"
+            message: "Reservation Deleted Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.deleteReservation = deleteReservation;

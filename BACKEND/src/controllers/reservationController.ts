@@ -13,11 +13,12 @@ export const getAllReservations = async (
 
         res.status(200).json({
             reservations: allReservations,
-            message: "Reservations Found Successfully"
+            message: "Reservations Found Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
 
@@ -29,7 +30,7 @@ export const getAllReservationsByUserId = async (
         const user: User | null = await findUserByClerkId(req);
 
         if (!user) {
-            res.status(404).json({ message: "User Not Found" });
+            res.status(404).json({ message: "User Not Found", success: false });
             return;
         }
 
@@ -40,11 +41,12 @@ export const getAllReservationsByUserId = async (
 
         res.status(200).json({
             reservations: allReservations,
-            message: "Reservations Found Successfully"
+            message: "Reservations Found Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
 
@@ -63,17 +65,19 @@ export const getReservationById = async (
         if (reservation) {
             res.status(200).json({
                 reservation,
-                message: "Reservation Found Successfully"
+                message: "Reservation Found Successfully",
+                success: true
             });
         } else {
             res.status(404).json({
                 reservation,
-                message: "Reservation Not Found"
+                message: "Reservation Not Found",
+                success: false
             });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
 
@@ -97,7 +101,7 @@ export const createReservation = async (
         const user: User | null = await findUserByClerkId(req);
 
         if (!user) {
-            res.status(404).json({ message: "User Not Found" });
+            res.status(404).json({ message: "User Not Found", success: false });
             return;
         }
 
@@ -113,13 +117,15 @@ export const createReservation = async (
 
         res.status(201).json({
             reservation: newReservation,
-            message: "Reservation Created Successfully"
+            message: "Reservation Created Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
+
 export const updateReservation = async (
     req: Request,
     res: Response
@@ -148,7 +154,8 @@ export const updateReservation = async (
         if (!reservation) {
             res.status(404).json({
                 reservation,
-                message: "Reservation Not Found"
+                message: "Reservation Not Found",
+                success: false
             });
             return;
         }
@@ -169,13 +176,15 @@ export const updateReservation = async (
 
         res.status(200).json({
             reservation: updatedReservation,
-            message: "Reservation Updated Successfully"
+            message: "Reservation Updated Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
+
 export const deleteReservation = async (
     req: Request,
     res: Response
@@ -191,7 +200,8 @@ export const deleteReservation = async (
         if (!reservation) {
             res.status(404).json({
                 reservation,
-                message: "Reservation Not Found"
+                message: "Reservation Not Found",
+                success: false
             });
             return;
         }
@@ -204,10 +214,11 @@ export const deleteReservation = async (
 
         res.status(200).json({
             Reservation: deletedReservation,
-            message: "Reservation Deleted Successfully"
+            message: "Reservation Deleted Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };

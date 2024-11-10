@@ -12,11 +12,12 @@ export const getAllReviews = async (
 
         res.status(200).json({
             reviews: allReviews,
-            message: "Reviews Found Successfully"
+            message: "Reviews Found Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
 
@@ -33,11 +34,12 @@ export const getAllReviewsByMenu = async (
 
         res.status(200).json({
             reviews: allReviews,
-            message: "Reviews Found Successfully"
+            message: "Reviews Found Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
 
@@ -55,14 +57,19 @@ export const getReviewById = async (
         if (review) {
             res.status(200).json({
                 review,
-                message: "Review Found Successfully"
+                message: "Review Found Successfully",
+                success: true
             });
         } else {
-            res.status(404).json({ review, message: "Review Not Found" });
+            res.status(404).json({
+                review,
+                message: "Review Not Found",
+                success: false
+            });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
 
@@ -80,7 +87,7 @@ export const createReview = async (
         const user: User | null = await findUserByClerkId(req);
 
         if (!user) {
-            res.status(404).json({ message: "User Not Found" });
+            res.status(404).json({ message: "User Not Found", success: false });
             return;
         }
 
@@ -95,13 +102,15 @@ export const createReview = async (
 
         res.status(201).json({
             review: newReview,
-            message: "Review Created Successfully"
+            message: "Review Created Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
+
 export const updateReview = async (
     req: Request,
     res: Response
@@ -116,7 +125,11 @@ export const updateReview = async (
         });
 
         if (!review) {
-            res.status(404).json({ review, message: "Review Not Found" });
+            res.status(404).json({
+                review,
+                message: "Review Not Found",
+                success: false
+            });
             return;
         }
 
@@ -130,13 +143,15 @@ export const updateReview = async (
 
         res.status(200).json({
             review: updatedReview,
-            message: "Review Updated Successfully"
+            message: "Review Updated Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };
+
 export const deleteReview = async (
     req: Request,
     res: Response
@@ -148,7 +163,11 @@ export const deleteReview = async (
         });
 
         if (!review) {
-            res.status(404).json({ review, message: "Review Not Found" });
+            res.status(404).json({
+                review,
+                message: "Review Not Found",
+                success: false
+            });
             return;
         }
 
@@ -158,10 +177,11 @@ export const deleteReview = async (
 
         res.status(200).json({
             review: deletedReview,
-            message: "Review Deleted Successfully"
+            message: "Review Deleted Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };

@@ -13,7 +13,7 @@ export const getAllOrderDetails = async (
 
         res.status(200).json({
             order_Details: allOrder_Details,
-            message: "Orders Found Successfully",
+            message: "order_Details Found Successfully",
             success: true
         });
     } catch (error) {
@@ -40,7 +40,7 @@ export const getAllOrderDetailsByUserId = async (
 
         res.status(200).json({
             order_Details: allOrders,
-            message: "Orders Found Successfully",
+            message: "order_Details Found Successfully",
             success: true
         });
     } catch (error) {
@@ -111,7 +111,7 @@ export const createOrderDetails = async (
 
         res.status(201).json({
             order_Details: newOrder_Details,
-            message: "Payment Created Successfully",
+            message: "order_Details Created Successfully",
             success: true
         });
     } catch (error) {

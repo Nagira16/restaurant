@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-    getAllItemOrderDetails,
+    getAllItemOrderDetailsByOrderId,
     getItemOrderDetailsById,
     createItemOrderDetails,
     updateItemOrderDetails,
@@ -9,9 +9,9 @@ import {
 
 const router = Router();
 
-router.get("/", getAllItemOrderDetails);
-router.get("/:id", getItemOrderDetailsById);
+router.get("/", getAllItemOrderDetailsByOrderId);
 router.post("/", createItemOrderDetails);
+router.get("/:id", getItemOrderDetailsById);
 router.put("/:id", updateItemOrderDetails);
 router.delete("/:id", deleteItemOrderDetails);
 

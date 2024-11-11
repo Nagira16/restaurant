@@ -10,9 +10,9 @@ import {
 const router = Router();
 
 router.get("/", getAllMenus);
+// router.post("/", createMenu); // admin only
 router.get("/:id", getMenuById);
-router.post("/", createMenu);
-router.put("/:id", updateMenu);
-router.delete("/:id", deleteMenu);
+// router.put("/:id", updateMenu); // admin only
+// router.delete("/:id", deleteMenu); // admin only
 
 export default router;

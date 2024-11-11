@@ -17,13 +17,13 @@ datasource db {
 
 
 model User {
-  id        String   @id @default(uuid())
+  id      String @id @default(uuid()) @db.Uuid
   name      String
-  role_id   String
+  role_id   String   @db.Uuid
   email     String   @unique
-  phone     Int?
+  phone     String?
   address   String?
-  clerk_id  String?  @unique
+  clerk_id  String   @unique
 
   role      Role     @relation(fields: [role_id], references: [id])
   reviews   Review[]
@@ -33,7 +33,7 @@ model User {
 }
 
 model Table {
-  id          String   @id @default(uuid())
+   id      String @id @default(uuid()) @db.Uuid
   number      Int      @unique
   capacity    Int
   available   Boolean
@@ -42,16 +42,16 @@ model Table {
 }
 
 model Role {
-  id        String   @id @default(uuid())
+  id      String @id @default(uuid()) @db.Uuid
   role_name String   @unique
 
   users     User[]
 }
 
 model Review {
-  id         String   @id @default(uuid())
-  user_id    String
-  menu_id    String
+  id      String @id @default(uuid()) @db.Uuid
+  user_id    String  @db.Uuid
+  menu_id    String  @db.Uuid
   stars      Int
   comments   String?
   created_at DateTime @default(now())
@@ -61,11 +61,11 @@ model Review {
 }
 
 model Menu {
-  id          String   @id @default(uuid())
+  id      String @id @default(uuid()) @db.Uuid
   name        String   
   description String?
   price       Decimal
-  category_id String?
+  category_id String?  @db.Uuid
   image       String?
 
   category    Category? @relation(fields: [category_id], references: [id])
@@ -75,9 +75,9 @@ model Menu {
 }
 
 model Item_Order_Details {
-  id               String @id @default(uuid())
-  order_details_id String
-  menu_id          String
+  id      String @id @default(uuid()) @db.Uuid
+  order_details_id String  @db.Uuid
+  menu_id          String  @db.Uuid
   quantity         Int
 
   order_details    Order_Details @relation(fields: [order_details_id], references: [id])
@@ -85,15 +85,15 @@ model Item_Order_Details {
 }
 
 model Category {
-  id            String @id @default(uuid())
+  id      String @id @default(uuid()) @db.Uuid
   category_name String @unique
 
   menus        Menu[]
 }
 
 model Nutrients {
-  id             String   @id @default(uuid())
-  menu_id        String   @unique
+  id      String @id @default(uuid()) @db.Uuid
+  menu_id        String   @unique  @db.Uuid
   calories       Decimal
   protein        Decimal
   carbohydrates  Decimal
@@ -106,10 +106,10 @@ model Nutrients {
 }
 
 model Order_Details {
-  id          String   @id @default(uuid())
-  payment_id  String
+  id      String @id @default(uuid()) @db.Uuid
+  payment_id  String  @db.Uuid
   total_price Decimal
-  user_id     String
+  user_id     String  @db.Uuid
   date        DateTime @default(now())
   status      String   @default("PENDING")
 
@@ -119,12 +119,13 @@ model Order_Details {
 }
 
 model Reservation {
-  id              String   @id @default(uuid())
-  user_id         String
+  id      String @id @default(uuid()) @db.Uuid
+  user_id         String  @db.Uuid
   num_of_people   Int
-  table_id        String?
+  table_id        String?  @db.Uuid
   status          String   @default("PENDING")
   location        String
+  reservationDateTime DateTime
   created_at      DateTime @default(now())
 
   user            User     @relation(fields: [user_id], references: [id])
@@ -133,9 +134,9 @@ model Reservation {
 
 
 model Payment {
-  id          String   @id @default(uuid())
-  user_id     String
-  stripe_id   String?  @unique
+  id      String @id @default(uuid()) @db.Uuid
+  user_id     String   @db.Uuid
+  stripe_id   String?  @unique  
   amount      Decimal
   currency    String
   method      String

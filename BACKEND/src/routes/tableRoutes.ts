@@ -10,9 +10,9 @@ import {
 const router = Router();
 
 router.get("/", getAllTables);
+// router.post("/", createTable); // admin only
 router.get("/:id", getTableById);
-router.post("/", createTable);
-router.put("/:id", updateTable);
-router.delete("/:id", deleteTable);
+// router.put("/:id", updateTable); // admin only
+// router.delete("/:id", deleteTable); // admin only
 
 export default router;

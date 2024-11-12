@@ -41,18 +41,26 @@ const seeds = async () => {
             {
                 name: "alex",
                 email: "alex@example.com",
-                phone: 1234567890,
-                role_id: "aaa",
+                phone: "1234567890",
+                role_id: "customer",
                 address: "1234 Ast Bcity",
                 clerk_id: "example11"
             },
             {
                 name: "nagira",
                 email: "nagira@example.com",
-                phone: 7894403211,
-                role_id: "ff",
+                phone: "7894403211",
+                role_id: "admin",
                 address: "3333 Bst Fcity",
                 clerk_id: "example22"
+            },
+            {
+                name: "emma",
+                email: "emma@example.com",
+                phone: "0901234526",
+                role_id: "customer",
+                address: "2314 Dst ALcity",
+                clerk_id: "example33"
             }
         ]
     });
@@ -151,31 +159,36 @@ const seeds = async () => {
                 user_id: "sss",
                 num_of_people: 5,
                 table_id: "nhh",
-                location: "china town"
+                location: "china town",
+                reservationDateTime: "2024-11-12 11:30:00"
             },
             {
                 user_id: "sss",
                 num_of_people: 1,
                 table_id: "acd",
-                location: "china town"
+                location: "china town",
+                reservationDateTime: "2024-11-15 10:30:00"
             },
             {
                 user_id: "sss",
                 num_of_people: 2,
                 table_id: "jbh",
-                location: "down town"
+                location: "down town",
+                reservationDateTime: "2024-11-24 03:00:00"
             },
             {
                 user_id: "sss",
                 num_of_people: 5,
                 table_id: "ihv",
-                location: "east town"
+                location: "east town",
+                reservationDateTime: "2024-11-11 12:30:00"
             },
             {
                 user_id: "sss",
                 num_of_people: 3,
                 table_id: "egf",
-                location: "west town"
+                location: "west town",
+                reservationDateTime: "2024-11-14 08:30:00"
             }
         ]
     });

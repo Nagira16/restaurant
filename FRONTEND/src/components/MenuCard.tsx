@@ -20,7 +20,12 @@ const MenuCard = ({ menu }: MenuCardProps) => {
                 <CardTitle>{menu.name}</CardTitle>
             </CardHeader>
             <CardContent>
-                <Image src={menu.image} alt={menu.name} />
+                <Image
+                    src={menu.image}
+                    alt={menu.name}
+                    width={100}
+                    height={100}
+                />
                 <CardDescription>{menu.description}</CardDescription>
             </CardContent>
             <CardFooter>$ {menu.price} CAD</CardFooter>

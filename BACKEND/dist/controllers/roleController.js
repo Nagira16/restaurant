@@ -15,14 +15,18 @@ const getAllRoles = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allRoles = yield prismaClient_1.prisma.role.findMany();
         res.status(200).json({
-            role: allRoles,
+            results: allRoles,
             message: "Roles Found Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getAllRoles = getAllRoles;
@@ -34,14 +38,14 @@ const getRoleById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
         if (role) {
             res.status(200).json({
-                role,
+                results: role,
                 message: "Role Found Successfully",
                 success: true
             });
         }
         else {
             res.status(404).json({
-                role,
+                results: role,
                 message: "Role Not Found",
                 success: false
             });
@@ -49,7 +53,11 @@ const getRoleById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getRoleById = getRoleById;
@@ -62,14 +70,18 @@ const createRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             }
         });
         res.status(201).json({
-            Role: newRole,
+            results: newRole,
             message: "Role Created Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.createRole = createRole;
@@ -82,7 +94,7 @@ const updateRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
         if (!role) {
             res.status(404).json({
-                role,
+                results: role,
                 message: "Role Not Found",
                 success: false
             });
@@ -95,14 +107,18 @@ const updateRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             }
         });
         res.status(200).json({
-            Role: updatedRole,
+            results: updatedRole,
             message: "Role Updated Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.updateRole = updateRole;
@@ -114,7 +130,7 @@ const deleteRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
         if (!role) {
             res.status(404).json({
-                role,
+                results: role,
                 message: "Role Not Found",
                 success: false
             });
@@ -124,14 +140,18 @@ const deleteRole = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             where: { id: role.id }
         });
         res.status(200).json({
-            Role: deletedRole,
+            results: deletedRole,
             message: "Role Deleted Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.deleteRole = deleteRole;

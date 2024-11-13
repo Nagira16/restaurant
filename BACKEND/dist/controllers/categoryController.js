@@ -15,14 +15,18 @@ const getAllCategories = (_, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const allCategories = yield prismaClient_1.prisma.category.findMany();
         res.status(200).json({
-            categories: allCategories,
+            results: allCategories,
             message: "Categories Found Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getAllCategories = getAllCategories;
@@ -33,14 +37,18 @@ const getAllMenusByCategoryId = (req, res) => __awaiter(void 0, void 0, void 0, 
             where: { category_id }
         });
         res.status(200).json({
-            menus: allMenus,
+            results: allMenus,
             message: "All Menus Found Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getAllMenusByCategoryId = getAllMenusByCategoryId;
@@ -53,14 +61,18 @@ const createCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
             }
         });
         res.status(201).json({
-            Category: newCategory,
+            results: newCategory,
             message: "Category Created Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.createCategory = createCategory;
@@ -73,7 +85,7 @@ const updateCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
         if (!category) {
             res.status(404).json({
-                category,
+                results: category,
                 message: "Category Not Found",
                 success: false
             });
@@ -86,14 +98,18 @@ const updateCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
             }
         });
         res.status(200).json({
-            category: updatedCategory,
+            results: updatedCategory,
             message: "Category Updated Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.updateCategory = updateCategory;
@@ -105,7 +121,7 @@ const deleteCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
         if (!category) {
             res.status(404).json({
-                category,
+                results: category,
                 message: "Category Not Found",
                 success: false
             });
@@ -115,14 +131,18 @@ const deleteCategory = (req, res) => __awaiter(void 0, void 0, void 0, function*
             where: { id: category.id }
         });
         res.status(200).json({
-            category: deletedCategory,
+            results: deletedCategory,
             message: "Category Deleted Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.deleteCategory = deleteCategory;

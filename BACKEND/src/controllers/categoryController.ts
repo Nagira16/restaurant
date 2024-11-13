@@ -1,7 +1,6 @@
-import { Category, Menu, User } from "@prisma/client";
+import { Category, Menu } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
-import { findUserByClerkId } from "./userController";
 
 export const getAllCategories = async (
     _: Request,
@@ -11,13 +10,17 @@ export const getAllCategories = async (
         const allCategories: Category[] = await prisma.category.findMany();
 
         res.status(200).json({
-            categories: allCategories,
+            results: allCategories,
             message: "Categories Found Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -33,13 +36,17 @@ export const getAllMenusByCategoryId = async (
         });
 
         res.status(200).json({
-            menus: allMenus,
+            results: allMenus,
             message: "All Menus Found Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -57,13 +64,17 @@ export const createCategory = async (
         });
 
         res.status(201).json({
-            Category: newCategory,
+            results: newCategory,
             message: "Category Created Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -81,7 +92,7 @@ export const updateCategory = async (
 
         if (!category) {
             res.status(404).json({
-                category,
+                results: category,
                 message: "Category Not Found",
                 success: false
             });
@@ -96,13 +107,17 @@ export const updateCategory = async (
         });
 
         res.status(200).json({
-            category: updatedCategory,
+            results: updatedCategory,
             message: "Category Updated Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -118,7 +133,7 @@ export const deleteCategory = async (
 
         if (!category) {
             res.status(404).json({
-                category,
+                results: category,
                 message: "Category Not Found",
                 success: false
             });
@@ -130,12 +145,16 @@ export const deleteCategory = async (
         });
 
         res.status(200).json({
-            category: deletedCategory,
+            results: deletedCategory,
             message: "Category Deleted Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };

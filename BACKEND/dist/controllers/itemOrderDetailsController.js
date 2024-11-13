@@ -16,14 +16,18 @@ const getAllItemOrderDetails = (_, res) => __awaiter(void 0, void 0, void 0, fun
     try {
         const allItemOrderDetails = yield prismaClient_1.prisma.item_Order_Details.findMany();
         res.status(200).json({
-            ItemOrderDetails: allItemOrderDetails,
+            results: allItemOrderDetails,
             message: "Item Order Details Found Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getAllItemOrderDetails = getAllItemOrderDetails;
@@ -34,14 +38,18 @@ const getAllItemOrderDetailsByOrderId = (req, res) => __awaiter(void 0, void 0, 
             where: { order_details_id }
         });
         res.status(200).json({
-            itemOrderDetails: allItemOrderDetails,
+            results: allItemOrderDetails,
             message: "Item Order Details Found Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getAllItemOrderDetailsByOrderId = getAllItemOrderDetailsByOrderId;
@@ -53,14 +61,14 @@ const getItemOrderDetailsById = (req, res) => __awaiter(void 0, void 0, void 0, 
         });
         if (itemOrderDetails) {
             res.status(200).json({
-                itemOrderDetails,
+                results: itemOrderDetails,
                 message: "Item Order Details Found Successfully",
                 success: true
             });
         }
         else {
             res.status(404).json({
-                itemOrderDetails,
+                results: itemOrderDetails,
                 message: "Item Order Details Not Found",
                 success: false
             });
@@ -68,7 +76,11 @@ const getItemOrderDetailsById = (req, res) => __awaiter(void 0, void 0, void 0, 
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getItemOrderDetailsById = getItemOrderDetailsById;
@@ -77,7 +89,11 @@ const createItemOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, f
         const { order_details_id, menu_id, quantity } = req.body;
         const user = yield (0, userController_1.findUserByClerkId)(req);
         if (!user) {
-            res.status(404).json({ message: "User Not Found", success: false });
+            res.status(404).json({
+                results: null,
+                message: "User Not Found",
+                success: false
+            });
             return;
         }
         const menu = yield prismaClient_1.prisma.menu.findUnique({
@@ -96,14 +112,18 @@ const createItemOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, f
             }
         });
         res.status(201).json({
-            itemOrderDetails: newItemOrderDetails,
+            results: newItemOrderDetails,
             message: "Item Order Details Created Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.createItemOrderDetails = createItemOrderDetails;
@@ -116,7 +136,7 @@ const updateItemOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, f
         });
         if (!itemOrderDetails) {
             res.status(404).json({
-                itemOrderDetails,
+                results: itemOrderDetails,
                 message: "Item Order Details Not Found",
                 success: false
             });
@@ -131,14 +151,18 @@ const updateItemOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, f
             }
         });
         res.status(200).json({
-            itemOrderDetails: updatedItemOrderDetails,
+            results: updatedItemOrderDetails,
             message: "Item Order Details Updated Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.updateItemOrderDetails = updateItemOrderDetails;
@@ -150,7 +174,7 @@ const deleteItemOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, f
         });
         if (!itemOrderDetails) {
             res.status(404).json({
-                itemOrderDetails,
+                results: itemOrderDetails,
                 message: "Item Order Details Not Found",
                 success: false
             });
@@ -160,14 +184,18 @@ const deleteItemOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, f
             where: { id: itemOrderDetails.id }
         });
         res.status(200).json({
-            itemOrderDetails: deletedItemOrderDetails,
+            results: deletedItemOrderDetails,
             message: "Item Order Details Deleted Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.deleteItemOrderDetails = deleteItemOrderDetails;

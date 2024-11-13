@@ -7,12 +7,17 @@ export const getAllMenus = async (_: Request, res: Response): Promise<void> => {
         const allMenus: Menu[] = await prisma.menu.findMany();
 
         res.status(200).json({
-            menus: allMenus,
-            message: "Menus Found Successfully"
+            results: allMenus,
+            message: "Menus Found Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Falied" });
+        res.status(500).json({
+            results: null,
+            message: "Server Falied",
+            success: false
+        });
     }
 };
 
@@ -26,16 +31,25 @@ export const getMenuById = async (
             where: { id }
         });
         if (menu) {
-            res.status(200).json({ menu, message: "Menu Found Successfully" });
+            res.status(200).json({
+                results: menu,
+                message: "Menu Found Successfully",
+                success: true
+            });
         } else {
             res.status(404).json({
-                menu,
-                message: "Menu Not Found Successfully"
+                results: menu,
+                message: "Menu Not Found Successfully",
+                success: false
             });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -79,12 +93,17 @@ export const createMenu = async (
         });
 
         res.status(201).json({
-            menu: newMenu,
-            message: "Menu Created Successfully"
+            results: newMenu,
+            message: "Menu Created Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -115,7 +134,11 @@ export const updateMenu = async (
         });
 
         if (!menu) {
-            res.status(404).json({ menu, message: "Menu Not Found" });
+            res.status(404).json({
+                results: menu,
+                message: "Menu Not Found",
+                success: false
+            });
             return;
         }
 
@@ -126,7 +149,9 @@ export const updateMenu = async (
             });
             if (!category) {
                 res.status(404).json({
-                    message: `Category ${category_name} Not Found`
+                    results: null,
+                    message: `Category ${category_name} Not Found`,
+                    success: false
                 });
                 return;
             }
@@ -135,7 +160,7 @@ export const updateMenu = async (
         }
 
         const updatedMenu: Menu = await prisma.menu.update({
-            where: { id },
+            where: { id: menu.id },
             data: {
                 name: name || menu.name,
                 description: description || menu.description,
@@ -146,12 +171,17 @@ export const updateMenu = async (
         });
 
         res.status(200).json({
-            menu: updatedMenu,
-            message: "Menu Updated Successfully"
+            results: updatedMenu,
+            message: "Menu Updated Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -168,20 +198,25 @@ export const deleteMenu = async (
         });
 
         if (!menu) {
-            res.status(404).json({ message: "User Not Found" });
+            res.status(404).json({
+                results: null,
+                message: "User Not Found",
+                success: false
+            });
             return;
         }
 
         const deletedMenu: Menu = await prisma.menu.delete({
-            where: { id }
+            where: { id: menu.id }
         });
 
         res.status(200).json({
-            menu: deletedMenu,
-            message: "Menu Deleted Successfully"
+            results: deletedMenu,
+            message: "Menu Deleted Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 };

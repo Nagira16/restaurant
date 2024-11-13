@@ -11,7 +11,11 @@ export const getAllPaymentsByUserId = async (
         const user: User | null = await findUserByClerkId(req);
 
         if (!user) {
-            res.status(404).json({ message: "User Not Found", success: false });
+            res.status(404).json({
+                results: null,
+                message: "User Not Found",
+                success: false
+            });
             return;
         }
 
@@ -20,13 +24,17 @@ export const getAllPaymentsByUserId = async (
         });
 
         res.status(200).json({
-            payments: allPayments,
+            results: allPayments,
             message: "Payments Found Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -43,20 +51,24 @@ export const getPaymentById = async (
 
         if (payment) {
             res.status(200).json({
-                payment,
+                results: payment,
                 message: "Payment Found Successfully",
                 success: true
             });
         } else {
             res.status(404).json({
-                payment,
+                results: payment,
                 message: "Payment Not Found",
                 success: false
             });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -82,7 +94,11 @@ export const createPayment = async (
         const user: User | null = await findUserByClerkId(req);
 
         if (!user) {
-            res.status(404).json({ message: "User Not Found", success: false });
+            res.status(404).json({
+                results: null,
+                message: "User Not Found",
+                success: false
+            });
             return;
         }
 
@@ -98,13 +114,17 @@ export const createPayment = async (
         });
 
         res.status(201).json({
-            payment: newPayment,
+            results: newPayment,
             message: "Payment Created Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 export const updatePayment = async (
@@ -133,7 +153,7 @@ export const updatePayment = async (
 
         if (!payment) {
             res.status(404).json({
-                payment,
+                results: payment,
                 message: "Payment Not Found",
                 success: false
             });
@@ -152,13 +172,17 @@ export const updatePayment = async (
         });
 
         res.status(200).json({
-            payment: updatedPayment,
+            results: updatedPayment,
             message: "Payment Updated Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 export const deletePayment = async (
@@ -173,7 +197,7 @@ export const deletePayment = async (
 
         if (!payment) {
             res.status(404).json({
-                payment,
+                results: payment,
                 message: "Payment Not Found",
                 success: false
             });
@@ -185,12 +209,16 @@ export const deletePayment = async (
         });
 
         res.status(200).json({
-            payment: deletedPayment,
+            results: deletedPayment,
             message: "Payment Deleted Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };

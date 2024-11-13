@@ -15,14 +15,18 @@ const getAllNutrients = (_, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const allNutrients = yield prismaClient_1.prisma.nutrients.findMany();
         res.status(200).json({
-            nutrients: allNutrients,
+            results: allNutrients,
             message: "Nutrients Found Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getAllNutrients = getAllNutrients;
@@ -33,14 +37,18 @@ const getNutrientByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, func
             where: { menu_id }
         });
         res.status(200).json({
-            nutrient,
+            results: nutrient,
             message: "Nutrient Found Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getNutrientByMenuId = getNutrientByMenuId;
@@ -60,14 +68,18 @@ const createNutrient = (req, res) => __awaiter(void 0, void 0, void 0, function*
             }
         });
         res.status(201).json({
-            nutrient: newNutrient,
+            results: newNutrient,
             message: "Nutrient Created Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.createNutrient = createNutrient;
@@ -80,7 +92,7 @@ const updateNutrient = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
         if (!nutrient) {
             res.status(404).json({
-                nutrient,
+                results: nutrient,
                 message: "Nutrient Not Found",
                 success: false
             });
@@ -100,14 +112,18 @@ const updateNutrient = (req, res) => __awaiter(void 0, void 0, void 0, function*
             }
         });
         res.status(200).json({
-            nutrient: updatedNutrient,
+            results: updatedNutrient,
             message: "Nutrient Updated Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.updateNutrient = updateNutrient;
@@ -119,7 +135,7 @@ const deleteNutrient = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
         if (!nutrient) {
             res.status(404).json({
-                nutrient,
+                results: nutrient,
                 message: "Nutrient Not Found",
                 success: false
             });
@@ -129,14 +145,18 @@ const deleteNutrient = (req, res) => __awaiter(void 0, void 0, void 0, function*
             where: { id: nutrient.id }
         });
         res.status(200).json({
-            nutrient: deletedNutrient,
+            results: deletedNutrient,
             message: "Nutrient Deleted Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.deleteNutrient = deleteNutrient;

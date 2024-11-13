@@ -11,13 +11,17 @@ export const getAllReviews = async (
         const allReviews: Review[] = await prisma.review.findMany();
 
         res.status(200).json({
-            reviews: allReviews,
+            results: allReviews,
             message: "Reviews Found Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -33,13 +37,17 @@ export const getAllReviewsByMenuId = async (
         });
 
         res.status(200).json({
-            reviews: allReviews,
+            results: allReviews,
             message: "Reviews Found Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -56,20 +64,24 @@ export const getReviewById = async (
 
         if (review) {
             res.status(200).json({
-                review,
+                results: review,
                 message: "Review Found Successfully",
                 success: true
             });
         } else {
             res.status(404).json({
-                review,
+                results: review,
                 message: "Review Not Found",
                 success: false
             });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -87,7 +99,11 @@ export const createReview = async (
         const user: User | null = await findUserByClerkId(req);
 
         if (!user) {
-            res.status(404).json({ message: "User Not Found", success: false });
+            res.status(404).json({
+                results: null,
+                message: "User Not Found",
+                success: false
+            });
             return;
         }
 
@@ -101,13 +117,17 @@ export const createReview = async (
         });
 
         res.status(201).json({
-            review: newReview,
+            results: newReview,
             message: "Review Created Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -126,7 +146,7 @@ export const updateReview = async (
 
         if (!review) {
             res.status(404).json({
-                review,
+                results: review,
                 message: "Review Not Found",
                 success: false
             });
@@ -142,13 +162,17 @@ export const updateReview = async (
         });
 
         res.status(200).json({
-            review: updatedReview,
+            results: updatedReview,
             message: "Review Updated Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -164,7 +188,7 @@ export const deleteReview = async (
 
         if (!review) {
             res.status(404).json({
-                review,
+                results: review,
                 message: "Review Not Found",
                 success: false
             });
@@ -176,12 +200,16 @@ export const deleteReview = async (
         });
 
         res.status(200).json({
-            review: deletedReview,
+            results: deletedReview,
             message: "Review Deleted Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };

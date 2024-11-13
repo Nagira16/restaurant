@@ -15,14 +15,18 @@ const getAllTables = (_, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const allTable = yield prismaClient_1.prisma.table.findMany();
         res.status(200).json({
-            tables: allTable,
+            results: allTable,
             message: "Tables Found Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getAllTables = getAllTables;
@@ -34,14 +38,14 @@ const getTableById = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
         if (table) {
             res.status(200).json({
-                table,
+                results: table,
                 message: "Table Found Successfully",
                 success: true
             });
         }
         else {
             res.status(404).json({
-                table,
+                results: table,
                 message: "Table Not Found",
                 success: false
             });
@@ -49,7 +53,11 @@ const getTableById = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getTableById = getTableById;
@@ -64,14 +72,18 @@ const createTable = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             }
         });
         res.status(201).json({
-            table: newTable,
+            results: newTable,
             message: "Table Created Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.createTable = createTable;
@@ -84,7 +96,7 @@ const updateTable = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
         if (!table) {
             res.status(404).json({
-                table,
+                results: table,
                 message: "Table Not Found",
                 success: false
             });
@@ -99,14 +111,18 @@ const updateTable = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             }
         });
         res.status(200).json({
-            table: updatedTable,
+            results: updatedTable,
             message: "Table Updated Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.updateTable = updateTable;
@@ -118,7 +134,7 @@ const deleteTable = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
         if (!table) {
             res.status(404).json({
-                table,
+                results: table,
                 message: "Table Not Found",
                 success: false
             });
@@ -128,14 +144,18 @@ const deleteTable = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             where: { id: table.id }
         });
         res.status(200).json({
-            table: deletedTable,
+            results: deletedTable,
             message: "Table Deleted Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.deleteTable = deleteTable;

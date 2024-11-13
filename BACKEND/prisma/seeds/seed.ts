@@ -65,7 +65,7 @@ const seeds = async () => {
         ]
     });
 
-    // CATEGORY
+    // CATEGORY;
     await prisma.category.createMany({
         data: [
             { category_name: "Appetizers" },
@@ -83,7 +83,7 @@ const seeds = async () => {
                 description:
                     "5 pieces accompanied with their consommé, cilantro, onion, lemon, and sauce. (With 2 tortillas each, beef and mozzarella cheese)",
                 price: 25,
-                category_id: "dd",
+                category_id: "531f638b-b8f7-43c8-a2aa-b9f037be1893",
                 image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTj8D6rRY_YMHrtldIZ9ruek0juCjWYFonsQ&s"
             },
             {
@@ -91,7 +91,7 @@ const seeds = async () => {
                 description:
                     "4 large double tortilla tacos with cilantro, onion, lemon, and salsa.",
                 price: 25,
-                category_id: "dd",
+                category_id: "531f638b-b8f7-43c8-a2aa-b9f037be1893",
                 image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJxXWIWD-_ggrZgZ2CpTj6jp-Rv0sHOHUX2Q&s"
             },
             {
@@ -99,7 +99,7 @@ const seeds = async () => {
                 description:
                     "Large plate of birria with cilantro, onion, lemon, sauce, and tortillas.",
                 price: 25,
-                category_id: "dd",
+                category_id: "531f638b-b8f7-43c8-a2aa-b9f037be1893",
                 image: "https://tb-static.uber.com/prod/image-proc/processed_images/7378eb3ba7202b6dfad1ef0c1741b2c3/7f4ae9ca0446cbc23e71d8d395a98428.jpeg"
             }
         ]
@@ -194,4 +194,10 @@ const seeds = async () => {
     });
 };
 
-seeds();
+seeds()
+    .then(() => {
+        console.log("Successfully");
+    })
+    .catch((e) => {
+        console.error(e);
+    });

@@ -13,10 +13,12 @@ import itemOrderDetailsRouter from "./routes/itemOrderDetailsRoutes";
 import adminRouter from "./routes/adminRoutes";
 import { clerkMiddleware } from "@clerk/express";
 import { adminMiddleware } from "./middleware";
+import cros from "cors";
 
 const app = express();
 
 app.use(express.json());
+app.use(cros());
 app.use(
     clerkMiddleware({
         publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,

@@ -15,13 +15,18 @@ const getAllMenus = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allMenus = yield prismaClient_1.prisma.menu.findMany();
         res.status(200).json({
-            menus: allMenus,
-            message: "Menus Found Successfully"
+            results: allMenus,
+            message: "Menus Found Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Falied" });
+        res.status(500).json({
+            results: null,
+            message: "Server Falied",
+            success: false
+        });
     }
 });
 exports.getAllMenus = getAllMenus;
@@ -32,18 +37,27 @@ const getMenuById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             where: { id }
         });
         if (menu) {
-            res.status(200).json({ menu, message: "Menu Found Successfully" });
+            res.status(200).json({
+                results: menu,
+                message: "Menu Found Successfully",
+                success: true
+            });
         }
         else {
             res.status(404).json({
-                menu,
-                message: "Menu Not Found Successfully"
+                results: menu,
+                message: "Menu Not Found Successfully",
+                success: false
             });
         }
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getMenuById = getMenuById;
@@ -67,13 +81,18 @@ const createMenu = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             }
         });
         res.status(201).json({
-            menu: newMenu,
-            message: "Menu Created Successfully"
+            results: newMenu,
+            message: "Menu Created Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.createMenu = createMenu;
@@ -86,7 +105,11 @@ const updateMenu = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             where: { id }
         });
         if (!menu) {
-            res.status(404).json({ menu, message: "Menu Not Found" });
+            res.status(404).json({
+                results: menu,
+                message: "Menu Not Found",
+                success: false
+            });
             return;
         }
         let category_id;
@@ -96,14 +119,16 @@ const updateMenu = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             });
             if (!category) {
                 res.status(404).json({
-                    message: `Category ${category_name} Not Found`
+                    results: null,
+                    message: `Category ${category_name} Not Found`,
+                    success: false
                 });
                 return;
             }
             category_id = category.id;
         }
         const updatedMenu = yield prismaClient_1.prisma.menu.update({
-            where: { id },
+            where: { id: menu.id },
             data: {
                 name: name || menu.name,
                 description: description || menu.description,
@@ -113,13 +138,18 @@ const updateMenu = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             }
         });
         res.status(200).json({
-            menu: updatedMenu,
-            message: "Menu Updated Successfully"
+            results: updatedMenu,
+            message: "Menu Updated Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.updateMenu = updateMenu;
@@ -131,20 +161,25 @@ const deleteMenu = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             where: { id }
         });
         if (!menu) {
-            res.status(404).json({ message: "User Not Found" });
+            res.status(404).json({
+                results: null,
+                message: "User Not Found",
+                success: false
+            });
             return;
         }
         const deletedMenu = yield prismaClient_1.prisma.menu.delete({
-            where: { id }
+            where: { id: menu.id }
         });
         res.status(200).json({
-            menu: deletedMenu,
-            message: "Menu Deleted Successfully"
+            results: deletedMenu,
+            message: "Menu Deleted Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({ message: "Server Failed", success: false });
     }
 });
 exports.deleteMenu = deleteMenu;

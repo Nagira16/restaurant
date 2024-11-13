@@ -10,13 +10,17 @@ export const getAllTables = async (
         const allTable: Table[] = await prisma.table.findMany();
 
         res.status(200).json({
-            tables: allTable,
+            results: allTable,
             message: "Tables Found Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -33,20 +37,24 @@ export const getTableById = async (
 
         if (table) {
             res.status(200).json({
-                table,
+                results: table,
                 message: "Table Found Successfully",
                 success: true
             });
         } else {
             res.status(404).json({
-                table,
+                results: table,
                 message: "Table Not Found",
                 success: false
             });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -70,13 +78,17 @@ export const createTable = async (
         });
 
         res.status(201).json({
-            table: newTable,
+            results: newTable,
             message: "Table Created Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -99,7 +111,7 @@ export const updateTable = async (
 
         if (!table) {
             res.status(404).json({
-                table,
+                results: table,
                 message: "Table Not Found",
                 success: false
             });
@@ -116,13 +128,17 @@ export const updateTable = async (
         });
 
         res.status(200).json({
-            table: updatedTable,
+            results: updatedTable,
             message: "Table Updated Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -138,7 +154,7 @@ export const deleteTable = async (
 
         if (!table) {
             res.status(404).json({
-                table,
+                results: table,
                 message: "Table Not Found",
                 success: false
             });
@@ -150,12 +166,16 @@ export const deleteTable = async (
         });
 
         res.status(200).json({
-            table: deletedTable,
+            results: deletedTable,
             message: "Table Deleted Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };

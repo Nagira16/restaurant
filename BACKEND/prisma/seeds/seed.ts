@@ -41,23 +41,31 @@ const seeds = async () => {
             {
                 name: "alex",
                 email: "alex@example.com",
-                phone: 1234567890,
-                role_id: "aaa",
+                phone: "1234567890",
+                role_id: "customer",
                 address: "1234 Ast Bcity",
                 clerk_id: "example11"
             },
             {
                 name: "nagira",
                 email: "nagira@example.com",
-                phone: 7894403211,
-                role_id: "ff",
+                phone: "7894403211",
+                role_id: "admin",
                 address: "3333 Bst Fcity",
                 clerk_id: "example22"
+            },
+            {
+                name: "emma",
+                email: "emma@example.com",
+                phone: "0901234526",
+                role_id: "customer",
+                address: "2314 Dst ALcity",
+                clerk_id: "example33"
             }
         ]
     });
 
-    // CATEGORY
+    // CATEGORY;
     await prisma.category.createMany({
         data: [
             { category_name: "Appetizers" },
@@ -75,7 +83,7 @@ const seeds = async () => {
                 description:
                     "5 pieces accompanied with their consommé, cilantro, onion, lemon, and sauce. (With 2 tortillas each, beef and mozzarella cheese)",
                 price: 25,
-                category_id: "dd",
+                category_id: "531f638b-b8f7-43c8-a2aa-b9f037be1893",
                 image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTj8D6rRY_YMHrtldIZ9ruek0juCjWYFonsQ&s"
             },
             {
@@ -83,7 +91,7 @@ const seeds = async () => {
                 description:
                     "4 large double tortilla tacos with cilantro, onion, lemon, and salsa.",
                 price: 25,
-                category_id: "dd",
+                category_id: "531f638b-b8f7-43c8-a2aa-b9f037be1893",
                 image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJxXWIWD-_ggrZgZ2CpTj6jp-Rv0sHOHUX2Q&s"
             },
             {
@@ -91,7 +99,7 @@ const seeds = async () => {
                 description:
                     "Large plate of birria with cilantro, onion, lemon, sauce, and tortillas.",
                 price: 25,
-                category_id: "dd",
+                category_id: "531f638b-b8f7-43c8-a2aa-b9f037be1893",
                 image: "https://tb-static.uber.com/prod/image-proc/processed_images/7378eb3ba7202b6dfad1ef0c1741b2c3/7f4ae9ca0446cbc23e71d8d395a98428.jpeg"
             }
         ]
@@ -151,34 +159,45 @@ const seeds = async () => {
                 user_id: "sss",
                 num_of_people: 5,
                 table_id: "nhh",
-                location: "china town"
+                location: "china town",
+                reservationDateTime: "2024-11-12 11:30:00"
             },
             {
                 user_id: "sss",
                 num_of_people: 1,
                 table_id: "acd",
-                location: "china town"
+                location: "china town",
+                reservationDateTime: "2024-11-15 10:30:00"
             },
             {
                 user_id: "sss",
                 num_of_people: 2,
                 table_id: "jbh",
-                location: "down town"
+                location: "down town",
+                reservationDateTime: "2024-11-24 03:00:00"
             },
             {
                 user_id: "sss",
                 num_of_people: 5,
                 table_id: "ihv",
-                location: "east town"
+                location: "east town",
+                reservationDateTime: "2024-11-11 12:30:00"
             },
             {
                 user_id: "sss",
                 num_of_people: 3,
                 table_id: "egf",
-                location: "west town"
+                location: "west town",
+                reservationDateTime: "2024-11-14 08:30:00"
             }
         ]
     });
 };
 
-seeds();
+seeds()
+    .then(() => {
+        console.log("Successfully");
+    })
+    .catch((e) => {
+        console.error(e);
+    });

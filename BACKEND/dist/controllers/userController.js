@@ -16,14 +16,18 @@ const getAllUsers = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
         // Check if current user role is Admin
         const allUsers = yield prismaClient_1.prisma.user.findMany();
         res.status(200).json({
-            users: allUsers,
+            results: allUsers,
             message: "Users Found Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getAllUsers = getAllUsers;
@@ -35,14 +39,14 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
         if (user) {
             res.status(200).json({
-                user,
+                results: user,
                 message: "User Found Successfully",
                 success: true
             });
         }
         else {
             res.status(404).json({
-                user,
+                results: user,
                 message: "User Not Found",
                 success: false
             });
@@ -50,7 +54,11 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getUserById = getUserById;
@@ -60,6 +68,7 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const exist = yield findUserByEmail(email);
         if (exist) {
             res.status(409).json({
+                results: null,
                 message: "User with this email already exists.",
                 success: false
             });
@@ -84,14 +93,18 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             }
         });
         res.status(201).json({
-            user: newUser,
+            results: newUser,
             message: "User Created Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.createUser = createUser;
@@ -104,7 +117,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
         if (!user) {
             res.status(404).json({
-                user,
+                results: user,
                 message: "User Not Found",
                 success: false
             });
@@ -117,6 +130,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             });
             if (!role) {
                 res.status(404).json({
+                    results: null,
                     message: `Role ${role_name} Not Found.`,
                     success: false
                 });
@@ -135,14 +149,18 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             }
         });
         res.status(200).json({
-            user: updatedUser,
+            results: updatedUser,
             message: "User Updated Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.updateUser = updateUser;
@@ -153,20 +171,29 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             where: { id }
         });
         if (!user) {
-            res.status(404).json({ user, message: "User Not Found" });
+            res.status(404).json({
+                results: user,
+                message: "User Not Found",
+                success: false
+            });
             return;
         }
         const deletedUser = yield prismaClient_1.prisma.user.delete({
             where: { id: user.id }
         });
         res.status(200).json({
-            user: deletedUser,
-            message: "User Deleted Successfully"
+            results: deletedUser,
+            message: "User Deleted Successfully",
+            success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.deleteUser = deleteUser;

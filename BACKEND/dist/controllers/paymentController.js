@@ -16,21 +16,29 @@ const getAllPaymentsByUserId = (req, res) => __awaiter(void 0, void 0, void 0, f
     try {
         const user = yield (0, userController_1.findUserByClerkId)(req);
         if (!user) {
-            res.status(404).json({ message: "User Not Found", success: false });
+            res.status(404).json({
+                results: null,
+                message: "User Not Found",
+                success: false
+            });
             return;
         }
         const allPayments = yield prismaClient_1.prisma.payment.findMany({
             where: { user_id: user.id }
         });
         res.status(200).json({
-            payments: allPayments,
+            results: allPayments,
             message: "Payments Found Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getAllPaymentsByUserId = getAllPaymentsByUserId;
@@ -42,14 +50,14 @@ const getPaymentById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
         if (payment) {
             res.status(200).json({
-                payment,
+                results: payment,
                 message: "Payment Found Successfully",
                 success: true
             });
         }
         else {
             res.status(404).json({
-                payment,
+                results: payment,
                 message: "Payment Not Found",
                 success: false
             });
@@ -57,7 +65,11 @@ const getPaymentById = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getPaymentById = getPaymentById;
@@ -66,7 +78,11 @@ const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const { stripe_id, amount, currency, method, status } = req.body;
         const user = yield (0, userController_1.findUserByClerkId)(req);
         if (!user) {
-            res.status(404).json({ message: "User Not Found", success: false });
+            res.status(404).json({
+                results: null,
+                message: "User Not Found",
+                success: false
+            });
             return;
         }
         const newPayment = yield prismaClient_1.prisma.payment.create({
@@ -80,14 +96,18 @@ const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             }
         });
         res.status(201).json({
-            payment: newPayment,
+            results: newPayment,
             message: "Payment Created Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.createPayment = createPayment;
@@ -100,7 +120,7 @@ const updatePayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
         if (!payment) {
             res.status(404).json({
-                payment,
+                results: payment,
                 message: "Payment Not Found",
                 success: false
             });
@@ -117,14 +137,18 @@ const updatePayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             }
         });
         res.status(200).json({
-            payment: updatedPayment,
+            results: updatedPayment,
             message: "Payment Updated Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.updatePayment = updatePayment;
@@ -136,7 +160,7 @@ const deletePayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
         if (!payment) {
             res.status(404).json({
-                payment,
+                results: payment,
                 message: "Payment Not Found",
                 success: false
             });
@@ -146,14 +170,18 @@ const deletePayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             where: { id: payment.id }
         });
         res.status(200).json({
-            payment: deletedPayment,
+            results: deletedPayment,
             message: "Payment Deleted Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.deletePayment = deletePayment;

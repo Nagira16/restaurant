@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+/* body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -75,5 +75,46 @@ body {
     }
     body {
         @apply bg-background text-foreground;
+    }
+} */
+
+@layer base {
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 0 0% 3.9%;
+        --primary: 163 94% 24%;
+        --secondary: 0 0% 96.1%;
+        --secondary-foreground: 0 0% 9%;
+    }
+
+    .dark {
+        --background: 0 0% 3.9%;
+        --foreground: 0 0% 98%;
+        --primary: 163 94% 24%;
+        --secondary: 0 0% 14.9%;
+        --secondary-foreground: 0 0% 98%;
+    }
+
+    .wrapper {
+        @apply max-w-7xl mx-auto sm:px-4 md:px-6 lg:px-8 xl:px-10;
+    }
+    .flex-start {
+        @apply flex justify-start items-center;
+    }
+    .flex-center {
+        @apply flex justify-center items-center;
+    }
+    .flex-end {
+        @apply flex justify-end items-center;
+    }
+    .flex-between {
+        @apply flex justify-between items-center;
+    }
+    .flex-normal {
+        @apply flex justify-normal items-center;
     }
 }

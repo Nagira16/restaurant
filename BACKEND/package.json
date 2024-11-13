@@ -4,7 +4,10 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc --watch",
-        "dev": "nodemon ./dist/server.js"
+        "dev": "nodemon ./dist/server.js",
+        "start": "prisma studio",
+        "reset": "prisma migrate reset",
+        "seed": "prisma db seed"
     },
     "keywords": [],
     "author": "",

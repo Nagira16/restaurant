@@ -8,21 +8,19 @@ import MenuCard from "./MenuCard";
 const MenuList = (): JSX.Element => {
     const [menus, setMenus] = useState<Menu[]>();
     useEffect(() => {
-        const fetchMenus = async () => {
-            const results = await getAllTables<Menu>(Endpoint.menus);
-            setMenus(results);
-        };
         fetchMenus();
     }, []);
 
+    const fetchMenus = async () => {
+        const results = await getAllTables<Menu>(Endpoint.menus);
+        setMenus(results);
+    };
+
     return (
-        <div>
-            <h1>MenuList</h1>
-            <div>
-                {menus?.map((m) => (
-                    <MenuCard menu={m} key={m.id} />
-                ))}
-            </div>
+        <div className="flex justify-center">
+            {menus?.map((m) => (
+                <MenuCard menu={m} key={m.id} />
+            ))}
         </div>
     );
 };

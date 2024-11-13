@@ -8,6 +8,7 @@ import {
     CardFooter
 } from "./ui/card";
 import Image from "next/image";
+import Link from "next/link";
 
 type MenuCardProps = {
     menu: Menu;
@@ -15,21 +16,22 @@ type MenuCardProps = {
 
 const MenuCard = ({ menu }: MenuCardProps) => {
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>{menu.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
+        <Link href={`/menus/${menu.id}`}>
+            <Card className="flex w-[450px] h-[300px] m-2">
                 <Image
                     src={menu.image}
                     alt={menu.name}
-                    width={100}
+                    width={200}
                     height={100}
+                    className=" rounded-l-xl"
                 />
-                <CardDescription>{menu.description}</CardDescription>
-            </CardContent>
-            <CardFooter>$ {menu.price} CAD</CardFooter>
-        </Card>
+                <CardContent className="flex flex-col justify-between items-start my-10">
+                    <CardTitle className="text-xl">{menu.name}</CardTitle>
+                    <CardDescription>{menu.description}</CardDescription>
+                    <p className="font-semibold">${menu.price} CAD</p>
+                </CardContent>
+            </Card>
+        </Link>
     );
 };
 

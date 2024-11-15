@@ -7,6 +7,18 @@ const nextConfig = {
             },
             {
                 hostname: "tb-static.uber.com"
+            },
+            {
+                hostname: "valleydirectfoods.com"
+            },
+            {
+                hostname: "www.simplyrecipes.com"
+            },
+            {
+                hostname: "scontent-nrt1-2.xx.fbcdn.net"
+            },
+            {
+                hostname: "thewoodenskillet.com"
             }
         ]
     }

@@ -1,6 +1,8 @@
 "use client";
 import React from "react";
 import { UserButton, useAuth, SignInButton } from "@clerk/nextjs";
+import Image from "next/image";
+import Link from "next/link";
 
 const Navbar: React.FC = () => {
     const { isSignedIn } = useAuth();
@@ -9,26 +11,40 @@ const Navbar: React.FC = () => {
         <nav className="bg-white border-b border-gray-200 py-3 px-5">
             <div className="flex items-center justify-between max-w-7xl mx-auto">
                 <div className="flex items-center space-x-4">
-                    <span className="text-2xl font-cursive">LOGO</span>
+                    <span className="text-2xl font-cursive">
+                        <Image
+                            src="https://www.donavicky.ca/images/dvickylogo.jpg"
+                            alt="Doña Vicky"
+                            className="h-12 w-auto"
+                            width={32}
+                            height={32}
+                        />
+                    </span>
                     <div className="flex space-x-6">
-                        <a
+                        <Link
                             href="/"
                             className="text-gray-800 hover:text-gray-600"
                         >
-                            Home Menu
-                        </a>
-                        <a
-                            href="/our-story"
+                            Home
+                        </Link>
+                        <Link
+                            href="/"
+                            className="text-gray-800 hover:text-gray-600"
+                        >
+                            Menu
+                        </Link>
+                        <Link
+                            href="/"
                             className="text-gray-800 hover:text-gray-600"
                         >
                             Our Story
-                        </a>
-                        <a
-                            href="/contact"
+                        </Link>
+                        <Link
+                            href="/"
                             className="text-gray-800 hover:text-gray-600"
                         >
                             Contact Us
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 <div>

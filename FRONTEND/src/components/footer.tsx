@@ -1,12 +1,21 @@
 import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 const Footer: React.FC = () => {
     return (
         <footer className="bg-gray-100 py-12">
             <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row justify-between space-y-10 lg:space-y-0">
                 <div className="space-y-4">
-                    {/* Placeholder for Logo */}
-                    <div className="text-2xl font-bold">DONA VICKY LOGO</div>
+                    <div className="text-2xl font-bold">
+                        <Image
+                            src="https://www.donavicky.ca/images/dvickylogo.jpg"
+                            alt="Footer logo"
+                            width={64}
+                            height={64}
+                            className="h-16 w-auto"
+                        />
+                    </div>
                     <address className="not-italic text-gray-600">
                         428 Carrall St, Vancouver, BC
                         <br />
@@ -18,24 +27,24 @@ const Footer: React.FC = () => {
                         V3M 4K4, Canada
                     </address>
                     <div className="flex space-x-4 mt-4">
-                        <a
+                        <Link
                             href="#"
                             className="text-gray-600 hover:text-gray-800"
                         >
                             <i className="fab fa-facebook-f"></i>
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                             href="#"
                             className="text-gray-600 hover:text-gray-800"
                         >
                             <i className="fab fa-instagram"></i>
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                             href="#"
                             className="text-gray-600 hover:text-gray-800"
                         >
                             <i className="fab fa-twitter"></i>
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
@@ -45,36 +54,36 @@ const Footer: React.FC = () => {
                         </h3>
                         <ul className="mt-2 space-y-2">
                             <li>
-                                <a
+                                <Link
                                     href="#"
                                     className="text-gray-600 hover:text-gray-800"
                                 >
                                     About Us
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a
+                                <Link
                                     href="#"
                                     className="text-gray-600 hover:text-gray-800"
                                 >
                                     More Search
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a
+                                <Link
                                     href="#"
                                     className="text-gray-600 hover:text-gray-800"
                                 >
                                     Testimonials
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a
+                                <Link
                                     href="#"
                                     className="text-gray-600 hover:text-gray-800"
                                 >
                                     Events
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -84,36 +93,36 @@ const Footer: React.FC = () => {
                         </h3>
                         <ul className="mt-2 space-y-2">
                             <li>
-                                <a
+                                <Link
                                     href="#"
                                     className="text-gray-600 hover:text-gray-800"
                                 >
                                     Service
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a
+                                <Link
                                     href="#"
                                     className="text-gray-600 hover:text-gray-800"
                                 >
                                     Support
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a
+                                <Link
                                     href="#"
                                     className="text-gray-600 hover:text-gray-800"
                                 >
                                     Terms & Condition
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a
+                                <Link
                                     href="#"
                                     className="text-gray-600 hover:text-gray-800"
                                 >
                                     Privacy
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -123,28 +132,28 @@ const Footer: React.FC = () => {
                         </h3>
                         <ul className="mt-2 space-y-2">
                             <li>
-                                <a
+                                <Link
                                     href="#"
                                     className="text-gray-600 hover:text-gray-800"
                                 >
                                     Special
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a
+                                <Link
                                     href="#"
                                     className="text-gray-600 hover:text-gray-800"
                                 >
                                     Popular
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a
+                                <Link
                                     href="#"
                                     className="text-gray-600 hover:text-gray-800"
                                 >
                                     Categories
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>

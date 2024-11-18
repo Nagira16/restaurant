@@ -4,8 +4,51 @@ import Link from "next/link";
 import Image from "next/image";
 
 const LandingPage: React.FC = () => {
+    const features = [
+        "Fresh and locally sourced ingredients",
+        "Authentic Mexican spices, herbs, and chilies",
+        "Traditional dishes with a modern twist",
+        "Classic street food favorites",
+        "A wide variety of salsas, tacos, and specialties",
+        "Delicious beverages and desserts"
+    ];
+
+    const dishes = [
+        {
+            src: "https://hips.hearstapps.com/hmg-prod/images/grilled-chicken-street-tacos-2-1672869118.jpg?crop=0.9059089973234508xw:1xh;center,top&resize=980:*",
+            alt: "Mexican Dish 1"
+        },
+        {
+            src: "https://hips.hearstapps.com/hmg-prod/images/mexican-chicken-casserole-vertical-6421f46f8cb14.jpg?crop=0.834xw:1.00xh;0.0308xw,0&resize=980:*",
+            alt: "Mexican Dish 2"
+        }
+    ];
+
+    const chefs = [
+        {
+            name: "Chef Juan Perez",
+            experience: "15 Years Experience",
+            description:
+                "Specializes in traditional Mexican street food and gourmet tacos.",
+            imgSrc: "https://img.freepik.com/premium-photo/professional-chef-man-showing-sign-delicious-male-chef-white-uniform-with-perfect-sign_763111-6717.jpg?w=740"
+        },
+        {
+            name: "Chef Maria Gomez",
+            experience: "10 Years Experience",
+            description:
+                "Expert in desserts and sweets, bringing creative spins to classic dishes.",
+            imgSrc: "https://img.freepik.com/premium-photo/professional-chef-man-showing-sign-delicious-male-chef-white-uniform-with-perfect-sign_763111-6717.jpg?w=740"
+        },
+        {
+            name: "Chef Luis Ramirez",
+            experience: "8 Years Experience",
+            description: "Focuses on authentic mole and regional specialties.",
+            imgSrc: "https://img.freepik.com/premium-photo/professional-chef-man-showing-sign-delicious-male-chef-white-uniform-with-perfect-sign_763111-6717.jpg?w=740"
+        }
+    ];
+
     return (
-        <div className="bg-white py-16 px-8 sm:px-12 md:px-16 lg:px-20 xl:px-24">
+        <div className="bg-white py-16 px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16">
             <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between min-h-[70vh]">
                 <div className="max-w-lg">
                     <h1 className="text-5xl font-bold text-gray-900 mb-6">
@@ -20,12 +63,12 @@ const LandingPage: React.FC = () => {
                     </p>
                     <div className="flex space-x-4 items-center">
                         <Link href="/learn-more" passHref>
-                            <span className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 cursor-pointer text-lg inline-flex items-center justify-center">
+                            <span className="px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800 cursor-pointer text-lg inline-flex items-center justify-center">
                                 Learn More
                             </span>
                         </Link>
                         <SignInButton mode="modal">
-                            <button className="px-6 py-3 border border-black rounded-lg hover:bg-gray-100 text-lg inline-flex items-center justify-center">
+                            <button className="px-6 py-3 border border-black rounded-full hover:bg-gray-100 text-lg inline-flex items-center justify-center">
                                 Sign In
                             </button>
                         </SignInButton>
@@ -58,39 +101,27 @@ const LandingPage: React.FC = () => {
                                 you:
                             </p>
                             <ul className="list-disc pl-5 text-gray-700 mb-6 space-y-2">
-                                <li>Fresh and locally sourced ingredients</li>
-                                <li>
-                                    Authentic Mexican spices, herbs, and chilies
-                                </li>
-                                <li>Traditional dishes with a modern twist</li>
-                                <li>Classic street food favorites</li>
-                                <li>
-                                    A wide variety of salsas, tacos, and
-                                    specialties
-                                </li>
-                                <li>Delicious beverages and desserts</li>
+                                {features.map((feature, index) => (
+                                    <li key={index}>{feature}</li>
+                                ))}
                             </ul>
                             <Link href="/read-more" passHref>
-                                <span className="inline-block px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 cursor-pointer">
+                                <span className="inline-block px-6 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 cursor-pointer">
                                     Read More
                                 </span>
                             </Link>
                         </div>
                         <div className="lg:w-[55%] flex space-x-4">
-                            <Image
-                                src="https://hips.hearstapps.com/hmg-prod/images/grilled-chicken-street-tacos-2-1672869118.jpg?crop=0.9059089973234508xw:1xh;center,top&resize=980:*"
-                                alt="Mexican Dish 1"
-                                width={300}
-                                height={400}
-                                className="object-cover rounded-lg shadow-lg"
-                            />
-                            <Image
-                                src="https://hips.hearstapps.com/hmg-prod/images/mexican-chicken-casserole-vertical-6421f46f8cb14.jpg?crop=0.834xw:1.00xh;0.0308xw,0&resize=980:*"
-                                alt="Mexican Dish 2"
-                                width={300}
-                                height={400}
-                                className="object-cover rounded-lg shadow-lg"
-                            />
+                            {dishes.map((dish, index) => (
+                                <Image
+                                    key={index}
+                                    src={dish.src}
+                                    alt={dish.alt}
+                                    width={300}
+                                    height={400}
+                                    className="object-cover rounded-lg shadow-lg"
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -107,69 +138,31 @@ const LandingPage: React.FC = () => {
                         served is a masterpiece.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div className="bg-white p-8 rounded-lg shadow-lg text-center">
-                            <div className="w-40 h-40 mx-auto mb-4">
-                                <Image
-                                    src="https://img.freepik.com/premium-photo/professional-chef-man-showing-sign-delicious-male-chef-white-uniform-with-perfect-sign_763111-6717.jpg?w=740"
-                                    alt="Chef Juan Perez"
-                                    width={160}
-                                    height={160}
-                                    className="object-cover rounded-full"
-                                />
+                        {chefs.map((chef, index) => (
+                            <div
+                                key={index}
+                                className="bg-white p-8 rounded-lg shadow-lg text-center"
+                            >
+                                <div className="w-40 h-40 mx-auto mb-4">
+                                    <Image
+                                        src={chef.imgSrc}
+                                        alt={chef.name}
+                                        width={160}
+                                        height={160}
+                                        className="object-cover rounded-full"
+                                    />
+                                </div>
+                                <h4 className="text-xl font-bold text-gray-900 mb-2">
+                                    {chef.name}
+                                </h4>
+                                <p className="text-lg text-green-600 mb-1">
+                                    {chef.experience}
+                                </p>
+                                <p className="text-gray-600 mb-4">
+                                    {chef.description}
+                                </p>
                             </div>
-                            <h4 className="text-xl font-bold text-gray-900 mb-2">
-                                Chef Juan Perez
-                            </h4>
-                            <p className="text-lg text-green-600 mb-1">
-                                15 Years Experience
-                            </p>
-                            <p className="text-gray-600 mb-4">
-                                Specializes in traditional Mexican street food
-                                and gourmet tacos.
-                            </p>
-                        </div>
-                        <div className="bg-white p-8 rounded-lg shadow-lg text-center">
-                            <div className="w-40 h-40 mx-auto mb-4">
-                                <Image
-                                    src="https://img.freepik.com/premium-photo/professional-chef-man-showing-sign-delicious-male-chef-white-uniform-with-perfect-sign_763111-6717.jpg?w=740"
-                                    alt="Chef Maria Gomez"
-                                    width={160}
-                                    height={160}
-                                    className="object-cover rounded-full"
-                                />
-                            </div>
-                            <h4 className="text-xl font-bold text-gray-900 mb-2">
-                                Chef Maria Gomez
-                            </h4>
-                            <p className="text-lg text-green-600 mb-1">
-                                10 Years Experience
-                            </p>
-                            <p className="text-gray-600 mb-4">
-                                Expert in desserts and sweets, bringing creative
-                                spins to classic dishes.
-                            </p>
-                        </div>
-                        <div className="bg-white p-8 rounded-lg shadow-lg text-center">
-                            <div className="w-40 h-40 mx-auto mb-4">
-                                <Image
-                                    src="https://img.freepik.com/premium-photo/professional-chef-man-showing-sign-delicious-male-chef-white-uniform-with-perfect-sign_763111-6717.jpg?w=740"
-                                    alt="Chef Luis Ramirez"
-                                    width={160}
-                                    height={160}
-                                    className="object-cover rounded-full"
-                                />
-                            </div>
-                            <h4 className="text-xl font-bold text-gray-900 mb-2">
-                                Chef Luis Ramirez
-                            </h4>
-                            <p className="text-lg text-green-600 mb-1">
-                                8 Years Experience
-                            </p>
-                            <p className="text-gray-600 mb-4">
-                                Focuses on authentic mole and regional
-                                specialties.
-                            </p>
-                        </div>
+                        ))}
                     </div>
                 </div>
                 <div className="mt-16 text-center">
@@ -184,7 +177,7 @@ const LandingPage: React.FC = () => {
                         guidelines before making a reservation.
                     </p>
                     <Link href="/book-table" passHref>
-                        <span className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 cursor-pointer">
+                        <span className="px-6 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 cursor-pointer">
                             Book a Table
                         </span>
                     </Link>

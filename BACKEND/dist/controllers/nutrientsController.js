@@ -33,14 +33,23 @@ exports.getAllNutrients = getAllNutrients;
 const getNutrientByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const menu_id = req.params.id;
-        const nutrient = yield prismaClient_1.prisma.nutrients.findMany({
+        const nutrient = yield prismaClient_1.prisma.nutrients.findUnique({
             where: { menu_id }
         });
-        res.status(200).json({
-            results: nutrient,
-            message: "Nutrient Found Successfully",
-            success: true
-        });
+        if (nutrient) {
+            res.status(200).json({
+                results: nutrient,
+                message: "Nutrient Found Successfully",
+                success: true
+            });
+        }
+        else {
+            res.status(404).json({
+                results: nutrient,
+                message: "Nutrient Not Found Successfully",
+                success: false
+            });
+        }
     }
     catch (error) {
         console.error(error);

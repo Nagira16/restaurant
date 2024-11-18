@@ -104,7 +104,7 @@ export type FetchData = {
         | Payment[]
         | Order_Details[]
         | Item_Order_Details[]
-        | Nutrients[]
+        | Nutrients
         | Category[]
         | null;
 };

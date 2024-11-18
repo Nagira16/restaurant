@@ -17,7 +17,7 @@ const MenuList = (): JSX.Element => {
     };
 
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center items-stretch flex-wrap">
             {menus?.map((m) => (
                 <MenuCard menu={m} key={m.id} />
             ))}

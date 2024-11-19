@@ -9,6 +9,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
+
         <html lang="en">
             <body className="bg-background text-foreground antialiased min-h-screen flex flex-col gap-0">
                 <ClerkProvider>

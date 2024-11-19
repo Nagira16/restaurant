@@ -9,13 +9,17 @@ export const getAllUsers = async (_: Request, res: Response): Promise<void> => {
         const allUsers: User[] = await prisma.user.findMany();
 
         res.status(200).json({
-            users: allUsers,
+            results: allUsers,
             message: "Users Found Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -32,20 +36,24 @@ export const getUserById = async (
 
         if (user) {
             res.status(200).json({
-                user,
+                results: user,
                 message: "User Found Successfully",
                 success: true
             });
         } else {
             res.status(404).json({
-                user,
+                results: user,
                 message: "User Not Found",
                 success: false
             });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -71,6 +79,7 @@ export const createUser = async (
         const exist: boolean = await findUserByEmail(email);
         if (exist) {
             res.status(409).json({
+                results: null,
                 message: "User with this email already exists.",
                 success: false
             });
@@ -98,13 +107,17 @@ export const createUser = async (
         });
 
         res.status(201).json({
-            user: newUser,
+            results: newUser,
             message: "User Created Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -134,7 +147,7 @@ export const updateUser = async (
 
         if (!user) {
             res.status(404).json({
-                user,
+                results: user,
                 message: "User Not Found",
                 success: false
             });
@@ -148,6 +161,7 @@ export const updateUser = async (
             });
             if (!role) {
                 res.status(404).json({
+                    results: null,
                     message: `Role ${role_name} Not Found.`,
                     success: false
                 });
@@ -169,13 +183,17 @@ export const updateUser = async (
         });
 
         res.status(200).json({
-            user: updatedUser,
+            results: updatedUser,
             message: "User Updated Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -190,7 +208,11 @@ export const deleteUser = async (
         });
 
         if (!user) {
-            res.status(404).json({ user, message: "User Not Found" });
+            res.status(404).json({
+                results: user,
+                message: "User Not Found",
+                success: false
+            });
             return;
         }
 
@@ -199,12 +221,17 @@ export const deleteUser = async (
         });
 
         res.status(200).json({
-            user: deletedUser,
-            message: "User Deleted Successfully"
+            results: deletedUser,
+            message: "User Deleted Successfully",
+            success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed" });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 

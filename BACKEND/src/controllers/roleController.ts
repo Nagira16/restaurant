@@ -7,13 +7,17 @@ export const getAllRoles = async (_: Request, res: Response): Promise<void> => {
         const allRoles: Role[] = await prisma.role.findMany();
 
         res.status(200).json({
-            role: allRoles,
+            results: allRoles,
             message: "Roles Found Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -30,20 +34,24 @@ export const getRoleById = async (
 
         if (role) {
             res.status(200).json({
-                role,
+                results: role,
                 message: "Role Found Successfully",
                 success: true
             });
         } else {
             res.status(404).json({
-                role,
+                results: role,
                 message: "Role Not Found",
                 success: false
             });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -61,13 +69,17 @@ export const createRole = async (
         });
 
         res.status(201).json({
-            Role: newRole,
+            results: newRole,
             message: "Role Created Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -85,7 +97,7 @@ export const updateRole = async (
 
         if (!role) {
             res.status(404).json({
-                role,
+                results: role,
                 message: "Role Not Found",
                 success: false
             });
@@ -100,13 +112,17 @@ export const updateRole = async (
         });
 
         res.status(200).json({
-            Role: updatedRole,
+            results: updatedRole,
             message: "Role Updated Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -122,7 +138,7 @@ export const deleteRole = async (
 
         if (!role) {
             res.status(404).json({
-                role,
+                results: role,
                 message: "Role Not Found",
                 success: false
             });
@@ -134,12 +150,16 @@ export const deleteRole = async (
         });
 
         res.status(200).json({
-            Role: deletedRole,
+            results: deletedRole,
             message: "Role Deleted Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };

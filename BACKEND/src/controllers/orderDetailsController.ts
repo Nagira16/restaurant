@@ -12,13 +12,17 @@ export const getAllOrderDetails = async (
             await prisma.order_Details.findMany();
 
         res.status(200).json({
-            orderDetails: allOrderDetails,
+            results: allOrderDetails,
             message: "Order Details Found Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -40,13 +44,17 @@ export const getAllOrderDetailsByUserId = async (
             });
 
         res.status(200).json({
-            orderDetails: allOrderDetails,
+            results: allOrderDetails,
             message: "Order Details Found Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -64,20 +72,24 @@ export const getOrderDetailsById = async (
 
         if (orderDetails) {
             res.status(200).json({
-                orderDetails,
+                results: orderDetails,
                 message: "Order Details Found Successfully",
                 success: true
             });
         } else {
             res.status(404).json({
-                orderDetails,
+                results: orderDetails,
                 message: "Order Details Not Found",
                 success: false
             });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -97,7 +109,11 @@ export const createOrderDetails = async (
         const user: User | null = await findUserByClerkId(req);
 
         if (!user) {
-            res.status(404).json({ message: "User Not Found", success: false });
+            res.status(404).json({
+                results: null,
+                message: "User Not Found",
+                success: false
+            });
             return;
         }
 
@@ -111,13 +127,17 @@ export const createOrderDetails = async (
             });
 
         res.status(201).json({
-            orderDetails: newOrderDetails,
+            results: newOrderDetails,
             message: "Order Details Created Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -144,7 +164,7 @@ export const updateOrderDetails = async (
 
         if (!orderDetails) {
             res.status(404).json({
-                orderDetails,
+                results: orderDetails,
                 message: "Order Details Not Found",
                 success: false
             });
@@ -162,13 +182,17 @@ export const updateOrderDetails = async (
             });
 
         res.status(200).json({
-            orderDetails: updatedOrderDetails,
+            results: updatedOrderDetails,
             message: "Order Details Updated Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };
 
@@ -185,7 +209,7 @@ export const deleteOrderDetails = async (
 
         if (!orderDetails) {
             res.status(404).json({
-                orderDetails,
+                results: orderDetails,
                 message: "Order Details Not Found",
                 success: false
             });
@@ -198,12 +222,16 @@ export const deleteOrderDetails = async (
             });
 
         res.status(200).json({
-            orderDetails: deletedOrder_Details,
+            results: deletedOrder_Details,
             message: "Order Details Deleted Successfully",
             success: true
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 };

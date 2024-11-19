@@ -16,14 +16,18 @@ const getAllReviews = (_, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const allReviews = yield prismaClient_1.prisma.review.findMany();
         res.status(200).json({
-            reviews: allReviews,
+            results: allReviews,
             message: "Reviews Found Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getAllReviews = getAllReviews;
@@ -34,14 +38,18 @@ const getAllReviewsByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, fu
             where: { menu_id }
         });
         res.status(200).json({
-            reviews: allReviews,
+            results: allReviews,
             message: "Reviews Found Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getAllReviewsByMenuId = getAllReviewsByMenuId;
@@ -53,14 +61,14 @@ const getReviewById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
         if (review) {
             res.status(200).json({
-                review,
+                results: review,
                 message: "Review Found Successfully",
                 success: true
             });
         }
         else {
             res.status(404).json({
-                review,
+                results: review,
                 message: "Review Not Found",
                 success: false
             });
@@ -68,7 +76,11 @@ const getReviewById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.getReviewById = getReviewById;
@@ -77,7 +89,11 @@ const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const { menu_id, stars, comments } = req.body;
         const user = yield (0, userController_1.findUserByClerkId)(req);
         if (!user) {
-            res.status(404).json({ message: "User Not Found", success: false });
+            res.status(404).json({
+                results: null,
+                message: "User Not Found",
+                success: false
+            });
             return;
         }
         const newReview = yield prismaClient_1.prisma.review.create({
@@ -89,14 +105,18 @@ const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             }
         });
         res.status(201).json({
-            review: newReview,
+            results: newReview,
             message: "Review Created Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.createReview = createReview;
@@ -109,7 +129,7 @@ const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
         if (!review) {
             res.status(404).json({
-                review,
+                results: review,
                 message: "Review Not Found",
                 success: false
             });
@@ -123,14 +143,18 @@ const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             }
         });
         res.status(200).json({
-            review: updatedReview,
+            results: updatedReview,
             message: "Review Updated Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.updateReview = updateReview;
@@ -142,7 +166,7 @@ const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
         if (!review) {
             res.status(404).json({
-                review,
+                results: review,
                 message: "Review Not Found",
                 success: false
             });
@@ -152,14 +176,18 @@ const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             where: { id: review.id }
         });
         res.status(200).json({
-            review: deletedReview,
+            results: deletedReview,
             message: "Review Deleted Successfully",
             success: true
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Server Failed", success: false });
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
     }
 });
 exports.deleteReview = deleteReview;

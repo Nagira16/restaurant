@@ -4,14 +4,15 @@ import {
     createReview,
     updateReview,
     deleteReview,
-    getAllReviewsByMenuId
+    getAllReviewsByMenuId,
+    getStarsByMenuId
 } from "../controllers/reviewController";
 
 const router = Router();
 
-router.get("/", getAllReviewsByMenuId);
+router.get("/stars/:id", getStarsByMenuId);
 router.post("/", createReview);
-router.get("/:id", getReviewById);
+router.get("/:id", getAllReviewsByMenuId);
 router.put("/:id", updateReview);
 router.delete("/:id", deleteReview);
 

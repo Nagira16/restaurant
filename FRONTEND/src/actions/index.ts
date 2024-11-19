@@ -1,6 +1,6 @@
 "use server";
 
-import { Endpoint, FetchData } from "@/types";
+import { Endpoint, FetchData, Review } from "@/types";
 
 export const getAllTables = async <T>(endpoint: Endpoint): Promise<T[]> => {
     const res: Response = await fetch(`http://localhost:3001/${endpoint}`);
@@ -30,5 +30,36 @@ export const getAllTablesById = async <T>(
         console.log(data.results);
 
         return data.results as T;
+    }
+};
+
+export const createNewReview = async (
+    token: string,
+    menu_id: string,
+    rating: number,
+    comments: string
+): Promise<Review | null> => {
+    const res: Response = await fetch(`http://localhost:3001/reviews`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            menu_id,
+            rating,
+            comments
+        })
+    });
+
+    const data: FetchData = await res.json();
+    console.log(data);
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Review;
     }
 };

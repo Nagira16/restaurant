@@ -30,7 +30,7 @@ export const getAllReviewsByMenuId = async (
     res: Response
 ): Promise<void> => {
     try {
-        const { menu_id }: { menu_id: string } = req.body;
+        const menu_id: string = req.params.id;
 
         const allReviews: Review[] = await prisma.review.findMany({
             where: { menu_id }
@@ -92,9 +92,9 @@ export const createReview = async (
     try {
         const {
             menu_id,
-            stars,
+            rating,
             comments
-        }: { menu_id: string; stars: number; comments: string } = req.body;
+        }: { menu_id: string; rating: number; comments?: string } = req.body;
 
         const user: User | null = await findUserByClerkId(req);
 
@@ -107,11 +107,20 @@ export const createReview = async (
             return;
         }
 
+        if (rating >= 5) {
+            res.status(404).json({
+                results: null,
+                message: "Input Error Stars ",
+                success: false
+            });
+            return;
+        }
+
         const newReview: Review = await prisma.review.create({
             data: {
                 user_id: user.id,
                 menu_id,
-                stars,
+                stars: rating,
                 comments
             }
         });
@@ -137,7 +146,7 @@ export const updateReview = async (
 ): Promise<void> => {
     try {
         const id: string = req.params.id;
-        const { stars, comments }: { stars?: number; comments?: string } =
+        const { rating, comments }: { rating?: number; comments?: string } =
             req.body;
 
         const review: Review | null = await prisma.review.findUnique({
@@ -156,7 +165,7 @@ export const updateReview = async (
         const updatedReview: Review = await prisma.review.update({
             where: { id: review.id },
             data: {
-                stars: stars || review.stars,
+                stars: rating || review.stars,
                 comments: comments || review.comments
             }
         });
@@ -204,6 +213,38 @@ export const deleteReview = async (
             message: "Review Deleted Successfully",
             success: true
         });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
+    }
+};
+
+export const getStarsByMenuId = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const menu_id: string = req.params.id;
+
+        const allReviews: Review[] = await prisma.review.findMany({
+            where: {
+                menu_id
+            }
+        });
+
+        const totalStars: number = allReviews.reduce(
+            (prev, curr) => prev + curr.stars,
+            0
+        );
+
+        const averageStars: number = totalStars / allReviews.length;
+
+        return;
+        console.log(averageStars);
     } catch (error) {
         console.error(error);
         res.status(500).json({

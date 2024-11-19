@@ -1,17 +1,12 @@
-import SingleMenu from "@/components/SingleMenu";
+import SingleMenuPage from "@/pages/SingleMenuPage";
 import React from "react";
 
-const SingleMenuPage = ({
-    params
-}: {
-    params: { id: string };
-}): JSX.Element => {
+const page = ({ params }: { params: { id: string } }): JSX.Element => {
     return (
-        <div>
-            <h1>SingleMenuPage</h1>
-            <SingleMenu id={params.id} />
+        <div className="text-left my-4">
+            <SingleMenuPage menu_id={params.id} />
         </div>
     );
 };
 
-export default SingleMenuPage;
+export default page;

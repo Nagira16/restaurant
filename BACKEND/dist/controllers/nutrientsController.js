@@ -47,7 +47,7 @@ const getNutrientByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, func
         else {
             res.status(404).json({
                 results: nutrient,
-                message: "Nutrient Not Found Successfully",
+                message: "Nutrient Not Found",
                 success: false
             });
         }

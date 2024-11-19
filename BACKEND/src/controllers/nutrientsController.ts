@@ -46,7 +46,7 @@ export const getNutrientByMenuId = async (
         } else {
             res.status(404).json({
                 results: nutrient,
-                message: "Nutrient Not Found Successfully",
+                message: "Nutrient Not Found",
                 success: false
             });
         }

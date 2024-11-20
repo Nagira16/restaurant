@@ -10,7 +10,7 @@ type NutrientProps = {
     menu_id: string;
 };
 
-const MenuNutrient = ({ menu_id }: NutrientProps) => {
+const MenuNutrient = ({ menu_id }: NutrientProps): JSX.Element => {
     const [nutrient, setNutrient] = useState<Nutrient | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 

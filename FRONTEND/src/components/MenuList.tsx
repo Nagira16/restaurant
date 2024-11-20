@@ -2,13 +2,17 @@
 
 import { getAllTables } from "@/actions";
 import { Endpoint, Menu } from "@/types";
-import { Suspense, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import MenuCard from "./MenuCard";
 import { Skeleton } from "./ui/skeleton";
 import { Card, CardContent, CardDescription, CardTitle } from "./ui/card";
 
-const MenuList = (): JSX.Element => {
-    const [menus, setMenus] = useState<Menu[]>();
+type MenuListProps = {
+    menus: Menu[];
+    setMenus: Dispatch<SetStateAction<Menu[]>>;
+};
+
+const MenuList = ({ menus, setMenus }: MenuListProps): JSX.Element => {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {

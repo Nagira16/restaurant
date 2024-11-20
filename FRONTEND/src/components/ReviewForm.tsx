@@ -33,7 +33,7 @@ const ReviewForm = ({
     setRating,
     setComments,
     handleSubmit
-}: ReviewFormProps) => {
+}: ReviewFormProps): JSX.Element => {
     return (
         <Dialog>
             <DialogTrigger asChild>

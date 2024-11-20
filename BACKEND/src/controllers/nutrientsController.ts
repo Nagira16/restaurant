@@ -31,15 +31,23 @@ export const getNutrientByMenuId = async (
     try {
         const menu_id: string = req.params.id;
 
-        const nutrient: Nutrients[] = await prisma.nutrients.findMany({
+        const nutrient: Nutrients | null = await prisma.nutrients.findUnique({
             where: { menu_id }
         });
 
-        res.status(200).json({
-            results: nutrient,
-            message: "Nutrient Found Successfully",
-            success: true
-        });
+        if (nutrient) {
+            res.status(200).json({
+                results: nutrient,
+                message: "Nutrient Found Successfully",
+                success: true
+            });
+        } else {
+            res.status(404).json({
+                results: nutrient,
+                message: "Nutrient Not Found",
+                success: false
+            });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteReview = exports.updateReview = exports.createReview = exports.getReviewById = exports.getAllReviewsByMenuId = exports.getAllReviews = void 0;
+exports.getRatesByMenuId = exports.deleteReview = exports.updateReview = exports.createReview = exports.getReviewById = exports.getAllReviewsByMenuId = exports.getAllReviews = void 0;
 const prismaClient_1 = require("../prismaClient");
 const userController_1 = require("./userController");
 const getAllReviews = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -33,7 +33,7 @@ const getAllReviews = (_, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getAllReviews = getAllReviews;
 const getAllReviewsByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { menu_id } = req.body;
+        const menu_id = req.params.id;
         const allReviews = yield prismaClient_1.prisma.review.findMany({
             where: { menu_id }
         });
@@ -86,7 +86,7 @@ const getReviewById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.getReviewById = getReviewById;
 const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { menu_id, stars, comments } = req.body;
+        const { menu_id, rating, comments } = req.body;
         const user = yield (0, userController_1.findUserByClerkId)(req);
         if (!user) {
             res.status(404).json({
@@ -96,11 +96,19 @@ const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             });
             return;
         }
+        if (rating >= 5) {
+            res.status(404).json({
+                results: null,
+                message: "Input Error Stars ",
+                success: false
+            });
+            return;
+        }
         const newReview = yield prismaClient_1.prisma.review.create({
             data: {
                 user_id: user.id,
                 menu_id,
-                stars,
+                stars: rating,
                 comments
             }
         });
@@ -123,7 +131,7 @@ exports.createReview = createReview;
 const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
-        const { stars, comments } = req.body;
+        const { rating, comments } = req.body;
         const review = yield prismaClient_1.prisma.review.findUnique({
             where: { id }
         });
@@ -138,7 +146,7 @@ const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const updatedReview = yield prismaClient_1.prisma.review.update({
             where: { id: review.id },
             data: {
-                stars: stars || review.stars,
+                stars: rating || review.stars,
                 comments: comments || review.comments
             }
         });
@@ -191,3 +199,30 @@ const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.deleteReview = deleteReview;
+const getRatesByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const menu_id = req.params.id;
+        const allReviews = yield prismaClient_1.prisma.review.findMany({
+            where: {
+                menu_id
+            }
+        });
+        const totalStars = allReviews.reduce((prev, curr) => prev + curr.stars, 0);
+        const averageRating = totalStars / allReviews.length;
+        res.status(200).json({
+            results: averageRating || 0,
+            counts: allReviews.length || 0,
+            message: "Rating Found Successfully",
+            success: true
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
+    }
+});
+exports.getRatesByMenuId = getRatesByMenuId;

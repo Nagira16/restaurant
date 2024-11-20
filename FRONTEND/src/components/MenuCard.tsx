@@ -1,7 +1,8 @@
+"use client";
+
 import { Menu } from "@/types";
 import {
     Card,
-    CardHeader,
     CardTitle,
     CardDescription,
     CardContent,
@@ -9,12 +10,32 @@ import {
 } from "./ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { getReviewRate } from "@/actions";
+import { Rating } from "@smastrom/react-rating";
+import "@smastrom/react-rating/style.css";
 
 type MenuCardProps = {
     menu: Menu;
 };
 
 const MenuCard = ({ menu }: MenuCardProps) => {
+    const [rating, setRating] = useState<number | null>(0);
+    const [counter, setCounter] = useState<number | null>(0);
+    useEffect(() => {
+        fetchRating();
+    }, []);
+
+    const fetchRating = async () => {
+        const data: { results: number; counts: number } | null =
+            await getReviewRate(menu.id);
+
+        if (data) {
+            setRating(data.results);
+            setCounter(data.counts);
+        }
+    };
+
     return (
         <Link href={`/menus/${menu.id}`}>
             <Card className="flex w-[450px] h-[300px] m-2">
@@ -25,10 +46,21 @@ const MenuCard = ({ menu }: MenuCardProps) => {
                     height={100}
                     className=" rounded-l-xl"
                 />
-                <CardContent className="flex flex-col justify-between items-start my-10">
+                <CardContent className="flex flex-col justify-between items-start my-10 text-left">
                     <CardTitle className="text-xl">{menu.name}</CardTitle>
                     <CardDescription>{menu.description}</CardDescription>
-                    <p className="font-semibold">${menu.price} CAD</p>
+                    <div className="flex space-x-2">
+                        {rating !== null && (
+                            <Rating
+                                value={rating}
+                                readOnly
+                                className="max-w-[80px]"
+                            />
+                        )}
+                        {rating !== null && (
+                            <p className="text-sm">({counter})</p>
+                        )}
+                    </div>
                 </CardContent>
             </Card>
         </Link>

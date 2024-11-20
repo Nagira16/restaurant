@@ -67,7 +67,7 @@ export type Order_Details = {
     date: Date;
 };
 
-export type Nutrients = {
+export type Nutrient = {
     id: string;
     menu_id: string;
     calories: number;
@@ -93,19 +93,22 @@ export type Category = {
 
 export type FetchData = {
     message: string;
+    counts?: number;
     success: boolean;
     results:
         | Menu[]
         | User[]
         | Table[]
         | Role[]
+        | Review
         | Review[]
         | Reservation[]
         | Payment[]
         | Order_Details[]
         | Item_Order_Details[]
-        | Nutrients[]
+        | Nutrient
         | Category[]
+        | number
         | null;
 };
 

@@ -10,7 +10,7 @@ const Navbar: React.FC = () => {
     const links = [
         { href: "/menus", label: "Menu" },
         { href: "/", label: "Our Story" },
-        { href: "/", label: "Contact Us" }
+        { href: "/contact", label: "Contact Us" }
     ];
 
     return (

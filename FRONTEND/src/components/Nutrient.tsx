@@ -10,11 +10,17 @@ type NutrientProps = {
 const MenuNutrient = async ({
     menu_id
 }: NutrientProps): Promise<JSX.Element> => {
-    const nutrient = await getAllTablesById<Nutrient | null>(
+    const nutrientData = await getAllTablesById<Nutrient | Nutrient[] | null>(
         Endpoint.nutrients,
         menu_id
     );
-    console.log(nutrient);
+
+    let nutrient;
+    if (Array.isArray(nutrientData)) {
+        nutrient = nutrientData.length > 0 ? nutrientData[0] : null;
+    } else {
+        nutrient = nutrientData;
+    }
 
     return (
         <>

@@ -82,7 +82,11 @@ const Footer: React.FC = () => {
                                 {section.links.map((link) => (
                                     <li key={link}>
                                         <Link
-                                            href="#"
+                                            href={
+                                                link === "About Us"
+                                                    ? "/about"
+                                                    : "#"
+                                            }
                                             className="text-gray-600 hover:text-gray-800"
                                         >
                                             {link}

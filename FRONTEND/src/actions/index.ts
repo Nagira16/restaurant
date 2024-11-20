@@ -63,3 +63,22 @@ export const createNewReview = async (
         return data.results as Review;
     }
 };
+
+export const getReviewRate = async (
+    menu_id: string
+): Promise<{ results: number; counts: number } | null> => {
+    const res: Response = await fetch(
+        `http://localhost:3001/reviews/rate/${menu_id}`
+    );
+    const data: FetchData = await res.json();
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return {
+            results: data.results as number,
+            counts: data.counts as number
+        };
+    }
+};

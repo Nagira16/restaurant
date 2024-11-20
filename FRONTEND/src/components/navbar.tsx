@@ -8,7 +8,7 @@ const Navbar: React.FC = () => {
     const { isSignedIn } = useAuth();
 
     const links = [
-        { href: "/", label: "Menu" },
+        { href: "/menus", label: "Menu" },
         { href: "/", label: "Our Story" },
         { href: "/", label: "Contact Us" }
     ];

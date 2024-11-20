@@ -35,8 +35,6 @@ export const getNutrientByMenuId = async (
             where: { menu_id }
         });
 
-        console.log(nutrient);
-
         if (nutrient) {
             res.status(200).json({
                 results: nutrient,

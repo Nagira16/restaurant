@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getStarsByMenuId = exports.deleteReview = exports.updateReview = exports.createReview = exports.getReviewById = exports.getAllReviewsByMenuId = exports.getAllReviews = void 0;
+exports.getRatesByMenuId = exports.deleteReview = exports.updateReview = exports.createReview = exports.getReviewById = exports.getAllReviewsByMenuId = exports.getAllReviews = void 0;
 const prismaClient_1 = require("../prismaClient");
 const userController_1 = require("./userController");
 const getAllReviews = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -199,7 +199,7 @@ const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.deleteReview = deleteReview;
-const getStarsByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getRatesByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const menu_id = req.params.id;
         const allReviews = yield prismaClient_1.prisma.review.findMany({
@@ -208,9 +208,13 @@ const getStarsByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, functio
             }
         });
         const totalStars = allReviews.reduce((prev, curr) => prev + curr.stars, 0);
-        const averageStars = totalStars / allReviews.length;
-        return;
-        console.log(averageStars);
+        const averageRating = totalStars / allReviews.length;
+        res.status(200).json({
+            results: averageRating || 0,
+            counts: allReviews.length || 0,
+            message: "Rating Found Successfully",
+            success: true
+        });
     }
     catch (error) {
         console.error(error);
@@ -221,4 +225,4 @@ const getStarsByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
 });
-exports.getStarsByMenuId = getStarsByMenuId;
+exports.getRatesByMenuId = getRatesByMenuId;

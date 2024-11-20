@@ -36,7 +36,6 @@ const getNutrientByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, func
         const nutrient = yield prismaClient_1.prisma.nutrients.findUnique({
             where: { menu_id }
         });
-        console.log(nutrient);
         if (nutrient) {
             res.status(200).json({
                 results: nutrient,

@@ -39,6 +39,9 @@ const nextConfig = {
             },
             {
                 hostname: "thewoodenskillet.com"
+            },
+            {
+                hostname: "scontent.fcxh2-1.fna.fbcdn.net"
             }
         ]
     }

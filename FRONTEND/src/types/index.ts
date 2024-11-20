@@ -93,6 +93,7 @@ export type Category = {
 
 export type FetchData = {
     message: string;
+    counts?: number;
     success: boolean;
     results:
         | Menu[]
@@ -107,6 +108,7 @@ export type FetchData = {
         | Item_Order_Details[]
         | Nutrient
         | Category[]
+        | number
         | null;
 };
 

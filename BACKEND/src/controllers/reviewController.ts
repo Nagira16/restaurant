@@ -2,6 +2,7 @@ import { Review, User } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
 import { findUserByClerkId } from "./userController";
+import { json } from "stream/consumers";
 
 export const getAllReviews = async (
     _: Request,
@@ -223,7 +224,7 @@ export const deleteReview = async (
     }
 };
 
-export const getStarsByMenuId = async (
+export const getRatesByMenuId = async (
     req: Request,
     res: Response
 ): Promise<void> => {
@@ -241,10 +242,14 @@ export const getStarsByMenuId = async (
             0
         );
 
-        const averageStars: number = totalStars / allReviews.length;
+        const averageRating: number | null = totalStars / allReviews.length;
 
-        return;
-        console.log(averageStars);
+        res.status(200).json({
+            results: averageRating || 0,
+            counts: allReviews.length || 0,
+            message: "Rating Found Successfully",
+            success: true
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({

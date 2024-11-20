@@ -9,8 +9,8 @@ import {
     CardFooter
 } from "./ui/card";
 import { Endpoint, Review } from "@/types";
-import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
+import { Rating } from "@smastrom/react-rating";
 import ReviewForm from "./ReviewForm";
 import { createNewReview, getAllTablesById } from "@/actions";
 import { useAuth } from "@clerk/nextjs";
@@ -57,7 +57,11 @@ const Reviews = ({ menu_id }: ReviewsProp): JSX.Element => {
                             <CardDescription className="h-32 ">
                                 {reviews.map((r) => (
                                     <div>
-                                        <Rating value={r.stars} readOnly />
+                                        <Rating
+                                            value={r.stars}
+                                            readOnly
+                                            className="max-w-[150px]"
+                                        />
                                         <p>{r.comments}</p>
                                     </div>
                                 ))}

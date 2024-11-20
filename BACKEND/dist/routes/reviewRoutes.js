@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const reviewController_1 = require("../controllers/reviewController");
 const router = (0, express_1.Router)();
-router.get("/stars/:id", reviewController_1.getStarsByMenuId);
+router.get("/rate/:id", reviewController_1.getRatesByMenuId);
 router.post("/", reviewController_1.createReview);
 router.get("/:id", reviewController_1.getAllReviewsByMenuId);
 router.put("/:id", reviewController_1.updateReview);

@@ -3,7 +3,6 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
-
                 hostname: "www.donavicky.ca",
                 protocol: "https"
             },
@@ -22,7 +21,8 @@ const nextConfig = {
             {
                 hostname: "media.gettyimages.com",
                 protocol: "https"
-
+            },
+            {
                 hostname: "encrypted-tbn0.gstatic.com"
             },
             {
@@ -39,7 +39,9 @@ const nextConfig = {
             },
             {
                 hostname: "thewoodenskillet.com"
-
+            },
+            {
+                hostname: "scontent.fcxh2-1.fna.fbcdn.net"
             }
         ]
     }

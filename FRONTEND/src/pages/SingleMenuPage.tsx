@@ -1,5 +1,3 @@
-import { getAllTablesById } from "@/actions";
-import { Endpoint, Menu, Nutrient, Review } from "@/types";
 import React from "react";
 import { Card } from "../components/ui/card";
 import SingleMenu from "@/components/SingleMenu";

@@ -24,15 +24,41 @@ export const getAllCategories = async (
     }
 };
 
-export const getAllMenusByCategoryId = async (
+export const getAllMenusByCategoryName = async (
     req: Request,
     res: Response
 ): Promise<void> => {
     try {
-        const category_id: string = req.params.id;
+        const category_name: string = req.params.name;
+
+        if (category_name === "All") {
+            const allMenus: Menu[] = await prisma.menu.findMany({});
+
+            res.status(200).json({
+                results: allMenus,
+                message: "All Menus Found Successfully",
+                success: true
+            });
+            return;
+        }
+
+        const category: Category | null = await prisma.category.findUnique({
+            where: {
+                category_name
+            }
+        });
+
+        if (!category) {
+            res.status(404).json({
+                results: category,
+                message: "Category Not Found",
+                success: true
+            });
+            return;
+        }
 
         const allMenus: Menu[] = await prisma.menu.findMany({
-            where: { category_id }
+            where: { category_id: category.id }
         });
 
         res.status(200).json({

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
     getAllCategories,
-    getAllMenusByCategoryId
+    getAllMenusByCategoryName
     // createCategory,
     // updateCategory,
     // deleteCategory
@@ -11,7 +11,7 @@ const router = Router();
 
 router.get("/", getAllCategories);
 // router.post("/", createCategory); // admin only
-router.get("/:id", getAllMenusByCategoryId);
+router.get("/:name", getAllMenusByCategoryName);
 // router.put("/:id", updateCategory); // admin only
 // router.delete("/:id", deleteCategory); // admin only
 

@@ -19,7 +19,7 @@ type MenuCardProps = {
     menu: Menu;
 };
 
-const MenuCard = ({ menu }: MenuCardProps) => {
+const MenuCard = ({ menu }: MenuCardProps): JSX.Element => {
     const [rating, setRating] = useState<number | null>(0);
     const [counter, setCounter] = useState<number | null>(0);
     useEffect(() => {
@@ -38,15 +38,15 @@ const MenuCard = ({ menu }: MenuCardProps) => {
 
     return (
         <Link href={`/menus/${menu.id}`}>
-            <Card className="flex w-[450px] h-[300px] m-2">
+            <Card className="flex flex-col sm:flex-row w-[320px] sm:w-[450px] h-fit sm:h-[300px] m-2">
                 <Image
                     src={menu.image}
                     alt={menu.name}
                     width={200}
                     height={100}
-                    className=" rounded-l-xl"
+                    className="w-full sm:w-[200px] rounded-t-xl sm:rounded-l-xl"
                 />
-                <CardContent className="flex flex-col justify-between items-start my-10 text-left">
+                <CardContent className="flex flex-col justify-between items-start my-5 sm:my-10 text-left">
                     <CardTitle className="text-xl">{menu.name}</CardTitle>
                     <CardDescription>{menu.description}</CardDescription>
                     <div className="flex space-x-2">

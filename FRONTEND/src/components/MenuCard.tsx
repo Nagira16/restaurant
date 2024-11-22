@@ -44,7 +44,7 @@ const MenuCard = ({ menu }: MenuCardProps): JSX.Element => {
                     alt={menu.name}
                     width={200}
                     height={100}
-                    className="w-full sm:w-[200px] rounded-t-xl sm:rounded-l-xl"
+                    className="w-full sm:w-[200px] rounded-t-xl sm:rounded-l-xl sm:rounded-tr-none"
                 />
                 <CardContent className="flex flex-col justify-between items-start my-5 sm:my-10 text-left">
                     <CardTitle className="text-xl">{menu.name}</CardTitle>

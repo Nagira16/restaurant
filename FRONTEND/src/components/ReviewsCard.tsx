@@ -49,30 +49,42 @@ const Reviews = ({ menu_id }: ReviewsProp): JSX.Element => {
     };
 
     return (
-        <div className="w-[450px] space-y-2">
+        <div className="w-[450px] space-y-1">
             <CardHeader>
                 <CardTitle className="text-4xl">Reviews</CardTitle>
             </CardHeader>
             <CardContent>
                 {loading ? (
-                    <Skeleton className="h-[130px] w-[250px]" />
+                    <Skeleton className="h-[150px] w-[300px]" />
                 ) : (
                     reviews &&
                     (reviews.length === 0 ? (
-                        <CardDescription className="h-[130px]">
+                        <CardDescription className="h-[130px] w-[200px]">
                             <p>No reviews yet.</p>
                         </CardDescription>
                     ) : (
-                        reviews.map((r) => (
-                            <div key={r.id} className="h-[130px] w-[250px]">
-                                <Rating
-                                    value={r.stars}
-                                    readOnly
-                                    className="max-w-[150px]"
-                                />
-                                <p>{r.comments}</p>
-                            </div>
-                        ))
+                        <div className="h-[160px] w-[300px] overflow-y-auto">
+                            {reviews.map((r) => (
+                                <div
+                                    key={r.id}
+                                    className="my-3 w-[300px] flex justify-around"
+                                >
+                                    <div>
+                                        <Rating
+                                            value={r.stars}
+                                            readOnly
+                                            className="max-w-[90px]"
+                                        />
+                                        <p className="ml-3">{r.comments}</p>
+                                    </div>
+                                    <div className="">
+                                        {new Date(
+                                            r.created_at
+                                        ).toLocaleDateString()}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     ))
                 )}
             </CardContent>

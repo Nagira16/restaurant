@@ -126,3 +126,11 @@ export enum Endpoint {
     categories = "categories",
     itemOrderDetails = "itemOrderDetails"
 }
+
+export type UserData = {
+    name: string | null;
+    email: string;
+    phone: string | null;
+    address: {} | null;
+    clerk_id: string;
+};

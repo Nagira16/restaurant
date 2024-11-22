@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
 
     const helpfulLinks = [
         { href: "/service", label: "Service" },
-        { href: "#", label: "Support" },
+        { href: "/support", label: "Support" },
         { href: "#", label: "Terms & Condition" },
         { href: "#", label: "Privacy" }
     ];

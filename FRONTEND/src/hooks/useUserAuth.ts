@@ -16,13 +16,19 @@ const useUserAuth = () => {
             }
 
             try {
-                const { emailAddresses, phoneNumbers, id, username } = user;
+                const {
+                    emailAddresses,
+                    phoneNumbers,
+                    id,
+                    username,
+                    publicMetadata
+                } = user;
 
                 const userData: UserData = {
                     name: username,
                     email: emailAddresses?.[0]?.emailAddress,
                     phone: phoneNumbers?.[0]?.phoneNumber || null,
-                    address: user.publicMetadata?.address || null,
+                    address: publicMetadata.address || null,
                     clerk_id: id
                 };
 

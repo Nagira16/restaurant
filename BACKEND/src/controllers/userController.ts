@@ -76,11 +76,15 @@ export const createUser = async (
             clerk_id: string;
         } = req.body;
 
-        const exist: boolean = await findUserByEmail(email);
-        if (exist) {
+        const emailExist: boolean = await findUserByEmail(email);
+        const clerk_idExist: User | null = await prisma.user.findUnique({
+            where: { clerk_id }
+        });
+
+        if (emailExist || clerk_idExist) {
             res.status(409).json({
                 results: null,
-                message: "User with this email already exists.",
+                message: "User already exists.",
                 success: false
             });
             return;

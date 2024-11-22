@@ -65,11 +65,14 @@ exports.getUserById = getUserById;
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name, email, phone, address, clerk_id } = req.body;
-        const exist = yield findUserByEmail(email);
-        if (exist) {
+        const emailExist = yield findUserByEmail(email);
+        const clerk_idExist = yield prismaClient_1.prisma.user.findUnique({
+            where: { clerk_id }
+        });
+        if (emailExist || clerk_idExist) {
             res.status(409).json({
                 results: null,
-                message: "User with this email already exists.",
+                message: "User already exists.",
                 success: false
             });
             return;

@@ -1,6 +1,6 @@
 "use server";
 
-import { Endpoint, FetchData, Review } from "@/types";
+import { Endpoint, FetchData, Review, UserData } from "@/types";
 
 export const getAllTables = async <T>(endpoint: Endpoint): Promise<T[]> => {
     const res: Response = await fetch(`http://localhost:3001/${endpoint}`);
@@ -81,4 +81,23 @@ export const getReviewRate = async (
             counts: data.counts as number
         };
     }
+};
+
+export const saveUser = async (user: UserData) => {
+    const res: Response = await fetch("http://localhost:3001/users", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            address: user.address,
+            clerk_id: user.clerk_id
+        })
+    });
+
+    const data: FetchData = await res.json();
+    console.log(data.message);
 };

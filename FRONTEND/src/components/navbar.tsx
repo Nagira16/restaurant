@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
-import { UserButton, useAuth, SignInButton } from "@clerk/nextjs";
+import { UserButton, SignInButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
+import useUserAuth from "@/hooks/useUserAuth";
 
 const Navbar: React.FC = () => {
-    const { isSignedIn } = useAuth();
+    const { isSignedIn } = useUserAuth();
 
     const links = [
         { href: "/menus", label: "Menu" },

@@ -1,6 +1,6 @@
 "use server";
 
-import { Endpoint, FetchData, Review, UserData } from "@/types";
+import { Endpoint, FetchData, Review, ReviewWithUser, UserData } from "@/types";
 
 export const getAllTables = async <T>(endpoint: Endpoint): Promise<T[]> => {
     const res: Response = await fetch(`http://localhost:3001/${endpoint}`);
@@ -38,7 +38,7 @@ export const createNewReview = async (
     menu_id: string,
     rating: number,
     comments: string
-): Promise<Review | null> => {
+): Promise<ReviewWithUser | null> => {
     const res: Response = await fetch(`http://localhost:3001/reviews`, {
         method: "POST",
         headers: {
@@ -60,7 +60,7 @@ export const createNewReview = async (
         return null;
     } else {
         console.log("==============", data.message);
-        return data.results as Review;
+        return data.results as ReviewWithUser;
     }
 };
 
@@ -94,6 +94,7 @@ export const saveUser = async (user: UserData) => {
             email: user.email,
             phone: user.phone,
             address: user.address,
+            image: user.image,
             clerk_id: user.clerk_id
         })
     });

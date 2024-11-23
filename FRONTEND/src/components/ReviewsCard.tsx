@@ -1,20 +1,15 @@
 "use client";
 
-import { FormEvent, Suspense, useEffect, useState } from "react";
-import {
-    CardHeader,
-    CardTitle,
-    CardContent,
-    CardDescription,
-    CardFooter
-} from "./ui/card";
-import { Endpoint, Review } from "@/types";
+import { FormEvent, useEffect, useState } from "react";
+import { CardHeader, CardTitle, CardContent, CardDescription } from "./ui/card";
+import { Endpoint, Review, ReviewWithUser } from "@/types";
 import "@smastrom/react-rating/style.css";
 import { Rating } from "@smastrom/react-rating";
 import ReviewForm from "./ReviewForm";
 import { createNewReview, getAllTablesById } from "@/actions";
 import { useAuth } from "@clerk/nextjs";
 import { Skeleton } from "./ui/skeleton";
+import Image from "next/image";
 
 type ReviewsProp = {
     menu_id: string;
@@ -22,18 +17,23 @@ type ReviewsProp = {
 
 const Reviews = ({ menu_id }: ReviewsProp): JSX.Element => {
     const { getToken } = useAuth();
-    const [reviews, setReviews] = useState<Review[] | null>([]);
+    const [reviews, setReviews] = useState<ReviewWithUser[]>([]);
     const [rating, setRating] = useState<number>(0);
     const [comments, setComments] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(true);
 
     const fetchAllReview = async () => {
-        const allReviews = await getAllTablesById<Review[] | null>(
-            Endpoint.reviews,
-            menu_id
-        );
-        setReviews(allReviews);
-        setLoading(false);
+        try {
+            const allReviews = await getAllTablesById<ReviewWithUser[] | null>(
+                Endpoint.reviews,
+                menu_id
+            );
+            if (allReviews) {
+                setReviews(allReviews);
+            }
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -44,43 +44,82 @@ const Reviews = ({ menu_id }: ReviewsProp): JSX.Element => {
         e.preventDefault();
         const token: string | null = await getToken();
         if (token) {
-            await createNewReview(token, menu_id, rating, comments);
+            const newReview: ReviewWithUser | null = await createNewReview(
+                token,
+                menu_id,
+                rating,
+                comments
+            );
+            if (newReview) {
+                console.log(newReview.user);
+                setReviews((prev) => [...prev, newReview]);
+            }
         }
     };
 
     return (
         <div className="w-[450px] space-y-1">
-            <CardHeader>
+            <CardHeader className=" grid grid-cols-2 w-[400px]">
                 <CardTitle className="text-4xl">Reviews</CardTitle>
+                <ReviewForm
+                    rating={rating}
+                    setRating={setRating}
+                    setComments={setComments}
+                    handleSubmit={handleSubmit}
+                />
             </CardHeader>
             <CardContent>
                 {loading ? (
-                    <Skeleton className="h-[150px] w-[300px]" />
+                    <Skeleton className="h-[200px] w-[355px]" />
                 ) : (
                     reviews &&
                     (reviews.length === 0 ? (
-                        <CardDescription className="h-[130px] w-[200px]">
+                        <CardDescription className="h-[200px] w-[355px]">
                             <p>No reviews yet.</p>
                         </CardDescription>
                     ) : (
-                        <div className="h-[160px] w-[300px] overflow-y-auto">
+                        <div className="h-[200px] w-[355px] overflow-y-auto overflow-x-hidden">
                             {reviews.map((r) => (
                                 <div
                                     key={r.id}
-                                    className="my-3 w-[300px] flex justify-around"
+                                    className="my-1 p-2 w-full  border"
                                 >
-                                    <div>
-                                        <Rating
-                                            value={r.stars}
-                                            readOnly
-                                            className="max-w-[90px]"
-                                        />
-                                        <p className="ml-3">{r.comments}</p>
-                                    </div>
-                                    <div className="">
-                                        {new Date(
-                                            r.created_at
-                                        ).toLocaleDateString()}
+                                    <div className="w-full">
+                                        <div className="flex items-start justify-start ml-3 space-x-5">
+                                            <Image
+                                                src={
+                                                    r.user.image ||
+                                                    "https://cdn.iconscout.com/icon/free/png-256/free-user-icon-download-in-svg-png-gif-file-formats--profile-avatar-account-person-app-interface-pack-icons-1401302.png?f=webp&w=256"
+                                                }
+                                                alt="Profile"
+                                                width={30}
+                                                height={30}
+                                                className="rounded-full"
+                                            />
+
+                                            <p>
+                                                {r.user?.name || "Unknown User"}
+                                            </p>
+                                            <Rating
+                                                value={r.stars}
+                                                readOnly
+                                                className="max-w-[90px]"
+                                            />
+                                        </div>
+
+                                        <div className="flex items-center justify-start my-2 ml-3 break-words">
+                                            <p className="my-3 w-full">
+                                                {r.comments}
+                                            </p>
+                                        </div>
+
+                                        <div className="flex items-end justify-end">
+                                            <p>
+                                                {new Date(
+                                                    r.created_at
+                                                ).toLocaleDateString()}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
@@ -88,14 +127,6 @@ const Reviews = ({ menu_id }: ReviewsProp): JSX.Element => {
                     ))
                 )}
             </CardContent>
-            <CardFooter>
-                <ReviewForm
-                    rating={rating}
-                    setRating={setRating}
-                    setComments={setComments}
-                    handleSubmit={handleSubmit}
-                />
-            </CardFooter>
         </div>
     );
 };

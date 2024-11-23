@@ -67,12 +67,14 @@ export const createUser = async (
             email,
             phone,
             address,
+            image,
             clerk_id
         }: {
             name: string;
             email: string;
             phone: string;
             address: string;
+            image: string;
             clerk_id: string;
         } = req.body;
 
@@ -106,6 +108,7 @@ export const createUser = async (
                 email,
                 phone,
                 address,
+                image,
                 clerk_id
             }
         });

@@ -2,7 +2,7 @@ import { Review, User } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
 import { findUserByClerkId } from "./userController";
-import { json } from "stream/consumers";
+import { ReviewWithUser } from "../types";
 
 export const getAllReviews = async (
     _: Request,
@@ -33,8 +33,16 @@ export const getAllReviewsByMenuId = async (
     try {
         const menu_id: string = req.params.id;
 
-        const allReviews: Review[] = await prisma.review.findMany({
-            where: { menu_id }
+        const allReviews: ReviewWithUser[] = await prisma.review.findMany({
+            where: { menu_id },
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        image: true
+                    }
+                }
+            }
         });
 
         res.status(200).json({
@@ -108,7 +116,7 @@ export const createReview = async (
             return;
         }
 
-        if (rating >= 5) {
+        if (rating > 5) {
             res.status(404).json({
                 results: null,
                 message: "Input Error Stars ",
@@ -117,12 +125,20 @@ export const createReview = async (
             return;
         }
 
-        const newReview: Review = await prisma.review.create({
+        const newReview: ReviewWithUser = await prisma.review.create({
             data: {
                 user_id: user.id,
                 menu_id,
                 stars: rating,
                 comments
+            },
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        image: true
+                    }
+                }
             }
         });
 

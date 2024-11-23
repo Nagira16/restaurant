@@ -22,6 +22,7 @@ model User {
   role_id   String   @db.Uuid
   email     String   @unique
   phone     String?
+  image     String?
   address   String?
   clerk_id  String   @unique
 

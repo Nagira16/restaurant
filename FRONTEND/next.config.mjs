@@ -42,6 +42,12 @@ const nextConfig = {
             },
             {
                 hostname: "scontent.fcxh2-1.fna.fbcdn.net"
+            },
+            {
+                hostname: "img.clerk.com"
+            },
+            {
+                hostname: "cdn.iconscout.com"
             }
         ]
     }

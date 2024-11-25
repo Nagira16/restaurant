@@ -29,6 +29,7 @@ const useUserAuth = () => {
                     email: emailAddresses?.[0]?.emailAddress,
                     phone: phoneNumbers?.[0]?.phoneNumber || null,
                     address: publicMetadata.address || null,
+                    image: user.imageUrl,
                     clerk_id: id
                 };
 

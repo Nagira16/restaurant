@@ -35,7 +35,15 @@ const getAllReviewsByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, fu
     try {
         const menu_id = req.params.id;
         const allReviews = yield prismaClient_1.prisma.review.findMany({
-            where: { menu_id }
+            where: { menu_id },
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        image: true
+                    }
+                }
+            }
         });
         res.status(200).json({
             results: allReviews,
@@ -96,7 +104,7 @@ const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             });
             return;
         }
-        if (rating >= 5) {
+        if (rating > 5) {
             res.status(404).json({
                 results: null,
                 message: "Input Error Stars ",
@@ -110,6 +118,14 @@ const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 menu_id,
                 stars: rating,
                 comments
+            },
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        image: true
+                    }
+                }
             }
         });
         res.status(201).json({

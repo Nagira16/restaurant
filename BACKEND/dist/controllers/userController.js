@@ -64,7 +64,7 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getUserById = getUserById;
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, email, phone, address, clerk_id } = req.body;
+        const { name, email, phone, address, image, clerk_id } = req.body;
         const emailExist = yield findUserByEmail(email);
         const clerk_idExist = yield prismaClient_1.prisma.user.findUnique({
             where: { clerk_id }
@@ -92,6 +92,7 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 email,
                 phone,
                 address,
+                image,
                 clerk_id
             }
         });

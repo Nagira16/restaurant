@@ -64,19 +64,12 @@ const page = () => {
                     Send Message
                 </button>
             </form>
-            <div className="flex justify-center mt-8 space-x-4">
+            <div className="mt-8 flex justify-center">
                 <Image
-                    src="https://scontent.fcxh2-1.fna.fbcdn.net/v/t39.30808-6/382470109_122133831062011350_7272232219426344099_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=9zA6vDCl6rkQ7kNvgHLqMaO&_nc_zt=23&_nc_ht=scontent.fcxh2-1.fna&_nc_gid=AcbBPR9YbmYMY-0f07G9rf5&oh=00_AYBmWNjDqF22mJIZ0USiWaC6fF8bX8ytonjFjOMGWh7kuw&oe=674301B0"
-                    alt="Contact Image 1"
-                    width={300}
-                    height={200}
-                    className="rounded-lg shadow-lg"
-                />
-                <Image
-                    src="https://scontent.fcxh2-1.fna.fbcdn.net/v/t39.30808-6/375829053_122124817964011350_1150285826433012919_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=xLzgHHTuH3wQ7kNvgHQvn3f&_nc_zt=23&_nc_ht=scontent.fcxh2-1.fna&_nc_gid=A9nC5twI4kTS_OJZtgeAHGC&oh=00_AYA6mNcI9CLDVq0wlLPKC-zLmBLcdfl3OeneU_wlMSqpvQ&oe=67431E20"
-                    alt="Contact Image 2"
-                    width={300}
-                    height={200}
+                    src="https://scontent.fcxh2-1.fna.fbcdn.net/v/t39.30808-6/367018308_842893104001635_3847409401975983796_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=78skr50YkxQQ7kNvgEWCd73&_nc_zt=23&_nc_ht=scontent.fcxh2-1.fna&_nc_gid=A1EVMltkX6Rgyq7EowCgIuv&oh=00_AYCmNhFecgDld7QwvltNcdJ5f2vDJVTd7XlToIBsY-Difg&oe=6745A951"
+                    alt="Wide Contact Image"
+                    width={800}
+                    height={400}
                     className="rounded-lg shadow-lg"
                 />
             </div>

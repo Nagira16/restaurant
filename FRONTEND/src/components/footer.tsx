@@ -24,8 +24,8 @@ const Footer: React.FC = () => {
     const helpfulLinks = [
         { href: "/service", label: "Service" },
         { href: "/support", label: "Support" },
-        { href: "#", label: "Terms & Condition" },
-        { href: "#", label: "Privacy" }
+        { href: "/terms", label: "Terms & Condition" },
+        { href: "/privacy", label: "Privacy" }
     ];
 
     return (

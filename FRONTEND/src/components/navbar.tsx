@@ -18,18 +18,22 @@ const Navbar: React.FC = () => {
     return (
         <nav className="bg-white border-b border-gray-200 py-2 px-4">
             <div className="flex items-center justify-between max-w-7xl mx-auto">
+                {/* Logo Section */}
                 <div className="flex items-center space-x-4">
                     <Link href="/">
                         <span className="text-2xl font-cursive cursor-pointer">
                             <Image
                                 src="https://www.donavicky.ca/images/dvickylogo.jpg"
                                 alt="Doña Vicky"
-                                className="h-12 w-auto object-contain"
-                                width={48}
-                                height={48}
+                                className="h-16 w-auto object-contain"
+                                width={64}
+                                height={64}
+                                priority
                             />
                         </span>
                     </Link>
+
+                    {/* Navigation Links */}
                     <div className="flex space-x-6">
                         {links.map(({ href, label }) => (
                             <Link
@@ -42,7 +46,19 @@ const Navbar: React.FC = () => {
                         ))}
                     </div>
                 </div>
-                <div>
+
+                {/* Right Section */}
+                <div className="flex items-center space-x-6">
+                    {/* Cart Link - Only for Signed In Users */}
+                    {isSignedIn && (
+                        <Link
+                            href="/cart"
+                            className="text-red-600 font-semibold hover:text-red-700"
+                        >
+                            Shopping Cart
+                        </Link>
+                    )}
+                    {/* Authentication Section */}
                     {isSignedIn ? (
                         <UserButton />
                     ) : (

@@ -86,83 +86,83 @@ const preSeeds = async () => {
 //     });
 
 const mainSeeds = async () => {
-    // MENU
-    await prisma.menu.createMany({
-        data: [
-            {
-                name: "Quesabirrias",
-                description:
-                    "5 pieces accompanied with their consommé, cilantro, onion, lemon, and sauce. (With 2 tortillas each, beef and mozzarella cheese)",
-                price: 25,
-                category_id: "531f638b-b8f7-43c8-a2aa-b9f037be1893",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTj8D6rRY_YMHrtldIZ9ruek0juCjWYFonsQ&s"
-            },
-            {
-                name: "Birria Tacos",
-                description:
-                    "4 large double tortilla tacos with cilantro, onion, lemon, and salsa.",
-                price: 25,
-                category_id: "531f638b-b8f7-43c8-a2aa-b9f037be1893",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJxXWIWD-_ggrZgZ2CpTj6jp-Rv0sHOHUX2Q&s"
-            },
-            {
-                name: "Birria in Consommé",
-                description:
-                    "Large plate of birria with cilantro, onion, lemon, sauce, and tortillas.",
-                price: 25,
-                category_id: "531f638b-b8f7-43c8-a2aa-b9f037be1893",
-                image: "https://tb-static.uber.com/prod/image-proc/processed_images/7378eb3ba7202b6dfad1ef0c1741b2c3/7f4ae9ca0446cbc23e71d8d395a98428.jpeg"
-            },
-            {
-                name: "Consommé extra",
-                description: "",
-                price: 2,
-                category_id: "81757571-3ebc-4e64-9105-d3c60880c46c",
-                image: "https://scontent-nrt1-2.xx.fbcdn.net/v/t39.30808-6/383224936_122133831086011350_7798067382690773365_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=sGCos9HegvEQ7kNvgHZcXjl&_nc_zt=23&_nc_ht=scontent-nrt1-2.xx&_nc_gid=AQuys5JOJnulQfUyIud6WBZ&oh=00_AYCw0sCNJ907jPQ7YW77BJzEhIJHjN19oBpS9GJ1ZGnyfw&oe=673D8692"
-            },
-            {
-                name: "Salsa verde extra",
-                description: "",
-                price: 1,
-                category_id: "81757571-3ebc-4e64-9105-d3c60880c46c",
-                image: "https://thewoodenskillet.com/wp-content/uploads/2023/08/salsa-verde-recipe-9.jpg"
-            },
-            {
-                name: "Salsa roja extra",
-                description: "",
-                price: 1,
-                category_id: "81757571-3ebc-4e64-9105-d3c60880c46c",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBigRBc8klsh07dZRfKKhFaVlI2Yq8EQNZhg&s"
-            },
-            {
-                name: "Jamaican Water",
-                description: "",
-                price: 4,
-                category_id: "1b06f26b-8ca3-49e7-8772-e84c7359ac0e",
-                image: "https://www.simplyrecipes.com/thmb/VOhKfkn4jFojglUUSCr5Uj6dcKU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Simply-Recipes-Agua-De-Jamaica-LEAD-04-a177ada5cc504e2bab26fedabb46cb0b.jpg"
-            },
-            {
-                name: "Coca-Cola Can",
-                description: "",
-                price: 2.4,
-                category_id: "1b06f26b-8ca3-49e7-8772-e84c7359ac0e",
-                image: "https://valleydirectfoods.com/cdn/shop/products/coca-cola-24-pack-561822.jpg?v=1699684011"
-            },
-            {
-                name: "Sprite Can",
-                description: "",
-                price: 2.4,
-                category_id: "1b06f26b-8ca3-49e7-8772-e84c7359ac0e",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSJRACRVBjGEKl9NC6y8Ico7rxcrrQC_oImJBRQtJrQ1x05SOOrHYyu7Q36GYtMqPNJeo&usqp=CAU"
-            }
-        ]
-    });
+    // // MENU
+    // await prisma.menu.createMany({
+    //     data: [
+    //         {
+    //             name: "Quesabirrias",
+    //             description:
+    //                 "5 pieces accompanied with their consommé, cilantro, onion, lemon, and sauce. (With 2 tortillas each, beef and mozzarella cheese)",
+    //             price: 25,
+    //             category_id: "9f6d69a5-c5a0-4d4d-a1f1-499862fb2a21",
+    //             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTj8D6rRY_YMHrtldIZ9ruek0juCjWYFonsQ&s"
+    //         },
+    //         {
+    //             name: "Birria Tacos",
+    //             description:
+    //                 "4 large double tortilla tacos with cilantro, onion, lemon, and salsa.",
+    //             price: 25,
+    //             category_id: "9f6d69a5-c5a0-4d4d-a1f1-499862fb2a21",
+    //             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJxXWIWD-_ggrZgZ2CpTj6jp-Rv0sHOHUX2Q&s"
+    //         },
+    //         {
+    //             name: "Birria in Consommé",
+    //             description:
+    //                 "Large plate of birria with cilantro, onion, lemon, sauce, and tortillas.",
+    //             price: 25,
+    //             category_id: "9f6d69a5-c5a0-4d4d-a1f1-499862fb2a21",
+    //             image: "https://tb-static.uber.com/prod/image-proc/processed_images/7378eb3ba7202b6dfad1ef0c1741b2c3/7f4ae9ca0446cbc23e71d8d395a98428.jpeg"
+    //         },
+    //         {
+    //             name: "Consommé extra",
+    //             description: "",
+    //             price: 2,
+    //             category_id: "e72f333d-2c23-4a76-8ff6-074cb56e3519",
+    //             image: "https://scontent-nrt1-2.xx.fbcdn.net/v/t39.30808-6/383224936_122133831086011350_7798067382690773365_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=sGCos9HegvEQ7kNvgHZcXjl&_nc_zt=23&_nc_ht=scontent-nrt1-2.xx&_nc_gid=AQuys5JOJnulQfUyIud6WBZ&oh=00_AYCw0sCNJ907jPQ7YW77BJzEhIJHjN19oBpS9GJ1ZGnyfw&oe=673D8692"
+    //         },
+    //         {
+    //             name: "Salsa verde extra",
+    //             description: "",
+    //             price: 1,
+    //             category_id: "e72f333d-2c23-4a76-8ff6-074cb56e3519",
+    //             image: "https://thewoodenskillet.com/wp-content/uploads/2023/08/salsa-verde-recipe-9.jpg"
+    //         },
+    //         {
+    //             name: "Salsa roja extra",
+    //             description: "",
+    //             price: 1,
+    //             category_id: "e72f333d-2c23-4a76-8ff6-074cb56e3519",
+    //             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBigRBc8klsh07dZRfKKhFaVlI2Yq8EQNZhg&s"
+    //         },
+    //         {
+    //             name: "Jamaican Water",
+    //             description: "",
+    //             price: 4,
+    //             category_id: "d888c6b1-24b4-4250-b842-746854e5615b",
+    //             image: "https://www.simplyrecipes.com/thmb/VOhKfkn4jFojglUUSCr5Uj6dcKU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Simply-Recipes-Agua-De-Jamaica-LEAD-04-a177ada5cc504e2bab26fedabb46cb0b.jpg"
+    //         },
+    //         {
+    //             name: "Coca-Cola Can",
+    //             description: "",
+    //             price: 2.4,
+    //             category_id: "d888c6b1-24b4-4250-b842-746854e5615b",
+    //             image: "https://valleydirectfoods.com/cdn/shop/products/coca-cola-24-pack-561822.jpg?v=1699684011"
+    //         },
+    //         {
+    //             name: "Sprite Can",
+    //             description: "",
+    //             price: 2.4,
+    //             category_id: "d888c6b1-24b4-4250-b842-746854e5615b",
+    //             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSJRACRVBjGEKl9NC6y8Ico7rxcrrQC_oImJBRQtJrQ1x05SOOrHYyu7Q36GYtMqPNJeo&usqp=CAU"
+    //         }
+    //     ]
+    // });
 
-    // NUTRIENTS
+    // NUTRIENTS;
     await prisma.nutrients.createMany({
         data: [
             {
-                menu_id: "c3fb1a77-1f58-4e7c-8296-1cfdcf0e2887",
+                menu_id: "b604a3ea-b68b-40da-bd15-4e459e58bef7",
                 calories: 1200,
                 protein: 60,
                 carbohydrates: 70,
@@ -172,7 +172,7 @@ const mainSeeds = async () => {
                 sodium: 1.5
             },
             {
-                menu_id: "94dc97e4-9c28-4a56-bb7f-003c94736ab0",
+                menu_id: "11a5a682-d290-4636-b1dc-3438b0385ad8",
                 calories: 800,
                 protein: 30,
                 carbohydrates: 70,
@@ -182,7 +182,7 @@ const mainSeeds = async () => {
                 sodium: 1.2
             },
             {
-                menu_id: "bf796fab-63ef-420a-883d-83baa1d7cb1b",
+                menu_id: "292c3103-c867-4518-8626-74406466d02e",
                 calories: 1100,
                 protein: 70,
                 carbohydrates: 50,

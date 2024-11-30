@@ -95,6 +95,7 @@ export type FetchData = {
     message: string;
     counts?: number;
     success: boolean;
+    clientSecret?: string;
     results:
         | Menu[]
         | User[]
@@ -144,4 +145,11 @@ export type ReviewWithUser = {
     comments: string | null;
     created_at: Date;
     user: { name: string | null; image: string | null };
+};
+
+export type CartItem = {
+    menu_id: string;
+    menu_name: string;
+    price: number;
+    quantity: number;
 };

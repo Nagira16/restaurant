@@ -1,6 +1,13 @@
 "use server";
 
-import { Endpoint, FetchData, Review, ReviewWithUser, UserData } from "@/types";
+import {
+    CartItem,
+    Endpoint,
+    FetchData,
+    ReviewWithUser,
+    UserData
+} from "@/types";
+import Cookies from "js-cookie";
 
 export const getAllTables = async <T>(endpoint: Endpoint): Promise<T[]> => {
     const res: Response = await fetch(`http://localhost:3001/${endpoint}`);
@@ -102,3 +109,86 @@ export const saveUser = async (user: UserData) => {
     const data: FetchData = await res.json();
     console.log(data.message);
 };
+
+export const getClientSecret = async (
+    token: string,
+    total: number,
+    method: string
+): Promise<string | null> => {
+    const res: Response = await fetch("http://localhost:3001/payments", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            total,
+            currency: "cad",
+            method
+        })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.clientSecret || null;
+    }
+};
+
+export const saveCartToCookie = (cart: CartItem[]) => {
+    Cookies.set("cart", JSON.stringify(cart), { expires: 3 });
+    const sss = Cookies.get("cart");
+    console.log("saved", sss);
+};
+
+export const getCartFromCookie = async (): Promise<CartItem[]> => {
+    const cart = Cookies.get("cart");
+
+    if (!cart) {
+        console.warn(
+            "Cart cookie is undefined or empty. Returning an empty array."
+        );
+        return [];
+    }
+
+    try {
+        const parsedCart = JSON.parse(cart);
+        if (!Array.isArray(parsedCart)) {
+            console.error("Cart cookie is not an array:", parsedCart);
+            return [];
+        }
+        return parsedCart;
+    } catch (error) {
+        console.error("Failed to parse cart cookie:", error);
+        return [];
+    }
+};
+
+export const addToCart = async (item: CartItem) => {
+    const cart: CartItem[] = await getCartFromCookie();
+    const existingItem: CartItem | undefined = cart.find(
+        (cartItem: CartItem) => cartItem.menu_id === item.menu_id
+    );
+
+    if (existingItem) {
+        existingItem.quantity += item.quantity;
+    } else {
+        cart.push(item);
+    }
+    console.log({ cart });
+
+    saveCartToCookie(cart);
+};
+
+// export const removeFromCart = (menuId: string) => {
+//     const cart: CartItem[] = getCartFromCookie();
+//     const updatedCart = cart.filter(
+//         (item: CartItem) => item.menu_id !== menuId
+//     );
+
+//     saveCartToCookie(updatedCart);
+// };

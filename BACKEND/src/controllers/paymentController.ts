@@ -2,6 +2,7 @@ import { Payment, User } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
 import { findUserByClerkId } from "./userController";
+import Stripe from "stripe";
 
 export const getAllPaymentsByUserId = async (
     req: Request,
@@ -78,18 +79,10 @@ export const createPayment = async (
 ): Promise<void> => {
     try {
         const {
-            stripe_id,
-            amount,
+            total,
             currency,
-            method,
-            status
-        }: {
-            stripe_id: string;
-            amount: number;
-            currency: string;
-            method: string;
-            status?: string;
-        } = req.body;
+            method
+        }: { total: number; currency: string; method: string } = req.body;
 
         const user: User | null = await findUserByClerkId(req);
 
@@ -102,19 +95,35 @@ export const createPayment = async (
             return;
         }
 
-        const newPayment: Payment = await prisma.payment.create({
-            data: {
-                user_id: user.id,
-                stripe_id,
-                amount,
-                currency,
-                method,
-                status
-            }
+        console.log("ajfihhsdjfhjhjhhhjh", process.env.STRIPE_SECRET_KEY);
+
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+            apiVersion: "2024-11-20.acacia"
         });
 
+        const amount = Math.round(total * 100);
+
+        const paymentIntent: Stripe.Response<Stripe.PaymentIntent> =
+            await stripe.paymentIntents.create({
+                amount,
+                currency,
+                metadata: { user_id: user.id }
+            });
+
+        // const newPayment: Payment = await prisma.payment.create({
+        //     data: {
+        //         user_id: user.id,
+        //         stripe_id: paymentIntent.id,
+        //         amount,
+        //         currency,
+        //         method,
+        //         status: "PENDING"
+        //     }
+        // });
+
         res.status(201).json({
-            results: newPayment,
+            results: [],
+            clientSecret: paymentIntent.client_secret,
             message: "Payment Created Successfully",
             success: true
         });
@@ -127,6 +136,7 @@ export const createPayment = async (
         });
     }
 };
+
 export const updatePayment = async (
     req: Request,
     res: Response

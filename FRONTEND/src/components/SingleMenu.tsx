@@ -9,9 +9,10 @@ import {
     CardTitle
 } from "./ui/card";
 import Image from "next/image";
-import { getAllTablesById } from "@/actions";
+import { addToCart, getAllTablesById } from "@/actions";
 import { useEffect, useState } from "react";
 import { Skeleton } from "./ui/skeleton";
+import { Button } from "./ui/button";
 
 type SingleMenuProps = {
     menu_id: string;
@@ -59,6 +60,19 @@ const SingleMenu = ({ menu_id }: SingleMenuProps): JSX.Element => {
                             <CardTitle className="text-4xl">
                                 {menu.name}
                             </CardTitle>
+                            <Button
+                                onClick={() =>
+                                    addToCart({
+                                        menu_id: menu_id,
+                                        menu_name: menu.name,
+                                        price: menu.price,
+                                        quantity: 1
+                                    })
+                                }
+                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                            >
+                                Add to Cart
+                            </Button>
                         </CardHeader>
                         <CardContent>
                             <Image

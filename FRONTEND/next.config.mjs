@@ -48,6 +48,9 @@ const nextConfig = {
             },
             {
                 hostname: "cdn.iconscout.com"
+            },
+            {
+                hostname: "unimarket.ca"
             }
         ]
     }

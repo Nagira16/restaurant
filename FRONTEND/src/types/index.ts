@@ -104,6 +104,7 @@ export type FetchData = {
         | Review
         | Review[]
         | Reservation[]
+        | Payment
         | Payment[]
         | Order_Details[]
         | Item_Order_Details[]
@@ -148,8 +149,9 @@ export type ReviewWithUser = {
 };
 
 export type CartItem = {
-    menu_id: string;
-    menu_name: string;
+    id: string;
+    name: string;
     price: number;
     quantity: number;
+    image: string;
 };

@@ -6,8 +6,9 @@ import { loadStripe } from "@stripe/stripe-js";
 import { getClientSecret } from "@/actions";
 import CheckoutForm from "@/components/CheckoutForm";
 import { useAuth } from "@clerk/nextjs";
-import { CartItem } from "@/types";
-import { Skeleton } from "@/components/ui/skeleton";
+import { useCart } from "@/components/providers/CartContext";
+import Image from "next/image";
+import Swal from "sweetalert2";
 
 const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -23,47 +24,35 @@ const PaymentPage = () => {
     const { getToken } = useAuth();
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const [totalAmount, setTotalAmount] = useState<number>(0);
-
-    const cart: CartItem[] = [
-        {
-            menu_id: "tacos",
-            menu_name: "aaa",
-            price: 10,
-            quantity: 1
-        },
-        {
-            menu_id: "aaa",
-            menu_name: "sss",
-            price: 22,
-            quantity: 5
-        },
-        {
-            menu_id: "aaas",
-            menu_name: "fff",
-            price: 34,
-            quantity: 11
-        }
-    ];
+    const { cartItems } = useCart();
 
     useEffect(() => {
         const fetchClientSecret = async () => {
             try {
                 const token: string | null = await getToken();
                 if (token) {
-                    if (cart.length > 0) {
-                        const total = calculateCartTotal(cart);
-                        const method = "credit";
+                    if (cartItems.length > 0) {
+                        const total = calculateCartTotal(cartItems);
                         setTotalAmount(total);
+
+                        const method = "credit";
 
                         const secret = await getClientSecret(
                             token,
                             total,
                             method
                         );
-                        console.log(secret);
 
                         setClientSecret(secret);
-                    } else alert("Cart Is Empty");
+                    } else {
+                        Swal.fire({
+                            title: "Cart Is Empty",
+                            text: "Please add items to your cart before proceeding.",
+                            icon: "warning",
+                            html: '<a href="/menus" class="text-blue-500 hover:underline font-semibold" onclick="Swal.close()">Go To Menu</a>',
+                            showConfirmButton: false
+                        });
+                    }
                 }
             } catch (error) {
                 console.error("Error fetching client secret:", error);
@@ -71,24 +60,45 @@ const PaymentPage = () => {
         };
 
         fetchClientSecret();
-    }, []);
+    }, [cartItems, getToken]);
 
     return (
         <div className="text-center mt-4 w-full h-full">
             <h1 className="text-5xl font-bold">Payment</h1>
             <div className="my-5">
                 <h2 className="text-xl font-bold">Order Summary</h2>
-                <ul className="flex justify-center items-center space-x-10 my-3">
-                    {cart.map((item, index) => (
-                        <li key={index}>
-                            {`Item ${index + 1}: $${item.price} x ${
-                                item.quantity
-                            }`}
-                        </li>
+                <div className="flex justify-center items-center space-x-10 my-3">
+                    {cartItems.map((item) => (
+                        <div
+                            key={item.id}
+                            className="flex items-center justify-between bg-white p-4 shadow rounded-lg"
+                        >
+                            <div className="flex items-center">
+                                <Image
+                                    src={item.image || "/placeholder.png"}
+                                    alt={item.name}
+                                    width={100}
+                                    height={100}
+                                    className="rounded-lg"
+                                />
+                                <div className="ml-4">
+                                    <h3 className="text-lg font-semibold">
+                                        {item.name}
+                                    </h3>
+                                    <p className="text-gray-600">
+                                        $
+                                        {parseFloat(
+                                            item.price?.toString() || "0"
+                                        ).toFixed(2)}
+                                        x {item.quantity}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     ))}
-                </ul>
+                </div>
                 <h3 className="text-xl font-bold my-5">
-                    Total: ${calculateCartTotal(cart).toFixed(2)}
+                    Total: ${calculateCartTotal(cartItems).toFixed(2)}
                 </h3>
             </div>
             {clientSecret ? (

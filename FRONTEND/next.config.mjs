@@ -51,6 +51,9 @@ const nextConfig = {
             },
             {
                 hostname: "unimarket.ca"
+            },
+            {
+                hostname: "via.placeholder.com"
             }
         ]
     }

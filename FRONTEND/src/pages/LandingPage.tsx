@@ -62,7 +62,7 @@ const LandingPage: React.FC = () => {
                         celebrates the rich culinary traditions of Mexico.
                     </p>
                     <div className="flex space-x-4 items-center">
-                        <Link href="/learn-more" passHref>
+                        <Link href="/about" passHref>
                             <span className="px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800 cursor-pointer text-lg inline-flex items-center justify-center">
                                 Learn More
                             </span>

@@ -95,8 +95,6 @@ export const createPayment = async (
             return;
         }
 
-        console.log("ajfihhsdjfhjhjhhhjh", process.env.STRIPE_SECRET_KEY);
-
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
             apiVersion: "2024-11-20.acacia"
         });
@@ -107,22 +105,23 @@ export const createPayment = async (
             await stripe.paymentIntents.create({
                 amount,
                 currency,
+                payment_method_types: ["card"],
                 metadata: { user_id: user.id }
             });
 
-        // const newPayment: Payment = await prisma.payment.create({
-        //     data: {
-        //         user_id: user.id,
-        //         stripe_id: paymentIntent.id,
-        //         amount,
-        //         currency,
-        //         method,
-        //         status: "PENDING"
-        //     }
-        // });
+        const newPayment: Payment = await prisma.payment.create({
+            data: {
+                user_id: user.id,
+                stripe_id: paymentIntent.id,
+                amount,
+                currency,
+                method,
+                status: "PENDING"
+            }
+        });
 
         res.status(201).json({
-            results: [],
+            results: newPayment,
             clientSecret: paymentIntent.client_secret,
             message: "Payment Created Successfully",
             success: true
@@ -142,15 +141,13 @@ export const updatePayment = async (
     res: Response
 ): Promise<void> => {
     try {
-        const id: string = req.params.id;
+        const stripe_id: string = req.params.id;
         const {
-            stripe_id,
             amount,
             currency,
             method,
             status
         }: {
-            stripe_id?: string;
             amount?: number;
             currency?: string;
             method?: string;
@@ -158,7 +155,7 @@ export const updatePayment = async (
         } = req.body;
 
         const payment: Payment | null = await prisma.payment.findUnique({
-            where: { id }
+            where: { stripe_id }
         });
 
         if (!payment) {
@@ -173,7 +170,7 @@ export const updatePayment = async (
         const updatedPayment: Payment = await prisma.payment.update({
             where: { id: payment.id },
             data: {
-                stripe_id: stripe_id || payment.stripe_id,
+                stripe_id: payment.stripe_id,
                 amount: amount || payment.amount,
                 currency: currency || payment.currency,
                 method: method || payment.method,

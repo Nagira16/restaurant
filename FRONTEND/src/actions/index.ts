@@ -4,6 +4,7 @@ import {
     CartItem,
     Endpoint,
     FetchData,
+    Payment,
     ReviewWithUser,
     UserData
 } from "@/types";
@@ -135,60 +136,34 @@ export const getClientSecret = async (
         return null;
     } else {
         console.log("==============", data.message);
+        console.log("Payments", data.results);
         return data.clientSecret || null;
     }
 };
 
-export const saveCartToCookie = (cart: CartItem[]) => {
-    Cookies.set("cart", JSON.stringify(cart), { expires: 3 });
-    const sss = Cookies.get("cart");
-    console.log("saved", sss);
-};
-
-export const getCartFromCookie = async (): Promise<CartItem[]> => {
-    const cart = Cookies.get("cart");
-
-    if (!cart) {
-        console.warn(
-            "Cart cookie is undefined or empty. Returning an empty array."
-        );
-        return [];
-    }
-
-    try {
-        const parsedCart = JSON.parse(cart);
-        if (!Array.isArray(parsedCart)) {
-            console.error("Cart cookie is not an array:", parsedCart);
-            return [];
+export const updatePaymentStatus = async (
+    stripe_id: string,
+    status: "SUCCESS" | "FAILED"
+) => {
+    const res: Response = await fetch(
+        `http://localhost:3001/payments/${stripe_id}`,
+        {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                stripe_id,
+                status
+            })
         }
-        return parsedCart;
-    } catch (error) {
-        console.error("Failed to parse cart cookie:", error);
-        return [];
-    }
-};
-
-export const addToCart = async (item: CartItem) => {
-    const cart: CartItem[] = await getCartFromCookie();
-    const existingItem: CartItem | undefined = cart.find(
-        (cartItem: CartItem) => cartItem.menu_id === item.menu_id
     );
 
-    if (existingItem) {
-        existingItem.quantity += item.quantity;
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
     } else {
-        cart.push(item);
+        console.log("==============", data.message);
+        return data.results as Payment;
     }
-    console.log({ cart });
-
-    saveCartToCookie(cart);
 };
-
-// export const removeFromCart = (menuId: string) => {
-//     const cart: CartItem[] = getCartFromCookie();
-//     const updatedCart = cart.filter(
-//         (item: CartItem) => item.menu_id !== menuId
-//     );
-
-//     saveCartToCookie(updatedCart);
-// };

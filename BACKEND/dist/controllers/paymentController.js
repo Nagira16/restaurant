@@ -89,7 +89,6 @@ const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             });
             return;
         }
-        console.log("ajfihhsdjfhjhjhhhjh", process.env.STRIPE_SECRET_KEY);
         const stripe = new stripe_1.default(process.env.STRIPE_SECRET_KEY, {
             apiVersion: "2024-11-20.acacia"
         });
@@ -97,20 +96,21 @@ const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const paymentIntent = yield stripe.paymentIntents.create({
             amount,
             currency,
+            payment_method_types: ["card"],
             metadata: { user_id: user.id }
         });
-        // const newPayment: Payment = await prisma.payment.create({
-        //     data: {
-        //         user_id: user.id,
-        //         stripe_id: paymentIntent.id,
-        //         amount,
-        //         currency,
-        //         method,
-        //         status: "PENDING"
-        //     }
-        // });
+        const newPayment = yield prismaClient_1.prisma.payment.create({
+            data: {
+                user_id: user.id,
+                stripe_id: paymentIntent.id,
+                amount,
+                currency,
+                method,
+                status: "PENDING"
+            }
+        });
         res.status(201).json({
-            results: [],
+            results: newPayment,
             clientSecret: paymentIntent.client_secret,
             message: "Payment Created Successfully",
             success: true
@@ -128,10 +128,10 @@ const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.createPayment = createPayment;
 const updatePayment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.id;
-        const { stripe_id, amount, currency, method, status } = req.body;
+        const stripe_id = req.params.id;
+        const { amount, currency, method, status } = req.body;
         const payment = yield prismaClient_1.prisma.payment.findUnique({
-            where: { id }
+            where: { stripe_id }
         });
         if (!payment) {
             res.status(404).json({
@@ -144,7 +144,7 @@ const updatePayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const updatedPayment = yield prismaClient_1.prisma.payment.update({
             where: { id: payment.id },
             data: {
-                stripe_id: stripe_id || payment.stripe_id,
+                stripe_id: payment.stripe_id,
                 amount: amount || payment.amount,
                 currency: currency || payment.currency,
                 method: method || payment.method,

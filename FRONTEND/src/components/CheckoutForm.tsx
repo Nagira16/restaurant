@@ -6,8 +6,11 @@ import {
     useStripe,
     useElements
 } from "@stripe/react-stripe-js";
-import { Stripe, StripeElements } from "@stripe/stripe-js";
+import { StripeElements } from "@stripe/stripe-js";
+import type { StripeError, PaymentIntent, Stripe } from "@stripe/stripe-js";
 import { Button } from "./ui/button";
+import Swal from "sweetalert2";
+import { updatePaymentStatus } from "@/actions";
 
 const CheckoutForm = () => {
     const stripe: Stripe | null = useStripe();
@@ -22,15 +25,35 @@ const CheckoutForm = () => {
         setIsLoading(true);
         setErrorMessage(null);
 
-        const { error } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                return_url: "http://localhost:3000/payment-success"
-            }
-        });
+        const {
+            error,
+            paymentIntent
+        }: { error: StripeError; paymentIntent?: PaymentIntent } =
+            await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    return_url: "http://localhost:3000/payment-success"
+                }
+            });
 
         if (error) {
-            setErrorMessage(error.message || "Payment failed");
+            Swal.fire({
+                title: "Payment Failed",
+                icon: "error",
+                showConfirmButton: true,
+                confirmButtonText: "Close"
+            });
+
+            updatePaymentStatus(paymentIntent!.id, "FAILED");
+        } else if (paymentIntent?.status === "succeeded") {
+            Swal.fire({
+                title: "Payment succeeded!",
+                icon: "success",
+                showConfirmButton: true,
+                confirmButtonText: "Close"
+            });
+
+            updatePaymentStatus(paymentIntent!.id, "SUCCESS");
         }
 
         setIsLoading(false);

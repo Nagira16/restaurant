@@ -148,7 +148,7 @@ export const updatePaymentStatus = async (
     const res: Response = await fetch(
         `http://localhost:3001/payments/${stripe_id}`,
         {
-            method: "POST",
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 stripe_id,

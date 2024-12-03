@@ -2,57 +2,61 @@
 
 import React, { useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe, Stripe } from "@stripe/stripe-js";
 import { getClientSecret } from "@/actions";
 import CheckoutForm from "@/components/CheckoutForm";
 import { useAuth } from "@clerk/nextjs";
 import { useCart } from "@/components/providers/CartContext";
 import Image from "next/image";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { CartItem } from "@/types";
 
-const stripePromise = loadStripe(
+const stripePromise: Promise<Stripe | null> = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
 
-const calculateCartTotal = (
-    cart: { price: number; quantity: number }[]
-): number => {
+const calculateCartTotal = (cart: CartItem[]): number => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
 };
 
-const PaymentPage = () => {
+const PaymentPage = (): JSX.Element => {
     const { getToken } = useAuth();
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const [totalAmount, setTotalAmount] = useState<number>(0);
-    const { cartItems } = useCart();
+    const router: AppRouterInstance = useRouter();
+    const { cartItems }: { cartItems: CartItem[] } = useCart();
 
     useEffect(() => {
-        const fetchClientSecret = async () => {
+        const fetchClientSecret = async (): Promise<void> => {
             try {
+                if (cartItems.length === 0) {
+                    Swal.fire({
+                        title: "Cart Is Empty",
+                        text: "Please add items to your cart before proceeding.",
+                        icon: "warning",
+                        confirmButtonText: "Go To Menu",
+                        didClose() {
+                            router.push("/menus");
+                        }
+                    });
+                    return;
+                }
+
                 const token: string | null = await getToken();
                 if (token) {
-                    if (cartItems.length > 0) {
-                        const total = calculateCartTotal(cartItems);
-                        setTotalAmount(total);
+                    const total: number = calculateCartTotal(cartItems);
+                    setTotalAmount(total);
 
-                        const method = "credit";
+                    const method: string = "card";
+                    const secret: string | null = await getClientSecret(
+                        token,
+                        total,
+                        method
+                    );
 
-                        const secret = await getClientSecret(
-                            token,
-                            total,
-                            method
-                        );
-
-                        setClientSecret(secret);
-                    } else {
-                        Swal.fire({
-                            title: "Cart Is Empty",
-                            text: "Please add items to your cart before proceeding.",
-                            icon: "warning",
-                            html: '<a href="/menus" class="text-blue-500 hover:underline font-semibold" onclick="Swal.close()">Go To Menu</a>',
-                            showConfirmButton: false
-                        });
-                    }
+                    setClientSecret(secret);
                 }
             } catch (error) {
                 console.error("Error fetching client secret:", error);
@@ -60,7 +64,7 @@ const PaymentPage = () => {
         };
 
         fetchClientSecret();
-    }, [cartItems, getToken]);
+    }, [getToken]);
 
     return (
         <div className="text-center mt-4 w-full h-full">
@@ -110,7 +114,7 @@ const PaymentPage = () => {
                         currency: "cad"
                     }}
                 >
-                    <CheckoutForm />
+                    <CheckoutForm clientSecret={clientSecret} />
                 </Elements>
             ) : (
                 <p className="font-bold animate-pulse mt-7">

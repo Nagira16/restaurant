@@ -96,7 +96,7 @@ const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const paymentIntent = yield stripe.paymentIntents.create({
             amount,
             currency,
-            payment_method_types: ["card"],
+            automatic_payment_methods: { enabled: true },
             metadata: { user_id: user.id }
         });
         const newPayment = yield prismaClient_1.prisma.payment.create({

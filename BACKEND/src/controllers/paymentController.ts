@@ -105,7 +105,7 @@ export const createPayment = async (
             await stripe.paymentIntents.create({
                 amount,
                 currency,
-                payment_method_types: ["card"],
+                automatic_payment_methods: { enabled: true },
                 metadata: { user_id: user.id }
             });
 

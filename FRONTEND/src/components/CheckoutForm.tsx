@@ -7,53 +7,75 @@ import {
     useElements
 } from "@stripe/react-stripe-js";
 import { StripeElements } from "@stripe/stripe-js";
-import type { StripeError, PaymentIntent, Stripe } from "@stripe/stripe-js";
+import type { Stripe } from "@stripe/stripe-js";
 import { Button } from "./ui/button";
 import Swal from "sweetalert2";
 import { updatePaymentStatus } from "@/actions";
+import { PaymentIntentResult } from "@stripe/stripe-js";
+import { useCart } from "./providers/CartContext";
+import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-const CheckoutForm = () => {
+type CheckoutFormProps = {
+    clientSecret: string | null;
+};
+
+const CheckoutForm = ({ clientSecret }: CheckoutFormProps): JSX.Element => {
     const stripe: Stripe | null = useStripe();
+    const router: AppRouterInstance = useRouter();
     const elements: StripeElements | null = useElements();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const { clearCart }: { clearCart: () => void } = useCart();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault();
-        if (!stripe || !elements) return;
+        if (!stripe || !elements || !clientSecret) {
+            return;
+        }
 
         setIsLoading(true);
         setErrorMessage(null);
 
-        const {
-            error,
-            paymentIntent
-        }: { error: StripeError; paymentIntent?: PaymentIntent } =
-            await stripe.confirmPayment({
-                elements,
-                confirmParams: {
-                    return_url: "http://localhost:3000/payment-success"
-                }
-            });
+        const paymentElement = elements.getElement(PaymentElement);
+        if (paymentElement) {
+            await elements.submit();
+        }
 
-        if (error) {
+        const paymentIntentId = clientSecret.split("_secret_")[0];
+
+        const result: PaymentIntentResult = await stripe.confirmPayment({
+            elements,
+            confirmParams: {
+                return_url: `http://localhost:3000`
+            },
+            redirect: "if_required",
+            clientSecret
+        });
+
+        if (result.error) {
             Swal.fire({
                 title: "Payment Failed",
+                text: result.error.message,
                 icon: "error",
-                showConfirmButton: true,
                 confirmButtonText: "Close"
             });
 
-            updatePaymentStatus(paymentIntent!.id, "FAILED");
-        } else if (paymentIntent?.status === "succeeded") {
+            await updatePaymentStatus(paymentIntentId, "FAILED");
+        } else if (result.paymentIntent.status === "succeeded") {
             Swal.fire({
                 title: "Payment succeeded!",
                 icon: "success",
-                showConfirmButton: true,
+                didClose() {
+                    router.push("/");
+                    clearCart();
+                },
                 confirmButtonText: "Close"
             });
 
-            updatePaymentStatus(paymentIntent!.id, "SUCCESS");
+            if (result.paymentIntent.id) {
+                await updatePaymentStatus(result.paymentIntent.id, "SUCCESS");
+            }
         }
 
         setIsLoading(false);

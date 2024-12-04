@@ -1,6 +1,14 @@
 "use server";
 
-import { Endpoint, FetchData, Review, ReviewWithUser, UserData } from "@/types";
+import {
+    CartItem,
+    Endpoint,
+    FetchData,
+    Payment,
+    ReviewWithUser,
+    UserData
+} from "@/types";
+import Cookies from "js-cookie";
 
 export const getAllTables = async <T>(endpoint: Endpoint): Promise<T[]> => {
     const res: Response = await fetch(`http://localhost:3001/${endpoint}`);
@@ -101,4 +109,61 @@ export const saveUser = async (user: UserData) => {
 
     const data: FetchData = await res.json();
     console.log(data.message);
+};
+
+export const getClientSecret = async (
+    token: string,
+    total: number,
+    method: string
+): Promise<string | null> => {
+    const res: Response = await fetch("http://localhost:3001/payments", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            total,
+            currency: "cad",
+            method
+        })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        console.log("Payments", data.results);
+        return data.clientSecret || null;
+    }
+};
+
+export const updatePaymentStatus = async (
+    stripe_id: string,
+    status: "SUCCESS" | "FAILED"
+) => {
+    const res: Response = await fetch(
+        `http://localhost:3001/payments/${stripe_id}`,
+        {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                stripe_id,
+                status
+            })
+        }
+    );
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Payment;
+    }
 };

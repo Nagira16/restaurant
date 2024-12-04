@@ -29,7 +29,7 @@ const MenuList = ({ menus, setMenus }: MenuListProps): JSX.Element => {
         <div className="flex justify-center items-stretch flex-wrap">
             {loading ? (
                 <div className="flex justify-center items-stretch flex-wrap">
-                    {Array.from({ length: 9 }).map((_, i) => (
+                    {Array.from({ length: 11 }).map((_, i) => (
                         <Card key={i} className="flex w-[450px] h-[300px] m-2">
                             <Skeleton className="rounded-l-xl w-[200px] h-full" />
                             <CardContent className="flex flex-col justify-between items-start my-10 text-left">

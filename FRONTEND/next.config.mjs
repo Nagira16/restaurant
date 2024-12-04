@@ -50,6 +50,9 @@ const nextConfig = {
                 hostname: "cdn.iconscout.com"
             },
             {
+                hostname: "unimarket.ca"
+            },
+            {
                 hostname: "via.placeholder.com"
             }
         ]

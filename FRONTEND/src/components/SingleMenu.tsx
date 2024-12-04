@@ -12,6 +12,11 @@ import Image from "next/image";
 import { getAllTablesById } from "@/actions";
 import { useEffect, useState } from "react";
 import { Skeleton } from "./ui/skeleton";
+import { Button } from "./ui/button";
+import { useCart } from "./providers/CartContext";
+import { CirclePlus, ChevronLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 type SingleMenuProps = {
     menu_id: string;
@@ -20,6 +25,8 @@ type SingleMenuProps = {
 const SingleMenu = ({ menu_id }: SingleMenuProps): JSX.Element => {
     const [menu, setMenu] = useState<Menu | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const router: AppRouterInstance = useRouter();
+    const { addToCart } = useCart();
 
     useEffect(() => {
         const fetchMenu = async () => {
@@ -36,6 +43,9 @@ const SingleMenu = ({ menu_id }: SingleMenuProps): JSX.Element => {
 
     return (
         <>
+            <button onClick={() => router.push("/menus")}>
+                <ChevronLeft className=" mt-5 ml-5" />
+            </button>
             {loading ? (
                 <div className="w-[400px] space-y-5">
                     <CardHeader>
@@ -69,10 +79,31 @@ const SingleMenu = ({ menu_id }: SingleMenuProps): JSX.Element => {
                                 className="rounded-xl"
                             />
                         </CardContent>
-                        <CardFooter>
+                        <CardFooter className="w-full grid space-y-3">
+                            <p>
+                                $
+                                {parseFloat(
+                                    menu.price.toString() || "0"
+                                ).toFixed(2)}
+                            </p>
                             <CardDescription>
                                 {menu.description}
                             </CardDescription>
+                            <Button
+                                onClick={() =>
+                                    addToCart({
+                                        id: menu_id,
+                                        name: menu.name,
+                                        price: menu.price,
+                                        quantity: 1,
+                                        image: menu.image
+                                    })
+                                }
+                                className="mt-4 px-6 py-3 bg-red-600 text-white font-semibold rounded-2xl hover:bg-red-700"
+                            >
+                                <span>Add to Cart</span>
+                                <CirclePlus />
+                            </Button>
                         </CardFooter>
                     </div>
                 )

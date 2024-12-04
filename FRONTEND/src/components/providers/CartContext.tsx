@@ -1,14 +1,8 @@
 "use client";
 
+import { CartItem } from "@/types";
 import React, { createContext, useContext, useState, ReactNode } from "react";
-
-type CartItem = {
-    id: string;
-    name: string;
-    price: number;
-    quantity: number;
-    image: string;
-};
+import Swal from "sweetalert2";
 
 type CartContextType = {
     cartItems: CartItem[];
@@ -38,6 +32,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
                 );
             }
             return [...prev, item];
+        });
+
+        Swal.fire({
+            title: "Added to Cart",
+            text: `${item.name} has been added successfully.`,
+            icon: "success",
+            confirmButtonText: "Okay"
         });
     };
 

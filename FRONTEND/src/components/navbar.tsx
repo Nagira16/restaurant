@@ -84,6 +84,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/components/providers/CartContext";
 import useUserAuth from "@/hooks/useUserAuth";
+import { ShoppingCart } from "lucide-react";
 
 const Navbar: React.FC = () => {
     const { isSignedIn } = useUserAuth();
@@ -127,7 +128,7 @@ const Navbar: React.FC = () => {
                     {isSignedIn && (
                         <Link href="/cart" className="relative">
                             <span className="text-gray-800 hover:text-gray-600">
-                                Shopping Cart
+                                <ShoppingCart />
                             </span>
                             {cartItems.length > 0 && (
                                 <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-sm">

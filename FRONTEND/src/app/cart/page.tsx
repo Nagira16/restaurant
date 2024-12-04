@@ -4,6 +4,7 @@ import React from "react";
 import { useCart } from "@/components/providers/CartContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 const CartPage: React.FC = () => {
     const { cartItems, removeFromCart, clearCart } = useCart();
@@ -19,12 +20,12 @@ const CartPage: React.FC = () => {
                     <p className="text-gray-600">
                         Your cart is currently empty.
                     </p>
-                    <button
+                    <Button
                         onClick={() => router.push("/menus")}
                         className="mt-6 px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700"
                     >
                         Continue Shopping
-                    </button>
+                    </Button>
                 </div>
             ) : (
                 <div>
@@ -47,8 +48,11 @@ const CartPage: React.FC = () => {
                                             {item.name}
                                         </h3>
                                         <p className="text-gray-600">
-                                            ${item.price.toFixed(2)} x{" "}
-                                            {item.quantity}
+                                            $
+                                            {parseFloat(
+                                                item.price?.toString() || "0"
+                                            ).toFixed(2)}
+                                            x {item.quantity}
                                         </p>
                                     </div>
                                 </div>
@@ -71,12 +75,21 @@ const CartPage: React.FC = () => {
                             )
                             .toFixed(2)}
                     </div>
-                    <button
-                        onClick={clearCart}
-                        className="mt-4 px-6 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700"
-                    >
-                        Clear Cart
-                    </button>
+                    <div className="space-x-20">
+                        <Button
+                            onClick={clearCart}
+                            className="mt-4 px-6 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700"
+                        >
+                            Clear Cart
+                        </Button>
+
+                        <Button
+                            onClick={() => router.push("/payment")}
+                            className="mt-4 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700"
+                        >
+                            Check Out
+                        </Button>
+                    </div>
                 </div>
             )}
         </div>

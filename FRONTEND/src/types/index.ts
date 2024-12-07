@@ -106,7 +106,9 @@ export type FetchData = {
         | Reservation[]
         | Payment
         | Payment[]
+        | Order_Details
         | Order_Details[]
+        | Item_Order_Details
         | Item_Order_Details[]
         | Nutrient
         | Category[]

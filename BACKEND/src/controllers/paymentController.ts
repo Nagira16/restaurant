@@ -113,7 +113,7 @@ export const createPayment = async (
             data: {
                 user_id: user.id,
                 stripe_id: paymentIntent.id,
-                amount,
+                amount: total,
                 currency,
                 method,
                 status: "PENDING"

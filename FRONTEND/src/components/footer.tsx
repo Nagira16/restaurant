@@ -8,14 +8,14 @@ const Footer: React.FC = () => {
         {
             href: "https://www.facebook.com/p/Do%C3%B1a-VICKY-Mexican-Food-LTD-61550340506051/?_rdr",
             icon: (
-                <Facebook className="h-5 w-5 text-gray-600 hover:text-gray-800" />
+                <Facebook className="h-6 w-6 text-gray-600 hover:text-gray-800" />
             ),
             label: "Facebook"
         },
         {
             href: "https://www.instagram.com/donavickymexicanfood",
             icon: (
-                <Instagram className="h-5 w-5 text-gray-600 hover:text-gray-800" />
+                <Instagram className="h-6 w-6 text-gray-600 hover:text-gray-800" />
             ),
             label: "Instagram"
         }
@@ -52,18 +52,6 @@ const Footer: React.FC = () => {
                         <br />
                         V3M 4K4, Canada
                     </address>
-                    <div className="flex space-x-4 mt-4">
-                        {socialLinks.map(({ href, icon, label }) => (
-                            <Link
-                                key={label}
-                                href={href}
-                                aria-label={label}
-                                className="text-gray-600 hover:text-gray-800"
-                            >
-                                {icon}
-                            </Link>
-                        ))}
-                    </div>
                 </div>
 
                 {/* Opening Hours Section */}
@@ -95,6 +83,25 @@ const Footer: React.FC = () => {
                             </li>
                         ))}
                     </ul>
+                </div>
+
+                {/* Social Media Section */}
+                <div className="text-left">
+                    <h3 className="font-bold text-gray-800 text-xl">
+                        Social Media
+                    </h3>
+                    <div className="flex space-x-4 mt-2">
+                        {socialLinks.map(({ href, icon, label }) => (
+                            <Link
+                                key={label}
+                                href={href}
+                                aria-label={label}
+                                className="text-gray-600 hover:text-gray-800"
+                            >
+                                {icon}
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </div>
         </footer>

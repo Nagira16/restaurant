@@ -1,7 +1,6 @@
 "use server";
 
 import {
-    CartItem,
     Endpoint,
     FetchData,
     Item_Order_Details,
@@ -10,7 +9,6 @@ import {
     ReviewWithUser,
     UserData
 } from "@/types";
-import Cookies from "js-cookie";
 
 export const getAllTables = async <T>(endpoint: Endpoint): Promise<T[]> => {
     const res: Response = await fetch(`http://localhost:3001/${endpoint}`);
@@ -230,5 +228,25 @@ export const saveItemOrderDetails = async (
     } else {
         console.log("==============", data.message);
         return data.results as Item_Order_Details;
+    }
+};
+
+export const getAllOrderDetails = async (token: string) => {
+    const res: Response = await fetch(`http://localhost:3001/orderDetails`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Order_Details[];
     }
 };

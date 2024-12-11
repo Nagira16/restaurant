@@ -112,6 +112,7 @@ export type FetchData = {
         | Item_Order_Details[]
         | Nutrient
         | Category[]
+        | ReviewWithUser
         | number
         | null;
 };
@@ -156,4 +157,12 @@ export type CartItem = {
     price: number;
     quantity: number;
     image: string;
+};
+
+export type ItemOrderDetailsWithMenuInfo = {
+    id: string;
+    order_details_id: string;
+    menu_id: string;
+    quantity: number;
+    menu: { name: string | null; image: string | null };
 };

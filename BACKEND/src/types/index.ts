@@ -7,3 +7,11 @@ export type ReviewWithUser = {
     created_at: Date;
     user: { name: string | null; image: string | null };
 };
+
+export type ItemOrderDetailsWithMenuInfo = {
+    id: string;
+    order_details_id: string;
+    menu_id: string;
+    quantity: number;
+    menu: { name: string | null; image: string | null };
+};

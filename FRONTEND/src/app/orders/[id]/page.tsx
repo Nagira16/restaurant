@@ -1,7 +1,13 @@
-const page = ({ params }: { params: { id: string } }): JSX.Element => {
-    console.log(params.id);
+import OrdersDetailPage from "@/pages/OrdersDetailPage";
 
-    return <div>OrderConfirm</div>;
+const page = ({ params }: { params: { id: string } }): JSX.Element => {
+    const id: string = params.id;
+
+    return (
+        <div>
+            <OrdersDetailPage orderId={id} />
+        </div>
+    );
 };
 
 export default page;

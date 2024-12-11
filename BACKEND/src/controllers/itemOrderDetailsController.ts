@@ -2,6 +2,7 @@ import { Item_Order_Details, Menu, Order_Details, User } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
 import { findUserByClerkId } from "./userController";
+import { ItemOrderDetailsWithMenuInfo } from "../types";
 
 export const getAllItemOrderDetails = async (
     _: Request,
@@ -31,11 +32,19 @@ export const getAllItemOrderDetailsByOrderId = async (
     res: Response
 ): Promise<void> => {
     try {
-        const order_details_id = req.body.orderDetailsId;
+        const order_details_id: string = req.params.id;
 
-        const allItemOrderDetails: Item_Order_Details[] =
+        const allItemOrderDetails: ItemOrderDetailsWithMenuInfo[] =
             await prisma.item_Order_Details.findMany({
-                where: { order_details_id }
+                where: { order_details_id },
+                include: {
+                    menu: {
+                        select: {
+                            name: true,
+                            image: true
+                        }
+                    }
+                }
             });
 
         res.status(200).json({

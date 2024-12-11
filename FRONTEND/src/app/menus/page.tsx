@@ -1,7 +1,7 @@
 import MenuListPage from "@/pages/MenuListPage";
 import React from "react";
 
-const MenuPage: React.FC = () => {
+const page: React.FC = () => {
     return (
         <div>
             <MenuListPage />
@@ -9,4 +9,4 @@ const MenuPage: React.FC = () => {
     );
 };
 
-export default MenuPage;
+export default page;

@@ -33,9 +33,17 @@ const getAllItemOrderDetails = (_, res) => __awaiter(void 0, void 0, void 0, fun
 exports.getAllItemOrderDetails = getAllItemOrderDetails;
 const getAllItemOrderDetailsByOrderId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const order_details_id = req.body.orderDetailsId;
+        const order_details_id = req.params.id;
         const allItemOrderDetails = yield prismaClient_1.prisma.item_Order_Details.findMany({
-            where: { order_details_id }
+            where: { order_details_id },
+            include: {
+                menu: {
+                    select: {
+                        name: true,
+                        image: true
+                    }
+                }
+            }
         });
         res.status(200).json({
             results: allItemOrderDetails,

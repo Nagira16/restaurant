@@ -14,7 +14,15 @@ const prismaClient_1 = require("../prismaClient");
 const getAllUsers = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Check if current user role is Admin
-        const allUsers = yield prismaClient_1.prisma.user.findMany();
+        const allUsers = yield prismaClient_1.prisma.user.findMany({
+            include: {
+                role: {
+                    select: {
+                        role_name: true
+                    }
+                }
+            }
+        });
         res.status(200).json({
             results: allUsers,
             message: "Users Found Successfully",
@@ -35,7 +43,14 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const id = req.params.id;
         const user = yield prismaClient_1.prisma.user.findUnique({
-            where: { id }
+            where: { id },
+            include: {
+                role: {
+                    select: {
+                        role_name: true
+                    }
+                }
+            }
         });
         if (user) {
             res.status(200).json({

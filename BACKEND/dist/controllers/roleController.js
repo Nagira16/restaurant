@@ -9,8 +9,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteRole = exports.updateRole = exports.createRole = exports.getRoleById = exports.getAllRoles = void 0;
+exports.deleteRole = exports.updateRole = exports.createRole = exports.getRoleById = exports.getAllRoles = exports.getAllRolesWithUsers = void 0;
 const prismaClient_1 = require("../prismaClient");
+const getAllRolesWithUsers = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const allRoles = yield prismaClient_1.prisma.role.findMany({
+            include: {
+                users: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        });
+        res.status(200).json({
+            results: allRoles,
+            message: "Roles Found Successfully",
+            success: true
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
+    }
+});
+exports.getAllRolesWithUsers = getAllRolesWithUsers;
 const getAllRoles = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allRoles = yield prismaClient_1.prisma.role.findMany();

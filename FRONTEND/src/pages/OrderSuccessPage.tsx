@@ -2,15 +2,14 @@ import { getAllTablesById } from "@/actions";
 import { Endpoint, ItemOrderDetailsWithMenuInfo, Order_Details } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import BackButton from "@/components/BackButton";
 
-type OrdersDetailPageProps = {
+type OrderSuccessPageProps = {
     orderId: string;
 };
 
-const OrdersDetailPage = async ({
+const OrderSuccessPage = async ({
     orderId
-}: OrdersDetailPageProps): Promise<JSX.Element> => {
+}: OrderSuccessPageProps): Promise<JSX.Element> => {
     const orderDetails = await getAllTablesById<Order_Details | null>(
         Endpoint.orderDetails,
         orderId
@@ -30,7 +29,9 @@ const OrdersDetailPage = async ({
 
     return (
         <div className="container mx-auto p-6 space-y-6">
-            <BackButton />
+            <h1 className="text-center font-bold text-4xl underline">
+                Your Order Is Confirm
+            </h1>
             <Card className="shadow-lg hover:shadow-2xl transition-all duration-300">
                 <CardHeader className="bg-green-500 text-white rounded-t-xl">
                     <CardTitle className="text-xl font-bold">
@@ -151,4 +152,4 @@ const OrdersDetailPage = async ({
     );
 };
 
-export default OrdersDetailPage;
+export default OrderSuccessPage;

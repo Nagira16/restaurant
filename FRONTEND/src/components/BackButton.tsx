@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { ChevronLeft } from "lucide-react";
 
-const BackButton = () => {
+const BackButton = (): JSX.Element => {
     const router: AppRouterInstance = useRouter();
 
     return (

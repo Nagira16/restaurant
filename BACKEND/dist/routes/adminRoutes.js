@@ -21,6 +21,7 @@ router.delete("/menus/:id", menuController_1.deleteMenu);
 router.post("/tables", tableController_1.createTable);
 router.put("/tables/:id", tableController_1.updateTable);
 router.delete("/tables/:id", tableController_1.deleteTable);
+router.get("/roles", roleController_1.getAllRolesWithUsers);
 router.post("/roles", roleController_1.createRole);
 router.put("/roles/:id", roleController_1.updateRole);
 router.delete("/roles/:id", roleController_1.deleteRole);
@@ -36,6 +37,10 @@ router.put("/category/:id", categoryController_1.updateCategory);
 router.delete("/category/:id", categoryController_1.deleteCategory);
 router.get("/itemOrderDetails", itemOrderDetailsController_1.getAllItemOrderDetails);
 router.get("/", (_, res) => {
-    res.status(200).json({ message: "Work Admin Routes" });
+    res.status(200).json({
+        results: null,
+        message: "User Auth",
+        success: true
+    });
 });
 exports.default = router;

@@ -13,7 +13,7 @@ import {
 import {
     createRole,
     deleteRole,
-    getAllRoles,
+    getAllRolesWithUsers,
     getRoleById,
     updateRole
 } from "../controllers/roleController";
@@ -48,6 +48,7 @@ router.post("/tables", createTable);
 router.put("/tables/:id", updateTable);
 router.delete("/tables/:id", deleteTable);
 
+router.get("/roles", getAllRolesWithUsers);
 router.post("/roles", createRole);
 router.put("/roles/:id", updateRole);
 router.delete("/roles/:id", deleteRole);
@@ -70,6 +71,11 @@ router.delete("/category/:id", deleteCategory);
 router.get("/itemOrderDetails", getAllItemOrderDetails);
 
 router.get("/", (_: Request, res: Response) => {
-    res.status(200).json({ message: "Work Admin Routes" });
+    res.status(200).json({
+        results: null,
+        message: "User Auth",
+        success: true
+    });
 });
+
 export default router;

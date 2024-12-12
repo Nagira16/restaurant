@@ -98,7 +98,7 @@ const CheckoutForm = ({ clientSecret }: CheckoutFormProps): JSX.Element => {
                     title: "Payment succeeded!",
                     icon: "success",
                     didClose() {
-                        router.push(`/orders/${orderDetails.id}`);
+                        router.push(`/ordersSuccess/${orderDetails.id}`);
                         clearCart();
                     },
                     confirmButtonText: "Next"
@@ -121,7 +121,7 @@ const CheckoutForm = ({ clientSecret }: CheckoutFormProps): JSX.Element => {
                 disabled={!stripe || isLoading}
                 className="bg-green-600 text-white rounded-2xl px-20"
             >
-                {isLoading ? "Processing..." : "Pay Now"}
+                {isLoading ? "Processing..." : "Order Confirm"}
             </Button>
         </form>
     );

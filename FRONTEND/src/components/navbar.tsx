@@ -131,11 +131,6 @@ const Navbar: React.FC = () => {
                                 <span className="text-gray-800 hover:text-gray-600">
                                     <HistoryIcon />
                                 </span>
-                                {cartItems.length > 0 && (
-                                    <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-sm">
-                                        {cartItems.length}
-                                    </span>
-                                )}
                             </Link>
                             <Link href="/cart" className="relative">
                                 <span className="text-gray-800 hover:text-gray-600">

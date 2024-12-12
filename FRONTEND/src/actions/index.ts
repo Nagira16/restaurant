@@ -7,6 +7,7 @@ import {
     Order_Details,
     Payment,
     ReviewWithUser,
+    User,
     UserData
 } from "@/types";
 
@@ -248,5 +249,21 @@ export const getAllOrderDetails = async (token: string) => {
     } else {
         console.log("==============", data.message);
         return data.results as Order_Details[];
+    }
+};
+
+export const UserDelete = async (userId: string) => {
+    const res: Response = await fetch(`http://localhost:3001/users/${userId}`, {
+        method: "DELETE"
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("Error:", data.message);
+        return null;
+    } else {
+        console.log("Success:", data.message);
+        return data.results as User[];
     }
 };

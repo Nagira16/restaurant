@@ -8,15 +8,14 @@ import {
     TableHead,
     TableRow,
     TableBody,
-    TableCell,
-    TableFooter
+    TableCell
 } from "@/components/ui/table";
 import { Order_Details } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const OrdersPage = () => {
+const OrdersPage = (): JSX.Element => {
     const { getToken } = useAuth();
     const [orderDetails, setOrderDetails] = useState<Order_Details[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -51,7 +50,9 @@ const OrdersPage = () => {
 
     if (loading) {
         return (
-            <div className="text-center mt-10 animate-pulse">Loading...</div>
+            <div className="min-h-screen grid place-content-center animate-pulse">
+                Loading...
+            </div>
         );
     }
 
@@ -59,7 +60,6 @@ const OrdersPage = () => {
         return (
             <div className="text-red-500">
                 <p>{error}</p>
-                {/* Optional: Add a retry button */}
                 <button
                     onClick={fetchAllOrders}
                     className="mt-2 text-blue-500 hover:underline"

@@ -54,6 +54,15 @@ const nextConfig = {
             },
             {
                 hostname: "via.placeholder.com"
+            },
+            {
+                hostname: "media.istockphoto.com"
+            },
+            {
+                hostname: "upload.wikimedia.org"
+            },
+            {
+                hostname: "scontent.fcxh3-1.fna.fbcdn.net"
             }
         ]
     }

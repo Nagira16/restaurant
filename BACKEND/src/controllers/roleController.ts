@@ -1,6 +1,37 @@
 import { Role } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
+import { RoleWithUserName } from "../types";
+
+export const getAllRolesWithUsers = async (
+    _: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const allRoles: RoleWithUserName[] = await prisma.role.findMany({
+            include: {
+                users: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        });
+
+        res.status(200).json({
+            results: allRoles,
+            message: "Roles Found Successfully",
+            success: true
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
+    }
+};
 
 export const getAllRoles = async (_: Request, res: Response): Promise<void> => {
     try {

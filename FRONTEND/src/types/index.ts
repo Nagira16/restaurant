@@ -106,10 +106,15 @@ export type FetchData = {
         | Reservation[]
         | Payment
         | Payment[]
+        | Order_Details
         | Order_Details[]
+        | Item_Order_Details
         | Item_Order_Details[]
         | Nutrient
         | Category[]
+        | ReviewWithUser
+        | UserWithRoleName
+        | UserWithRoleName[]
         | number
         | null;
 };
@@ -154,4 +159,26 @@ export type CartItem = {
     price: number;
     quantity: number;
     image: string;
+};
+
+export type ItemOrderDetailsWithMenuInfo = {
+    id: string;
+    order_details_id: string;
+    menu_id: string;
+    quantity: number;
+    menu: { name: string | null; image: string | null };
+};
+
+export type UserWithRoleName = {
+    id: string;
+    name: string;
+    email: string;
+    phone: string | null;
+    image: string | null;
+    address: string | null;
+    role_id: string;
+    clerk_id: string;
+    role: {
+        role_name: string;
+    };
 };

@@ -14,21 +14,33 @@ const prismaClient_1 = require("./prismaClient");
 const adminMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const clerk_id = req.auth.userId;
     if (!clerk_id) {
-        res.status(401).json({ message: "Unauthorized" });
+        res.status(401).json({
+            results: null,
+            message: "Unauthorized",
+            success: false
+        });
         return;
     }
     const user = yield prismaClient_1.prisma.user.findUnique({
         where: { clerk_id }
     });
     if (!user) {
-        res.status(404).json({ message: "User Not Found" });
+        res.status(404).json({
+            results: null,
+            message: "User Not Found",
+            success: false
+        });
         return;
     }
     const role = yield prismaClient_1.prisma.role.findUnique({
         where: { id: user.role_id }
     });
     if (!role) {
-        res.status(404).json({ message: "Role Not Found" });
+        res.status(404).json({
+            results: null,
+            message: "Role Not Found",
+            success: false
+        });
         return;
     }
     if (role.role_name === "Admin") {
@@ -36,7 +48,11 @@ const adminMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
     else {
         {
-            res.status(403).json({ message: "Forbidden: Admin only" });
+            res.status(403).json({
+                results: null,
+                message: "Forbidden: Admin only",
+                success: false
+            });
             return;
         }
     }

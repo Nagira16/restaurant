@@ -1,4 +1,4 @@
-import Landing from "../pages/LandingPage";
+import Landing from "@/pages/LandingPage";
 
 const HomePage = () => (
     <div>

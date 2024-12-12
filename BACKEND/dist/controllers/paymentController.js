@@ -103,7 +103,7 @@ const createPayment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             data: {
                 user_id: user.id,
                 stripe_id: paymentIntent.id,
-                amount,
+                amount: total,
                 currency,
                 method,
                 status: "PENDING"

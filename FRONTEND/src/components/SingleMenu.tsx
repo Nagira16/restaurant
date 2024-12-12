@@ -17,6 +17,7 @@ import { useCart } from "./providers/CartContext";
 import { CirclePlus, ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import BackButton from "./BackButton";
 
 type SingleMenuProps = {
     menu_id: string;
@@ -43,9 +44,7 @@ const SingleMenu = ({ menu_id }: SingleMenuProps): JSX.Element => {
 
     return (
         <>
-            <button onClick={() => router.push("/menus")}>
-                <ChevronLeft className=" mt-5 ml-5" />
-            </button>
+            <BackButton />
             {loading ? (
                 <div className="w-[400px] space-y-5">
                     <CardHeader>

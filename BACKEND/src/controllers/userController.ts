@@ -1,12 +1,21 @@
 import { Role, User } from "@prisma/client";
 import { prisma } from "../prismaClient";
 import { Request, Response } from "express";
+import { UserWithRoleName } from "../types";
 
 export const getAllUsers = async (_: Request, res: Response): Promise<void> => {
     try {
         // Check if current user role is Admin
 
-        const allUsers: User[] = await prisma.user.findMany();
+        const allUsers: UserWithRoleName[] = await prisma.user.findMany({
+            include: {
+                role: {
+                    select: {
+                        role_name: true
+                    }
+                }
+            }
+        });
 
         res.status(200).json({
             results: allUsers,
@@ -30,8 +39,15 @@ export const getUserById = async (
     try {
         const id: string = req.params.id;
 
-        const user: User | null = await prisma.user.findUnique({
-            where: { id }
+        const user: UserWithRoleName | null = await prisma.user.findUnique({
+            where: { id },
+            include: {
+                role: {
+                    select: {
+                        role_name: true
+                    }
+                }
+            }
         });
 
         if (user) {

@@ -68,10 +68,10 @@ const PaymentPage = (): JSX.Element => {
 
     return (
         <div className="text-center mt-4 w-full h-full">
-            <h1 className="text-5xl font-bold">Payment</h1>
+            <h1 className="text-5xl font-bold">Complete Your Payment</h1>
             <div className="my-5">
                 <h2 className="text-xl font-bold">Order Summary</h2>
-                <div className="flex justify-center items-center space-x-10 my-3">
+                <div className="flex flex-wrap justify-center items-center space-x-10 my-3">
                     {cartItems.map((item) => (
                         <div
                             key={item.id}

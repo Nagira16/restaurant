@@ -9,7 +9,11 @@ export const adminMiddleware = async (
 ): Promise<void> => {
     const clerk_id: string | null = req.auth.userId;
     if (!clerk_id) {
-        res.status(401).json({ message: "Unauthorized" });
+        res.status(401).json({
+            results: null,
+            message: "Unauthorized",
+            success: false
+        });
         return;
     }
 
@@ -18,7 +22,11 @@ export const adminMiddleware = async (
     });
 
     if (!user) {
-        res.status(404).json({ message: "User Not Found" });
+        res.status(404).json({
+            results: null,
+            message: "User Not Found",
+            success: false
+        });
         return;
     }
 
@@ -27,7 +35,11 @@ export const adminMiddleware = async (
     });
 
     if (!role) {
-        res.status(404).json({ message: "Role Not Found" });
+        res.status(404).json({
+            results: null,
+            message: "Role Not Found",
+            success: false
+        });
         return;
     }
 
@@ -35,7 +47,11 @@ export const adminMiddleware = async (
         next();
     } else {
         {
-            res.status(403).json({ message: "Forbidden: Admin only" });
+            res.status(403).json({
+                results: null,
+                message: "Forbidden: Admin only",
+                success: false
+            });
             return;
         }
     }

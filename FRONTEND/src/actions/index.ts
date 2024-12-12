@@ -1,14 +1,15 @@
 "use server";
 
 import {
-    CartItem,
     Endpoint,
     FetchData,
+    Item_Order_Details,
+    Order_Details,
     Payment,
     ReviewWithUser,
+    User,
     UserData
 } from "@/types";
-import Cookies from "js-cookie";
 
 export const getAllTables = async <T>(endpoint: Endpoint): Promise<T[]> => {
     const res: Response = await fetch(`http://localhost:3001/${endpoint}`);
@@ -116,6 +117,8 @@ export const getClientSecret = async (
     total: number,
     method: string
 ): Promise<string | null> => {
+    console.log(total);
+
     const res: Response = await fetch("http://localhost:3001/payments", {
         method: "POST",
         headers: {
@@ -144,7 +147,7 @@ export const getClientSecret = async (
 export const updatePaymentStatus = async (
     stripe_id: string,
     status: "SUCCESS" | "FAILED"
-) => {
+): Promise<null | Payment> => {
     const res: Response = await fetch(
         `http://localhost:3001/payments/${stripe_id}`,
         {
@@ -165,5 +168,102 @@ export const updatePaymentStatus = async (
     } else {
         console.log("==============", data.message);
         return data.results as Payment;
+    }
+};
+
+export const saveOrderDetails = async (
+    token: string,
+    payment_id: string,
+    total_price: number
+): Promise<Order_Details | null> => {
+    const res: Response = await fetch("http://localhost:3001/orderDetails", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            payment_id,
+            total_price
+        })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Order_Details;
+    }
+};
+
+export const saveItemOrderDetails = async (
+    token: string,
+    order_details_id: string,
+    menu_id: string,
+    quantity: number
+) => {
+    const res: Response = await fetch(
+        "http://localhost:3001/itemOrderDetails",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                order_details_id,
+                menu_id,
+                quantity
+            })
+        }
+    );
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Item_Order_Details;
+    }
+};
+
+export const getAllOrderDetails = async (token: string) => {
+    const res: Response = await fetch(`http://localhost:3001/orderDetails`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        }
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Order_Details[];
+    }
+};
+
+export const UserDelete = async (userId: string) => {
+    const res: Response = await fetch(`http://localhost:3001/users/${userId}`, {
+        method: "DELETE"
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("Error:", data.message);
+        return null;
+    } else {
+        console.log("Success:", data.message);
+        return data.results as User[];
     }
 };

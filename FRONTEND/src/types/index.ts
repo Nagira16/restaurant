@@ -115,6 +115,8 @@ export type FetchData = {
         | ReviewWithUser
         | UserWithRoleName
         | UserWithRoleName[]
+        | MenuWithCategoryName
+        | MenuWithCategoryName[]
         | number
         | null;
 };
@@ -181,4 +183,16 @@ export type UserWithRoleName = {
     role: {
         role_name: string;
     };
+};
+
+export type MenuWithCategoryName = {
+    name: string;
+    id: string;
+    description: string | null;
+    price: number;
+    category_id: string | null;
+    image: string | null;
+    category: {
+        category_name: string;
+    } | null;
 };

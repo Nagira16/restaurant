@@ -37,7 +37,7 @@ const MenuCard = ({ menu }: MenuCardProps): JSX.Element => {
 
     return (
         <Link href={`/menus/${menu.id}`}>
-            <Card className="flex flex-col sm:flex-row w-[320px] sm:w-[450px] h-fit sm:h-[300px] m-2 shadow-lg hover:shadow-2xl transition-all duration-300">
+            <Card className="flex flex-col sm:flex-row w-[310px] sm:w-[450px] h-fit sm:h-[300px] m-2 shadow-lg hover:shadow-2xl transition-all duration-300">
                 <Image
                     src={menu.image}
                     alt={menu.name}

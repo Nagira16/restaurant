@@ -15,7 +15,9 @@ const itemOrderDetailsController_1 = require("../controllers/itemOrderDetailsCon
 const router = (0, express_1.Router)();
 // http://localhost:3001/admin
 router.get("/users", userController_1.getAllUsers);
-router.post("/menus/:id", menuController_1.createMenu);
+router.get("/menus", menuController_1.getAllMenusWithCategoryName);
+router.post("/menus", menuController_1.createMenu);
+router.get("/menus/:id", menuController_1.getMenuWithCategoryNameById);
 router.put("/menus/:id", menuController_1.updateMenu);
 router.delete("/menus/:id", menuController_1.deleteMenu);
 router.post("/tables", tableController_1.createTable);

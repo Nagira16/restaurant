@@ -13,7 +13,7 @@ export default function AdminLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div>
+        <div className="bg-white">
             <SidebarProvider>
                 <AdminAppSidebar />
                 <SidebarInset>

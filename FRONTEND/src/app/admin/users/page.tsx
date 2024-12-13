@@ -1,6 +1,6 @@
 "use client";
 
-import { UserDelete } from "@/actions";
+import { deleteById } from "@/actions";
 import { Button } from "@/components/ui/button";
 import {
     Table,
@@ -10,7 +10,7 @@ import {
     TableBody,
     TableCell
 } from "@/components/ui/table";
-import { FetchData, UserWithRoleName } from "@/types";
+import { Endpoint, FetchData, User, UserWithRoleName } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
@@ -24,33 +24,40 @@ const AdminUserDashBoard = () => {
 
     const fetchAllUsers = async () => {
         const token: string | null = await getToken();
-        if (token) {
-            const res: Response = await fetch(
-                "http://localhost:3001/admin/users",
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
 
-            const data: FetchData = await res.json();
+        if (!token) return;
 
-            if (data.success) {
-                const result = data.results as UserWithRoleName[];
-                setAllUsers(result);
-                setIsLoading(false);
-            } else {
-                router.push("/");
+        const res: Response = await fetch("http://localhost:3001/admin/users", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
             }
+        });
+
+        const data: FetchData = await res.json();
+
+        if (data.success) {
+            const result = data.results as UserWithRoleName[];
+            setAllUsers(result);
+            setIsLoading(false);
+        } else {
+            router.push("/");
         }
     };
 
     const handleDelete = async (userId: string) => {
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this user?"
+        );
+
+        if (!confirmDelete) return alert("Action Canceled");
+
         try {
-            const deletedUser = await UserDelete(userId);
+            const deletedUser = await deleteById<User | null>(
+                Endpoint.users,
+                userId
+            );
 
             if (deletedUser) {
                 fetchAllUsers();
@@ -83,22 +90,30 @@ const AdminUserDashBoard = () => {
                             <TableRow>
                                 <TableHead>Order</TableHead>
                                 <TableHead>Name</TableHead>
-                                <TableHead>Email</TableHead>
-                                <TableHead>Role</TableHead>
+                                <TableHead className="lg:table-cell hidden">
+                                    Email
+                                </TableHead>
+                                <TableHead className="lg:table-cell hidden">
+                                    Role
+                                </TableHead>
                                 <TableHead>Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {allUsers.map((user) => (
+                            {allUsers.map((user, i) => (
                                 <TableRow key={user.id}>
-                                    <TableCell>{allUsers.length}</TableCell>
+                                    <TableCell>{i + 1}</TableCell>
                                     <TableCell>{user.name}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.role.role_name}</TableCell>
+                                    <TableCell className="lg:table-cell hidden">
+                                        {user.email}
+                                    </TableCell>
+                                    <TableCell className="lg:table-cell hidden">
+                                        {user.role.role_name}
+                                    </TableCell>
                                     <TableCell>
                                         <Button
                                             variant="outline"
-                                            className="mr-2"
+                                            className="mr-2 rounded-xl"
                                             onClick={() =>
                                                 router.push(
                                                     `/admin/users/edit/${user.id}`
@@ -109,6 +124,7 @@ const AdminUserDashBoard = () => {
                                         </Button>
                                         <Button
                                             variant="outline"
+                                            className="rounded-xl"
                                             onClick={() =>
                                                 handleDelete(user.id)
                                             }

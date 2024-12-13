@@ -3,6 +3,8 @@ import { getAllUsers } from "../controllers/userController";
 import {
     createMenu,
     deleteMenu,
+    getAllMenusWithCategoryName,
+    getMenuWithCategoryNameById,
     updateMenu
 } from "../controllers/menuController";
 import {
@@ -40,7 +42,9 @@ const router = Router();
 
 router.get("/users", getAllUsers);
 
-router.post("/menus/:id", createMenu);
+router.get("/menus", getAllMenusWithCategoryName);
+router.post("/menus", createMenu);
+router.get("/menus/:id", getMenuWithCategoryNameById);
 router.put("/menus/:id", updateMenu);
 router.delete("/menus/:id", deleteMenu);
 

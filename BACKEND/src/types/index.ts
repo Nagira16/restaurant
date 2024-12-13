@@ -1,4 +1,5 @@
 import { User } from "@prisma/client";
+import { Decimal } from "@prisma/client/runtime/library";
 
 export type ReviewWithUser = {
     id: string;
@@ -36,4 +37,16 @@ export type RoleWithUserName = {
     id: string;
     role_name: string;
     users: { name: string }[];
+};
+
+export type MenuWithCategoryName = {
+    name: string;
+    id: string;
+    description: string | null;
+    price: Decimal;
+    category_id: string | null;
+    image: string | null;
+    category: {
+        category_name: string;
+    } | null;
 };

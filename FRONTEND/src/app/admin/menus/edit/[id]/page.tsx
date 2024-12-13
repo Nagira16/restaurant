@@ -3,31 +3,39 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { FetchData, UserWithRoleName } from "@/types";
+import { ChangeEvent, useEffect, useState } from "react";
+import { FetchData, MenuWithCategoryName, UserWithRoleName } from "@/types";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Swal from "sweetalert2";
+import { useAuth } from "@clerk/nextjs";
 
-const AdminUserEdit = ({ params }: { params: { id: string } }) => {
-    const userId: string = params.id;
-    const [userData, setUserData] = useState<UserWithRoleName | null>(null);
+const AdminMenuEdit = ({ params }: { params: { id: string } }) => {
+    const menuId: string = params.id;
+    const [menuData, setMenuData] = useState<MenuWithCategoryName | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const router: AppRouterInstance = useRouter();
+    const { getToken } = useAuth();
 
-    const fetchUserData = async () => {
+    const fetchMenuData = async () => {
+        const token: string | null = await getToken();
+
+        if (!token) return;
+
         const res: Response = await fetch(
-            `http://localhost:3001/users/${userId}`,
+            `http://localhost:3001/admin/menus/${menuId}`,
             {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
                 }
             }
         );
+
         const data: FetchData = await res.json();
         if (data.success) {
-            setUserData(data.results as UserWithRoleName);
+            setMenuData(data.results as MenuWithCategoryName);
             setIsLoading(false);
         } else {
             router.push("/admin");
@@ -35,30 +43,35 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (userData) {
-            setUserData({
-                ...userData,
+        if (menuData) {
+            setMenuData({
+                ...menuData,
                 [e.target.name]: e.target.value
             });
         }
     };
 
     const handleSave = async () => {
-        if (!userData) return;
+        const token: string | null = await getToken();
+
+        if (!token || !menuData) return;
+
+        console.log(menuData);
 
         setIsSaving(true);
 
-        const res = await fetch(`http://localhost:3001/users/${userId}`, {
+        const res = await fetch(`http://localhost:3001/admin/menus/${menuId}`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
-                name: userData.name,
-                email: userData.email,
-                phone: userData.phone,
-                address: userData.address,
-                role_name: userData.role.role_name
+                name: menuData.name,
+                description: menuData.description,
+                price: menuData.price,
+                category_name: menuData.category?.category_name,
+                image: menuData.image
             })
         });
 
@@ -71,7 +84,7 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
                 icon: "success",
                 timer: 5000,
                 didClose() {
-                    fetchUserData();
+                    fetchMenuData();
                 }
             });
         } else {
@@ -80,14 +93,14 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
                 icon: "error",
                 timer: 5000,
                 didClose() {
-                    fetchUserData();
+                    fetchMenuData();
                 }
             });
         }
     };
 
     useEffect(() => {
-        fetchUserData();
+        fetchMenuData();
     }, []);
 
     if (isLoading) {
@@ -101,38 +114,57 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
     return (
         <div>
             <h1 className="text-3xl font-bold mb-4">Edit User</h1>
-            {userData && (
+            {menuData && (
                 <div className="space-y-4">
                     <div>
                         <label className="block">Name</label>
                         <Input
                             type="text"
                             name="name"
-                            value={userData.name}
+                            value={menuData.name}
                             onChange={handleInputChange}
                         />
                     </div>
                     <div>
-                        <label className="block">Email</label>
-                        <Input
-                            type="email"
-                            name="email"
-                            value={userData.email}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <label className="block">Role</label>
+                        <label className="block">Image</label>
                         <Input
                             type="text"
-                            name="role_name"
-                            value={userData.role.role_name}
-                            onChange={(
-                                e: React.ChangeEvent<HTMLInputElement>
-                            ) =>
-                                setUserData({
-                                    ...userData,
-                                    role: { role_name: e.target.value }
+                            name="image"
+                            value={
+                                menuData.image ||
+                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR15hCF5P6XrxJBMjZIlDjkSSxWwjOaNSlHJw&s"
+                            }
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <label className="block">Price</label>
+                        <Input
+                            type="number"
+                            name="price"
+                            value={menuData.price}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <label className="block">Description</label>
+                        <Input
+                            type="text"
+                            name="description"
+                            value={menuData.description || ""}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <label className="block">Category Name</label>
+                        <Input
+                            type="text"
+                            name="category"
+                            value={menuData.category?.category_name || ""}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                setMenuData({
+                                    ...menuData,
+                                    category: { category_name: e.target.value }
                                 })
                             }
                         />
@@ -147,8 +179,8 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
                         </Button>
                         <Button
                             variant="outline"
-                            className="rounded-xl"
                             onClick={handleSave}
+                            className="rounded-xl"
                             disabled={isSaving}
                         >
                             {isSaving ? "Saving..." : "Save"}
@@ -160,4 +192,4 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
     );
 };
 
-export default AdminUserEdit;
+export default AdminMenuEdit;

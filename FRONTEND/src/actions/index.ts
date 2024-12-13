@@ -252,10 +252,16 @@ export const getAllOrderDetails = async (token: string) => {
     }
 };
 
-export const UserDelete = async (userId: string) => {
-    const res: Response = await fetch(`http://localhost:3001/users/${userId}`, {
-        method: "DELETE"
-    });
+export const deleteById = async <T>(
+    endpoint: Endpoint,
+    id: string
+): Promise<T | null> => {
+    const res: Response = await fetch(
+        `http://localhost:3001/${endpoint}/${id}`,
+        {
+            method: "DELETE"
+        }
+    );
 
     const data: FetchData = await res.json();
 
@@ -264,6 +270,6 @@ export const UserDelete = async (userId: string) => {
         return null;
     } else {
         console.log("Success:", data.message);
-        return data.results as User[];
+        return data.results as T;
     }
 };

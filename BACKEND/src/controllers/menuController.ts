@@ -1,10 +1,41 @@
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
 import { Category, Menu } from "@prisma/client";
+import { MenuWithCategoryName } from "../types";
 
 export const getAllMenus = async (_: Request, res: Response): Promise<void> => {
     try {
         const allMenus: Menu[] = await prisma.menu.findMany();
+
+        res.status(200).json({
+            results: allMenus,
+            message: "Menus Found Successfully",
+            success: true
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            results: null,
+            message: "Server Falied",
+            success: false
+        });
+    }
+};
+
+export const getAllMenusWithCategoryName = async (
+    _: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const allMenus: MenuWithCategoryName[] = await prisma.menu.findMany({
+            include: {
+                category: {
+                    select: {
+                        category_name: true
+                    }
+                }
+            }
+        });
 
         res.status(200).json({
             results: allMenus,
@@ -29,6 +60,45 @@ export const getMenuById = async (
         const id: string = req.params.id;
         const menu: Menu | null = await prisma.menu.findUnique({
             where: { id }
+        });
+        if (menu) {
+            res.status(200).json({
+                results: menu,
+                message: "Menu Found Successfully",
+                success: true
+            });
+        } else {
+            res.status(404).json({
+                results: menu,
+                message: "Menu Not Found Successfully",
+                success: false
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
+    }
+};
+
+export const getMenuWithCategoryNameById = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const id: string = req.params.id;
+        const menu: MenuWithCategoryName | null = await prisma.menu.findUnique({
+            where: { id },
+            include: {
+                category: {
+                    select: {
+                        category_name: true
+                    }
+                }
+            }
         });
         if (menu) {
             res.status(200).json({

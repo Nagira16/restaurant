@@ -15,6 +15,7 @@ import { useAuth } from "@clerk/nextjs";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 const AdminUserDashBoard = (): JSX.Element => {
     const [allUsers, setAllUsers] = useState<UserWithRoleName[]>([]);
@@ -60,12 +61,21 @@ const AdminUserDashBoard = (): JSX.Element => {
 
             if (deletedUser) {
                 fetchAllUsers();
-                alert("User deleted successfully!");
+                Swal.fire({
+                    title: "User Deleted Successfully",
+                    icon: "success"
+                });
             } else {
-                alert("Failed to delete user.");
+                Swal.fire({
+                    title: "Failed To Delete User",
+                    icon: "warning"
+                });
             }
         } catch (error) {
-            alert("An error occurred while deleting the user.");
+            Swal.fire({
+                title: "An Error Occurred While Deleting The User",
+                icon: "error"
+            });
         }
     };
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { adminDeleteById, deleteById } from "@/actions";
-import AddMenuForm from "@/components/AddMenuForm";
+import { adminDeleteById, getAllTables } from "@/actions";
+import AddRoleForm from "@/components/AddRoleForm";
 import { Button } from "@/components/ui/button";
 import {
     Table,
@@ -11,45 +11,29 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table";
-import { Endpoint, FetchData, Menu, MenuWithCategoryName } from "@/types";
+import { Endpoint, Role } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-const AdminMenusDashBoard = (): JSX.Element => {
-    const [allMenus, setAllMenus] = useState<MenuWithCategoryName[]>([]);
+const AdminRoleDashBoard = () => {
+    const [allRoles, setAllRoles] = useState<Role[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const router: AppRouterInstance = useRouter();
     const { getToken } = useAuth();
 
-    const fetchAllMenus = async (): Promise<void> => {
-        const token: string | null = await getToken();
-        if (!token) return;
+    const fetchAllRoles = async (): Promise<void> => {
+        const result = await getAllTables<Role>(Endpoint.roles);
 
-        const res: Response = await fetch("http://localhost:3001/admin/menus", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            }
-        });
-
-        const data: FetchData = await res.json();
-
-        if (data.success) {
-            const result = data.results as MenuWithCategoryName[];
-            setAllMenus(result);
-            setIsLoading(false);
-        } else {
-            router.push("/");
-        }
+        setAllRoles(result);
+        setIsLoading(false);
     };
 
-    const handleDelete = async (menuId: string): Promise<void> => {
+    const handleDelete = async (roleId: string): Promise<void> => {
         const confirmDelete = window.confirm(
-            "Are you sure you want to delete this menu?"
+            "Are you sure you want to delete this role?"
         );
 
         if (!confirmDelete) return alert("Action Canceled");
@@ -58,34 +42,34 @@ const AdminMenusDashBoard = (): JSX.Element => {
             const token: string | null = await getToken();
             if (!token) return;
 
-            const deletedMenu = await adminDeleteById<Menu | null>(
+            const deletedRole = await adminDeleteById<Role | null>(
                 token,
-                Endpoint.menus,
-                menuId
+                Endpoint.roles,
+                roleId
             );
 
-            if (deletedMenu) {
-                fetchAllMenus();
+            if (deletedRole) {
+                fetchAllRoles();
                 Swal.fire({
-                    title: "Menu Deleted Successfully",
+                    title: "Role Deleted Successfully",
                     icon: "success"
                 });
             } else {
                 Swal.fire({
-                    title: "Failed To Delete Menu",
+                    title: "Failed To Delete Role",
                     icon: "warning"
                 });
             }
         } catch (error) {
             Swal.fire({
-                title: "An Error Occurred While Deleting The Menu",
+                title: "An Error Occurred While Deleting The Role",
                 icon: "error"
             });
         }
     };
 
     useEffect(() => {
-        fetchAllMenus();
+        fetchAllRoles();
     }, []);
 
     return (
@@ -100,47 +84,31 @@ const AdminMenusDashBoard = (): JSX.Element => {
                 <>
                     <div className="flex items-center sm:justify-between flex-wrap">
                         <h1 className="text-3xl font-bold mb-4">
-                            Menu Management
+                            Role Management
                         </h1>
-                        <AddMenuForm fetchAllMenus={fetchAllMenus} />
+                        <AddRoleForm fetchAllRoles={fetchAllRoles} />
                     </div>
                     <div>
                         <Table>
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Order</TableHead>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead className="lg:table-cell hidden">
-                                        Price
-                                    </TableHead>
-                                    <TableHead className="lg:table-cell hidden">
-                                        Category Name
-                                    </TableHead>
+                                    <TableHead>Role Name</TableHead>
                                     <TableHead>Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {allMenus.map((menu, i) => (
-                                    <TableRow key={menu.id}>
+                                {allRoles.map((role, i) => (
+                                    <TableRow key={role.id}>
                                         <TableCell>{i + 1}</TableCell>
-                                        <TableCell>{menu.name}</TableCell>
-                                        <TableCell className="lg:table-cell hidden">
-                                            $
-                                            {parseFloat(
-                                                menu.price?.toString() || "0"
-                                            ).toFixed(2)}
-                                        </TableCell>
-                                        <TableCell className="lg:table-cell hidden">
-                                            {menu.category?.category_name ||
-                                                "N/A"}
-                                        </TableCell>
+                                        <TableCell>{role.role_name}</TableCell>
                                         <TableCell>
                                             <Button
                                                 variant="outline"
                                                 className="mr-2 rounded-xl"
                                                 onClick={() =>
                                                     router.push(
-                                                        `/admin/menus/edit/${menu.id}`
+                                                        `/admin/roles/edit/${role.id}`
                                                     )
                                                 }
                                             >
@@ -150,7 +118,7 @@ const AdminMenusDashBoard = (): JSX.Element => {
                                                 variant="outline"
                                                 className="rounded-xl"
                                                 onClick={() =>
-                                                    handleDelete(menu.id)
+                                                    handleDelete(role.id)
                                                 }
                                             >
                                                 Delete
@@ -167,4 +135,4 @@ const AdminMenusDashBoard = (): JSX.Element => {
     );
 };
 
-export default AdminMenusDashBoard;
+export default AdminRoleDashBoard;

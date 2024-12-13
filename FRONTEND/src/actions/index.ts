@@ -10,6 +10,7 @@ import {
     Order_Details,
     Payment,
     ReviewWithUser,
+    Role,
     User,
     UserData
 } from "@/types";
@@ -327,6 +328,32 @@ export const addNewCategory = async (
     } else {
         console.log("==============", data.message);
         return data.results as Category;
+    }
+};
+
+export const addNewRole = async (
+    token: string,
+    role_name: string
+): Promise<Role | null> => {
+    const res: Response = await fetch("http://localhost:3001/admin/roles", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            role_name
+        })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Role;
     }
 };
 

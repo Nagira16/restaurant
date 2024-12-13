@@ -22,6 +22,7 @@ import { useAuth } from "@clerk/nextjs";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 const AdminNutrientsDashBoard = (): JSX.Element => {
     const [allNutrients, setAllNutrients] = useState<NutrientsWithMenuName[]>(
@@ -76,12 +77,21 @@ const AdminNutrientsDashBoard = (): JSX.Element => {
 
             if (deletedNutrient) {
                 fetchAllNutrients();
-                alert("nutrient deleted successfully!");
+                Swal.fire({
+                    title: "Nutrient Deleted Successfully",
+                    icon: "success"
+                });
             } else {
-                alert("Failed to delete nutrient.");
+                Swal.fire({
+                    title: "Failed To Delete Nutrient",
+                    icon: "warning"
+                });
             }
         } catch (error) {
-            alert("An error occurred while deleting the nutrient.");
+            Swal.fire({
+                title: "An Error Occurred While Deleting The Nutrient",
+                icon: "error"
+            });
         }
     };
 

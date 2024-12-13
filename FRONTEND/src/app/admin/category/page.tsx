@@ -11,11 +11,12 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table";
-import { Category, Endpoint, FetchData, Menu } from "@/types";
+import { Category, Endpoint, FetchData } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 const AdminCategoryDashBoard = (): JSX.Element => {
     const [allCategories, setAllCategories] = useState<Category[]>([]);
@@ -68,12 +69,21 @@ const AdminCategoryDashBoard = (): JSX.Element => {
 
             if (deletedCategory) {
                 fetchAllCategories();
-                alert("category deleted successfully!");
+                Swal.fire({
+                    title: "Category Deleted Successfully",
+                    icon: "success"
+                });
             } else {
-                alert("Failed to delete category.");
+                Swal.fire({
+                    title: "Failed To Delete Category",
+                    icon: "warning"
+                });
             }
         } catch (error) {
-            alert("An error occurred while deleting the category.");
+            Swal.fire({
+                title: "An Error Occurred While Deleting The Category",
+                icon: "error"
+            });
         }
     };
 

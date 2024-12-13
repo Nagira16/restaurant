@@ -14,6 +14,7 @@ import { Input } from "./ui/input";
 import { useAuth } from "@clerk/nextjs";
 import { Menu } from "@/types";
 import { addNewMenu } from "@/actions";
+import Swal from "sweetalert2";
 
 type AddMenuFormProps = {
     fetchAllMenus: () => Promise<void>;
@@ -45,7 +46,10 @@ const AddMenuForm = ({ fetchAllMenus }: AddMenuFormProps): JSX.Element => {
         if (!newMenu) return;
 
         fetchAllMenus();
-        alert("menu added");
+        Swal.fire({
+            title: "Menu Added Successfully",
+            icon: "success"
+        });
         setName("");
         setDescription("");
         setPrice(0);
@@ -74,7 +78,7 @@ const AddMenuForm = ({ fetchAllMenus }: AddMenuFormProps): JSX.Element => {
                     <form onSubmit={handleSubmit} className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="name" className="text-right">
-                                Name
+                                Menu Name
                             </Label>
                             <Input
                                 id="name"

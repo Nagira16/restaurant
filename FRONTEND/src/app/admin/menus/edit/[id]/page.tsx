@@ -114,7 +114,7 @@ const AdminMenuEdit = ({ params }: { params: { id: string } }): JSX.Element => {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold mb-4">Edit User</h1>
+            <h1 className="text-3xl font-bold mb-4">Edit Menu</h1>
             {menuData && (
                 <div className="space-y-4">
                     <div>

@@ -100,6 +100,7 @@ export type FetchData = {
         | Menu[]
         | User[]
         | Table[]
+        | Role
         | Role[]
         | Review
         | Review[]

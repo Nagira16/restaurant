@@ -14,6 +14,7 @@ import {
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
+import Swal from "sweetalert2";
 
 type AddNutrientFormProps = {
     fetchAllNutrients: () => Promise<void>;
@@ -58,11 +59,13 @@ const AddNutrientForm = ({ fetchAllNutrients }: AddNutrientFormProps) => {
             sodium!
         );
 
-        console.log({ newNutrient });
         if (!newNutrient) return;
 
         fetchAllNutrients();
-        alert("menu added");
+        Swal.fire({
+            title: "Nutrient Added Successfully",
+            icon: "success"
+        });
         setMenu_id("");
         setCalories(0);
         setProtein(0);

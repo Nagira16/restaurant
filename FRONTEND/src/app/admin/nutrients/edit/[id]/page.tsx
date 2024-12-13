@@ -123,7 +123,7 @@ const AdminNutrientEdit = ({
 
     return (
         <div>
-            <h1 className="text-3xl font-bold mb-4">Edit User</h1>
+            <h1 className="text-3xl font-bold mb-4">Edit Nutrient</h1>
             {nutrientData && (
                 <div className="space-y-4">
                     <div>

@@ -12,19 +12,17 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { useAuth } from "@clerk/nextjs";
-import { addNewCategory } from "@/actions";
-import { Category } from "@/types";
+import { addNewRole } from "@/actions";
+import { Category, Role } from "@/types";
 import Swal from "sweetalert2";
 
-type AddCategoryFormProps = {
-    fetchAllCategories: () => Promise<void>;
+type AddRoleFormProps = {
+    fetchAllRoles: () => Promise<void>;
 };
 
-const AddCategoryForm = ({
-    fetchAllCategories
-}: AddCategoryFormProps): JSX.Element => {
+const AddRoleForm = ({ fetchAllRoles }: AddRoleFormProps): JSX.Element => {
     const { getToken } = useAuth();
-    const [category_name, setCategory_name] = useState<string>("");
+    const [role_name, setRole_name] = useState<string>("");
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -32,19 +30,16 @@ const AddCategoryForm = ({
 
         if (!token) return;
 
-        const newCategory: Category | null = await addNewCategory(
-            token,
-            category_name
-        );
+        const newRole: Role | null = await addNewRole(token, role_name);
 
-        if (!newCategory) return;
+        if (!newRole) return;
 
-        fetchAllCategories();
+        fetchAllRoles();
         Swal.fire({
-            title: "Category Added Successfully",
+            title: "Role Added Successfully",
             icon: "success"
         });
-        setCategory_name("");
+        setRole_name("");
     };
 
     return (
@@ -55,27 +50,25 @@ const AddCategoryForm = ({
                         variant="default"
                         className="bg-blue-500 text-white hover:bg-blue-700 rounded-xl"
                     >
-                        Add New Category
+                        Add New Role
                     </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Add New Category</DialogTitle>
+                        <DialogTitle>Add New Role</DialogTitle>
                         <DialogDescription>
-                            Fill in the details below to add a new category.
+                            Fill in the details below to add a new role.
                         </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleSubmit} className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="name" className="text-right">
-                                Category Name
+                                Role Name
                             </Label>
                             <Input
-                                id="name"
-                                value={category_name}
-                                onChange={(e) =>
-                                    setCategory_name(e.target.value)
-                                }
+                                id="role_name"
+                                value={role_name}
+                                onChange={(e) => setRole_name(e.target.value)}
                                 className="col-span-3"
                                 required
                             />
@@ -96,4 +89,4 @@ const AddCategoryForm = ({
     );
 };
 
-export default AddCategoryForm;
+export default AddRoleForm;

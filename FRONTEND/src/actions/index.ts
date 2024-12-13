@@ -1,9 +1,11 @@
 "use server";
 
 import {
+    Category,
     Endpoint,
     FetchData,
     Item_Order_Details,
+    Menu,
     Order_Details,
     Payment,
     ReviewWithUser,
@@ -271,5 +273,92 @@ export const deleteById = async <T>(
     } else {
         console.log("Success:", data.message);
         return data.results as T;
+    }
+};
+
+export const adminDeleteById = async <T>(
+    token: string,
+    endpoint: Endpoint,
+    id: string
+): Promise<T | null> => {
+    const res: Response = await fetch(
+        `http://localhost:3001/admin/${endpoint}/${id}`,
+        {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("Error:", data.message);
+        return null;
+    } else {
+        console.log("Success:", data.message);
+        return data.results as T;
+    }
+};
+
+export const addNewCategory = async (
+    token: string,
+    category_name: string
+): Promise<Category | null> => {
+    const res: Response = await fetch("http://localhost:3001/admin/category", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            category_name
+        })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Category;
+    }
+};
+
+export const addNewMenu = async (
+    token: string,
+    name: string,
+    description: string | null,
+    price: number,
+    category_name: string,
+    image: string
+): Promise<Menu | null> => {
+    const res: Response = await fetch("http://localhost:3001/admin/menus", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            name,
+            description,
+            price,
+            category_name,
+            image
+        })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Menu;
     }
 };

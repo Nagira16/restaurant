@@ -1,7 +1,7 @@
 "use client";
 
-import { adminDeleteById, deleteById } from "@/actions";
-import AddMenuForm from "@/components/AddMenuForm";
+import { adminDeleteById } from "@/actions";
+import AddCategoryForm from "@/components/AddCategoryForm";
 import { Button } from "@/components/ui/button";
 import {
     Table,
@@ -11,44 +11,47 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table";
-import { Endpoint, FetchData, Menu, MenuWithCategoryName } from "@/types";
+import { Category, Endpoint, FetchData, Menu } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const AdminMenusDashBoard = (): JSX.Element => {
-    const [allMenus, setAllMenus] = useState<MenuWithCategoryName[]>([]);
+const AdminCategoryDashBoard = (): JSX.Element => {
+    const [allCategories, setAllCategories] = useState<Category[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const router: AppRouterInstance = useRouter();
     const { getToken } = useAuth();
 
-    const fetchAllMenus = async () => {
+    const fetchAllCategories = async () => {
         const token: string | null = await getToken();
         if (!token) return;
 
-        const res: Response = await fetch("http://localhost:3001/admin/menus", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+        const res: Response = await fetch(
+            "http://localhost:3001/admin/categories",
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
             }
-        });
+        );
 
         const data: FetchData = await res.json();
 
         if (data.success) {
-            const result = data.results as MenuWithCategoryName[];
-            setAllMenus(result);
+            const result = data.results as Category[];
+            setAllCategories(result);
             setIsLoading(false);
         } else {
             router.push("/");
         }
     };
 
-    const handleDelete = async (menuId: string) => {
+    const handleDelete = async (categoryId: string) => {
         const confirmDelete = window.confirm(
-            "Are you sure you want to delete this menu?"
+            "Are you sure you want to delete this category?"
         );
 
         if (!confirmDelete) return alert("Action Canceled");
@@ -57,25 +60,25 @@ const AdminMenusDashBoard = (): JSX.Element => {
             const token: string | null = await getToken();
             if (!token) return;
 
-            const deletedMenu = await adminDeleteById<Menu | null>(
+            const deletedCategory = await adminDeleteById<Category | null>(
                 token,
-                Endpoint.menus,
-                menuId
+                Endpoint.category,
+                categoryId
             );
 
-            if (deletedMenu) {
-                fetchAllMenus();
-                alert("Menu deleted successfully!");
+            if (deletedCategory) {
+                fetchAllCategories();
+                alert("category deleted successfully!");
             } else {
-                alert("Failed to delete menu.");
+                alert("Failed to delete category.");
             }
         } catch (error) {
-            alert("An error occurred while deleting the menu.");
+            alert("An error occurred while deleting the category.");
         }
     };
 
     useEffect(() => {
-        fetchAllMenus();
+        fetchAllCategories();
     }, []);
 
     return (
@@ -90,19 +93,17 @@ const AdminMenusDashBoard = (): JSX.Element => {
                 <>
                     <div className="flex justify-between">
                         <h1 className="text-3xl font-bold mb-4">
-                            Menu Management
+                            Category Management
                         </h1>
-                        <AddMenuForm fetchAllMenus={fetchAllMenus} />
+                        <AddCategoryForm
+                            fetchAllCategories={fetchAllCategories}
+                        />
                     </div>
                     <div className="overflow-x-auto">
                         <Table>
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Order</TableHead>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead className="lg:table-cell hidden">
-                                        Price
-                                    </TableHead>
                                     <TableHead className="lg:table-cell hidden">
                                         Category Name
                                     </TableHead>
@@ -110,19 +111,11 @@ const AdminMenusDashBoard = (): JSX.Element => {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {allMenus.map((menu, i) => (
-                                    <TableRow key={menu.id}>
+                                {allCategories.map((category, i) => (
+                                    <TableRow key={category.id}>
                                         <TableCell>{i + 1}</TableCell>
-                                        <TableCell>{menu.name}</TableCell>
-                                        <TableCell className="lg:table-cell hidden">
-                                            $
-                                            {parseFloat(
-                                                menu.price?.toString() || "0"
-                                            ).toFixed(2)}
-                                        </TableCell>
-                                        <TableCell className="lg:table-cell hidden">
-                                            {menu.category?.category_name ||
-                                                "N/A"}
+                                        <TableCell>
+                                            {category.category_name}
                                         </TableCell>
                                         <TableCell>
                                             <Button
@@ -130,7 +123,7 @@ const AdminMenusDashBoard = (): JSX.Element => {
                                                 className="mr-2 rounded-xl"
                                                 onClick={() =>
                                                     router.push(
-                                                        `/admin/menus/edit/${menu.id}`
+                                                        `/admin/category/edit/${category.id}`
                                                     )
                                                 }
                                             >
@@ -140,7 +133,7 @@ const AdminMenusDashBoard = (): JSX.Element => {
                                                 variant="outline"
                                                 className="rounded-xl"
                                                 onClick={() =>
-                                                    handleDelete(menu.id)
+                                                    handleDelete(category.id)
                                                 }
                                             >
                                                 Delete
@@ -157,4 +150,4 @@ const AdminMenusDashBoard = (): JSX.Element => {
     );
 };
 
-export default AdminMenusDashBoard;
+export default AdminCategoryDashBoard;

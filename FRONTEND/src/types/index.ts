@@ -111,6 +111,7 @@ export type FetchData = {
         | Item_Order_Details
         | Item_Order_Details[]
         | Nutrient
+        | Category
         | Category[]
         | ReviewWithUser
         | UserWithRoleName
@@ -132,7 +133,7 @@ export enum Endpoint {
     payments = "payments",
     orderDetails = "orderDetails",
     nutrients = "nutrients",
-    categories = "categories",
+    category = "category",
     itemOrderDetails = "itemOrderDetails"
 }
 

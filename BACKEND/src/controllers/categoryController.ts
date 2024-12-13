@@ -24,6 +24,40 @@ export const getAllCategories = async (
     }
 };
 
+export const getCategoryById = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const id: string = req.params.id;
+
+        const category: Category | null = await prisma.category.findUnique({
+            where: { id }
+        });
+
+        if (category) {
+            res.status(200).json({
+                results: category,
+                message: "Category Found Successfully",
+                success: true
+            });
+        } else {
+            res.status(404).json({
+                results: category,
+                message: "Category Not Found",
+                success: false
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
+    }
+};
+
 export const getAllMenusByCategoryName = async (
     req: Request,
     res: Response

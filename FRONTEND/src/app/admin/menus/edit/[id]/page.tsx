@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
-import { FetchData, MenuWithCategoryName, UserWithRoleName } from "@/types";
+import { FetchData, MenuWithCategoryName } from "@/types";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Swal from "sweetalert2";
 import { useAuth } from "@clerk/nextjs";
 
-const AdminMenuEdit = ({ params }: { params: { id: string } }) => {
+const AdminMenuEdit = ({ params }: { params: { id: string } }): JSX.Element => {
     const menuId: string = params.id;
     const [menuData, setMenuData] = useState<MenuWithCategoryName | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -55,8 +55,6 @@ const AdminMenuEdit = ({ params }: { params: { id: string } }) => {
         const token: string | null = await getToken();
 
         if (!token || !menuData) return;
-
-        console.log(menuData);
 
         setIsSaving(true);
 

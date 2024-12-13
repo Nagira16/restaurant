@@ -11,25 +11,41 @@ import {
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
+import { useAuth } from "@clerk/nextjs";
+import { Menu } from "@/types";
+import { addNewMenu } from "@/actions";
 
-const AddMenuForm = () => {
+type AddMenuFormProps = {
+    fetchAllMenus: () => Promise<void>;
+};
+
+const AddMenuForm = ({ fetchAllMenus }: AddMenuFormProps): JSX.Element => {
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [price, setPrice] = useState<number>(0);
     const [categoryName, setCategoryName] = useState<string>("");
     const [image, setImage] = useState<string>("");
+    const { getToken } = useAuth();
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        const token: string | null = await getToken();
 
-        console.log("Menu Added:", {
+        if (!token) return;
+
+        const newMenu: Menu | null = await addNewMenu(
+            token,
             name,
             description,
             price,
             categoryName,
             image
-        });
+        );
 
+        if (!newMenu) return;
+
+        fetchAllMenus();
+        alert("menu added");
         setName("");
         setDescription("");
         setPrice(0);

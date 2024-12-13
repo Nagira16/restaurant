@@ -30,6 +30,8 @@ import {
 import {
     createCategory,
     deleteCategory,
+    getAllCategories,
+    getCategoryById,
     updateCategory
 } from "../controllers/categoryController";
 import { getAllOrderDetails } from "../controllers/orderDetailsController";
@@ -68,7 +70,9 @@ router.post("/nutrients", createNutrient);
 router.put("/nutrients/:id", updateNutrient);
 router.delete("/nutrients/:id", deleteNutrient);
 
+router.get("/categories", getAllCategories);
 router.post("/category", createCategory);
+router.get("/category/:id", getCategoryById);
 router.put("/category/:id", updateCategory);
 router.delete("/category/:id", deleteCategory);
 

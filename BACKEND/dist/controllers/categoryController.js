@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCategory = exports.updateCategory = exports.createCategory = exports.getAllMenusByCategoryName = exports.getAllCategories = void 0;
+exports.deleteCategory = exports.updateCategory = exports.createCategory = exports.getAllMenusByCategoryName = exports.getCategoryById = exports.getAllCategories = void 0;
 const prismaClient_1 = require("../prismaClient");
 const getAllCategories = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -30,6 +30,37 @@ const getAllCategories = (_, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getAllCategories = getAllCategories;
+const getCategoryById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        const category = yield prismaClient_1.prisma.category.findUnique({
+            where: { id }
+        });
+        if (category) {
+            res.status(200).json({
+                results: category,
+                message: "Category Found Successfully",
+                success: true
+            });
+        }
+        else {
+            res.status(404).json({
+                results: category,
+                message: "Category Not Found",
+                success: false
+            });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
+    }
+});
+exports.getCategoryById = getCategoryById;
 const getAllMenusByCategoryName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const category_name = req.params.name;

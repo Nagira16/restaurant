@@ -16,7 +16,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const AdminUserDashBoard = () => {
+const AdminUserDashBoard = (): JSX.Element => {
     const [allUsers, setAllUsers] = useState<UserWithRoleName[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const router: AppRouterInstance = useRouter();
@@ -24,7 +24,6 @@ const AdminUserDashBoard = () => {
 
     const fetchAllUsers = async () => {
         const token: string | null = await getToken();
-
         if (!token) return;
 
         const res: Response = await fetch("http://localhost:3001/admin/users", {

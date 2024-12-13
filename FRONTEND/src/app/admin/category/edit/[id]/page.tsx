@@ -4,30 +4,42 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FetchData, UserWithRoleName } from "@/types";
+import { Category, FetchData } from "@/types";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Swal from "sweetalert2";
+import { useAuth } from "@clerk/nextjs";
 
-const AdminUserEdit = ({ params }: { params: { id: string } }): JSX.Element => {
-    const userId: string = params.id;
-    const [userData, setUserData] = useState<UserWithRoleName | null>(null);
+const AdminCategoryEdit = ({
+    params
+}: {
+    params: { id: string };
+}): JSX.Element => {
+    const categoryId: string = params.id;
+    const [categoryData, setCategoryData] = useState<Category | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const router: AppRouterInstance = useRouter();
+    const { getToken } = useAuth();
 
-    const fetchUserData = async () => {
+    const fetchCategoryData = async () => {
+        const token: string | null = await getToken();
+
+        if (!token) return;
+
         const res: Response = await fetch(
-            `http://localhost:3001/users/${userId}`,
+            `http://localhost:3001/admin/category/${categoryId}`,
             {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
                 }
             }
         );
+
         const data: FetchData = await res.json();
         if (data.success) {
-            setUserData(data.results as UserWithRoleName);
+            setCategoryData(data.results as Category);
             setIsLoading(false);
         } else {
             router.push("/admin");
@@ -35,32 +47,34 @@ const AdminUserEdit = ({ params }: { params: { id: string } }): JSX.Element => {
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (userData) {
-            setUserData({
-                ...userData,
+        if (categoryData) {
+            setCategoryData({
+                ...categoryData,
                 [e.target.name]: e.target.value
             });
         }
     };
 
     const handleSave = async () => {
-        if (!userData) return;
+        const token: string | null = await getToken();
+
+        if (!token || !categoryData) return;
 
         setIsSaving(true);
 
-        const res = await fetch(`http://localhost:3001/users/${userId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name: userData.name,
-                email: userData.email,
-                phone: userData.phone,
-                address: userData.address,
-                role_name: userData.role.role_name
-            })
-        });
+        const res = await fetch(
+            `http://localhost:3001/admin/category/${categoryId}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    category_name: categoryData.category_name
+                })
+            }
+        );
 
         const data: FetchData = await res.json();
         setIsSaving(false);
@@ -71,7 +85,7 @@ const AdminUserEdit = ({ params }: { params: { id: string } }): JSX.Element => {
                 icon: "success",
                 timer: 5000,
                 didClose() {
-                    fetchUserData();
+                    fetchCategoryData();
                 }
             });
         } else {
@@ -80,14 +94,14 @@ const AdminUserEdit = ({ params }: { params: { id: string } }): JSX.Element => {
                 icon: "error",
                 timer: 5000,
                 didClose() {
-                    fetchUserData();
+                    fetchCategoryData();
                 }
             });
         }
     };
 
     useEffect(() => {
-        fetchUserData();
+        fetchCategoryData();
     }, []);
 
     if (isLoading) {
@@ -101,40 +115,15 @@ const AdminUserEdit = ({ params }: { params: { id: string } }): JSX.Element => {
     return (
         <div>
             <h1 className="text-3xl font-bold mb-4">Edit User</h1>
-            {userData && (
+            {categoryData && (
                 <div className="space-y-4">
                     <div>
                         <label className="block">Name</label>
                         <Input
                             type="text"
-                            name="name"
-                            value={userData.name}
+                            name="category_name"
+                            value={categoryData.category_name}
                             onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <label className="block">Email</label>
-                        <Input
-                            type="email"
-                            name="email"
-                            value={userData.email}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <label className="block">Role</label>
-                        <Input
-                            type="text"
-                            name="role_name"
-                            value={userData.role.role_name}
-                            onChange={(
-                                e: React.ChangeEvent<HTMLInputElement>
-                            ) =>
-                                setUserData({
-                                    ...userData,
-                                    role: { role_name: e.target.value }
-                                })
-                            }
                         />
                     </div>
                     <div className="flex gap-2">
@@ -147,8 +136,8 @@ const AdminUserEdit = ({ params }: { params: { id: string } }): JSX.Element => {
                         </Button>
                         <Button
                             variant="outline"
-                            className="rounded-xl"
                             onClick={handleSave}
+                            className="rounded-xl"
                             disabled={isSaving}
                         >
                             {isSaving ? "Saving..." : "Save"}
@@ -160,4 +149,4 @@ const AdminUserEdit = ({ params }: { params: { id: string } }): JSX.Element => {
     );
 };
 
-export default AdminUserEdit;
+export default AdminCategoryEdit;

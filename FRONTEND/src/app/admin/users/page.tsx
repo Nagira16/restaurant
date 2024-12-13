@@ -22,7 +22,7 @@ const AdminUserDashBoard = (): JSX.Element => {
     const router: AppRouterInstance = useRouter();
     const { getToken } = useAuth();
 
-    const fetchAllUsers = async () => {
+    const fetchAllUsers = async (): Promise<void> => {
         const token: string | null = await getToken();
         if (!token) return;
 
@@ -45,7 +45,7 @@ const AdminUserDashBoard = (): JSX.Element => {
         }
     };
 
-    const handleDelete = async (userId: string) => {
+    const handleDelete = async (userId: string): Promise<void> => {
         const confirmDelete = window.confirm(
             "Are you sure you want to delete this user?"
         );

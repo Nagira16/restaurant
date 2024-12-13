@@ -25,6 +25,7 @@ import {
     createNutrient,
     deleteNutrient,
     getAllNutrients,
+    getNutrientById,
     updateNutrient
 } from "../controllers/nutrientsController";
 import {
@@ -41,6 +42,14 @@ import { getAllItemOrderDetails } from "../controllers/itemOrderDetailsControlle
 const router = Router();
 
 // http://localhost:3001/admin
+
+router.get("/", (_: Request, res: Response) => {
+    res.status(200).json({
+        results: null,
+        message: "User Auth",
+        success: true
+    });
+});
 
 router.get("/users", getAllUsers);
 
@@ -67,6 +76,7 @@ router.get("/orderDetails", getAllOrderDetails);
 
 router.get("/nutrients", getAllNutrients);
 router.post("/nutrients", createNutrient);
+router.get("/nutrients/:id", getNutrientById);
 router.put("/nutrients/:id", updateNutrient);
 router.delete("/nutrients/:id", deleteNutrient);
 
@@ -77,13 +87,5 @@ router.put("/category/:id", updateCategory);
 router.delete("/category/:id", deleteCategory);
 
 router.get("/itemOrderDetails", getAllItemOrderDetails);
-
-router.get("/", (_: Request, res: Response) => {
-    res.status(200).json({
-        results: null,
-        message: "User Auth",
-        success: true
-    });
-});
 
 export default router;

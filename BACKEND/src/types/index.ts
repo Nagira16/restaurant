@@ -39,6 +39,21 @@ export type RoleWithUserName = {
     users: { name: string }[];
 };
 
+export type NutrientsWithMenuName = {
+    id: string;
+    menu_id: string;
+    calories: Decimal;
+    protein: Decimal;
+    carbohydrates: Decimal;
+    fats: Decimal;
+    fiber: Decimal;
+    sugar: Decimal;
+    sodium: Decimal;
+    menu: {
+        name: string | null;
+    };
+};
+
 export type MenuWithCategoryName = {
     name: string;
     id: string;

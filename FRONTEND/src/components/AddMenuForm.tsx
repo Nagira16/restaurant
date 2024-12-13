@@ -105,9 +105,10 @@ const AddMenuForm = ({ fetchAllMenus }: AddMenuFormProps): JSX.Element => {
                                 id="price"
                                 type="number"
                                 value={price}
-                                onChange={(e) =>
-                                    setPrice(parseFloat(e.target.value))
-                                }
+                                onChange={(e) => {
+                                    const value = parseFloat(e.target.value);
+                                    setPrice(isNaN(value) ? 0 : value);
+                                }}
                                 className="col-span-3"
                                 required
                             />

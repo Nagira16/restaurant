@@ -23,7 +23,7 @@ const AdminMenusDashBoard = (): JSX.Element => {
     const router: AppRouterInstance = useRouter();
     const { getToken } = useAuth();
 
-    const fetchAllMenus = async () => {
+    const fetchAllMenus = async (): Promise<void> => {
         const token: string | null = await getToken();
         if (!token) return;
 
@@ -46,7 +46,7 @@ const AdminMenusDashBoard = (): JSX.Element => {
         }
     };
 
-    const handleDelete = async (menuId: string) => {
+    const handleDelete = async (menuId: string): Promise<void> => {
         const confirmDelete = window.confirm(
             "Are you sure you want to delete this menu?"
         );
@@ -88,13 +88,13 @@ const AdminMenusDashBoard = (): JSX.Element => {
                 </>
             ) : (
                 <>
-                    <div className="flex justify-between">
+                    <div className="flex items-center sm:justify-between flex-wrap">
                         <h1 className="text-3xl font-bold mb-4">
                             Menu Management
                         </h1>
                         <AddMenuForm fetchAllMenus={fetchAllMenus} />
                     </div>
-                    <div className="overflow-x-auto">
+                    <div>
                         <Table>
                             <TableHeader>
                                 <TableRow>

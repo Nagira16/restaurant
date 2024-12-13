@@ -111,6 +111,7 @@ export type FetchData = {
         | Item_Order_Details
         | Item_Order_Details[]
         | Nutrient
+        | Nutrient[]
         | Category
         | Category[]
         | ReviewWithUser
@@ -118,6 +119,8 @@ export type FetchData = {
         | UserWithRoleName[]
         | MenuWithCategoryName
         | MenuWithCategoryName[]
+        | NutrientsWithMenuName
+        | NutrientsWithMenuName[]
         | number
         | null;
 };
@@ -134,6 +137,7 @@ export enum Endpoint {
     orderDetails = "orderDetails",
     nutrients = "nutrients",
     category = "category",
+    categories = "categories",
     itemOrderDetails = "itemOrderDetails"
 }
 
@@ -196,4 +200,19 @@ export type MenuWithCategoryName = {
     category: {
         category_name: string;
     } | null;
+};
+
+export type NutrientsWithMenuName = {
+    id: string;
+    menu_id: string;
+    calories: number;
+    protein: number;
+    carbohydrates: number;
+    fats: number;
+    fiber: number;
+    sugar: number;
+    sodium: number;
+    menu: {
+        name: string | null;
+    };
 };

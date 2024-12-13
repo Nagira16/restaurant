@@ -14,6 +14,13 @@ const itemOrderDetailsController_1 = require("../controllers/itemOrderDetailsCon
 // import { getAllReservations } from "../controllers/reservationController";
 const router = (0, express_1.Router)();
 // http://localhost:3001/admin
+router.get("/", (_, res) => {
+    res.status(200).json({
+        results: null,
+        message: "User Auth",
+        success: true
+    });
+});
 router.get("/users", userController_1.getAllUsers);
 router.get("/menus", menuController_1.getAllMenusWithCategoryName);
 router.post("/menus", menuController_1.createMenu);
@@ -32,6 +39,7 @@ router.get("/reservations", reservationController_1.getAllReservations);
 router.get("/orderDetails", orderDetailsController_1.getAllOrderDetails);
 router.get("/nutrients", nutrientsController_1.getAllNutrients);
 router.post("/nutrients", nutrientsController_1.createNutrient);
+router.get("/nutrients/:id", nutrientsController_1.getNutrientById);
 router.put("/nutrients/:id", nutrientsController_1.updateNutrient);
 router.delete("/nutrients/:id", nutrientsController_1.deleteNutrient);
 router.get("/categories", categoryController_1.getAllCategories);
@@ -40,11 +48,4 @@ router.get("/category/:id", categoryController_1.getCategoryById);
 router.put("/category/:id", categoryController_1.updateCategory);
 router.delete("/category/:id", categoryController_1.deleteCategory);
 router.get("/itemOrderDetails", itemOrderDetailsController_1.getAllItemOrderDetails);
-router.get("/", (_, res) => {
-    res.status(200).json({
-        results: null,
-        message: "User Auth",
-        success: true
-    });
-});
 exports.default = router;

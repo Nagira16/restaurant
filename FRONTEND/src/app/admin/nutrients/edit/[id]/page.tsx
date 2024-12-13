@@ -2,29 +2,33 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
-import { FetchData, MenuWithCategoryName } from "@/types";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import Swal from "sweetalert2";
-import { useAuth } from "@clerk/nextjs";
 import { Label } from "@/components/ui/label";
+import { FetchData, Nutrient } from "@/types";
+import { useAuth } from "@clerk/nextjs";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
-const AdminMenuEdit = ({ params }: { params: { id: string } }): JSX.Element => {
-    const menuId: string = params.id;
-    const [menuData, setMenuData] = useState<MenuWithCategoryName | null>(null);
+const AdminNutrientEdit = ({
+    params
+}: {
+    params: { id: string };
+}): JSX.Element => {
+    const nutrientId: string = params.id;
+    const [nutrientData, setNutrientData] = useState<Nutrient | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const router: AppRouterInstance = useRouter();
     const { getToken } = useAuth();
 
-    const fetchMenuData = async (): Promise<void> => {
+    const fetchNutrientData = async (): Promise<void> => {
         const token: string | null = await getToken();
 
         if (!token) return;
 
         const res: Response = await fetch(
-            `http://localhost:3001/admin/menus/${menuId}`,
+            `http://localhost:3001/admin/nutrients/${nutrientId}`,
             {
                 method: "GET",
                 headers: {
@@ -36,7 +40,7 @@ const AdminMenuEdit = ({ params }: { params: { id: string } }): JSX.Element => {
 
         const data: FetchData = await res.json();
         if (data.success) {
-            setMenuData(data.results as MenuWithCategoryName);
+            setNutrientData(data.results as Nutrient);
             setIsLoading(false);
         } else {
             router.push("/admin");
@@ -46,9 +50,9 @@ const AdminMenuEdit = ({ params }: { params: { id: string } }): JSX.Element => {
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement>
     ): void => {
-        if (menuData) {
-            setMenuData({
-                ...menuData,
+        if (nutrientData) {
+            setNutrientData({
+                ...nutrientData,
                 [e.target.name]: e.target.value
             });
         }
@@ -57,24 +61,29 @@ const AdminMenuEdit = ({ params }: { params: { id: string } }): JSX.Element => {
     const handleSave = async (): Promise<void> => {
         const token: string | null = await getToken();
 
-        if (!token || !menuData) return;
+        if (!token || !nutrientData) return;
 
         setIsSaving(true);
 
-        const res = await fetch(`http://localhost:3001/admin/menus/${menuId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                name: menuData.name,
-                description: menuData.description,
-                price: menuData.price,
-                category_name: menuData.category?.category_name,
-                image: menuData.image
-            })
-        });
+        const res = await fetch(
+            `http://localhost:3001/admin/nutrients/${nutrientId}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    calories: nutrientData.calories,
+                    protein: nutrientData.protein,
+                    carbohydrates: nutrientData.carbohydrates,
+                    fats: nutrientData.fats,
+                    fiber: nutrientData.fiber,
+                    sugar: nutrientData.sugar,
+                    sodium: nutrientData.sodium
+                })
+            }
+        );
 
         const data: FetchData = await res.json();
         setIsSaving(false);
@@ -85,7 +94,7 @@ const AdminMenuEdit = ({ params }: { params: { id: string } }): JSX.Element => {
                 icon: "success",
                 timer: 5000,
                 didClose() {
-                    router.push("/admin/menus");
+                    router.push("/admin/nutrients");
                 }
             });
         } else {
@@ -94,14 +103,14 @@ const AdminMenuEdit = ({ params }: { params: { id: string } }): JSX.Element => {
                 icon: "error",
                 timer: 5000,
                 didClose() {
-                    router.push("/admin/menus");
+                    router.push("/admin/nutrients");
                 }
             });
         }
     };
 
     useEffect(() => {
-        fetchMenuData();
+        fetchNutrientData();
     }, []);
 
     if (isLoading) {
@@ -115,61 +124,72 @@ const AdminMenuEdit = ({ params }: { params: { id: string } }): JSX.Element => {
     return (
         <div>
             <h1 className="text-3xl font-bold mb-4">Edit User</h1>
-            {menuData && (
+            {nutrientData && (
                 <div className="space-y-4">
                     <div>
-                        <Label className="block">Name</Label>
-                        <Input
-                            type="text"
-                            name="name"
-                            value={menuData.name}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <Label className="block">Image</Label>
-                        <Input
-                            type="text"
-                            name="image"
-                            value={
-                                menuData.image ||
-                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR15hCF5P6XrxJBMjZIlDjkSSxWwjOaNSlHJw&s"
-                            }
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div>
-                        <Label className="block">Price</Label>
+                        <Label className="block">Calories</Label>
                         <Input
                             type="number"
-                            name="price"
-                            value={menuData.price}
+                            name="calories"
+                            value={nutrientData.calories}
                             onChange={handleInputChange}
                         />
                     </div>
                     <div>
-                        <Label className="block">Description</Label>
+                        <Label className="block">Protein</Label>
                         <Input
-                            type="text"
-                            name="description"
-                            value={menuData.description || ""}
+                            type="number"
+                            name="protein"
+                            value={nutrientData.protein}
                             onChange={handleInputChange}
                         />
                     </div>
                     <div>
-                        <Label className="block">Category Name</Label>
+                        <Label className="block">Carbohydrates</Label>
                         <Input
-                            type="text"
-                            name="category"
-                            value={menuData.category?.category_name || ""}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                                setMenuData({
-                                    ...menuData,
-                                    category: { category_name: e.target.value }
-                                })
-                            }
+                            type="number"
+                            name="carbohydrates"
+                            value={nutrientData.carbohydrates}
+                            onChange={handleInputChange}
                         />
                     </div>
+                    <div>
+                        <Label className="block">Fats</Label>
+                        <Input
+                            type="number"
+                            name="fats"
+                            value={nutrientData.fats}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <Label className="block">Fiber</Label>
+                        <Input
+                            type="number"
+                            name="fiber"
+                            value={nutrientData.fiber}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <Label className="block">Sodium</Label>
+                        <Input
+                            type="number"
+                            name="sodium"
+                            value={nutrientData.sodium}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <Label className="block">Sugar</Label>
+                        <Input
+                            type="number"
+                            name="sugar"
+                            value={nutrientData.sugar}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
                     <div className="flex gap-2">
                         <Button
                             variant="outline"
@@ -193,4 +213,4 @@ const AdminMenuEdit = ({ params }: { params: { id: string } }): JSX.Element => {
     );
 };
 
-export default AdminMenuEdit;
+export default AdminNutrientEdit;

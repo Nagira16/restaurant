@@ -6,6 +6,7 @@ import {
     FetchData,
     Item_Order_Details,
     Menu,
+    Nutrient,
     Order_Details,
     Payment,
     ReviewWithUser,
@@ -360,5 +361,45 @@ export const addNewMenu = async (
     } else {
         console.log("==============", data.message);
         return data.results as Menu;
+    }
+};
+
+export const addNewNutrient = async (
+    token: string,
+    menu_id: string,
+    calories: number,
+    protein: number,
+    carbohydrates: number,
+    fats: number,
+    fiber: number,
+    sugar: number,
+    sodium: number
+): Promise<Nutrient | null> => {
+    const res: Response = await fetch("http://localhost:3001/admin/nutrients", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            menu_id,
+            calories,
+            protein,
+            carbohydrates,
+            fats,
+            fiber,
+            sugar,
+            sodium
+        })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Nutrient;
     }
 };

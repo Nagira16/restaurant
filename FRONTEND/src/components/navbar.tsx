@@ -7,8 +7,10 @@ import Image from "next/image";
 import { useCart } from "@/components/providers/CartContext";
 import useUserAuth from "@/hooks/useUserAuth";
 import { HistoryIcon, ShoppingCart } from "lucide-react";
+import useUserAdmin from "@/hooks/useUserAdmin";
 
 const Navbar: React.FC = () => {
+    useUserAdmin();
     const { isSignedIn } = useUserAuth();
     const { cartItems } = useCart();
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);

@@ -8,6 +8,7 @@ import { Category, FetchData } from "@/types";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Swal from "sweetalert2";
 import { useAuth } from "@clerk/nextjs";
+import { Label } from "@/components/ui/label";
 
 const AdminCategoryEdit = ({
     params
@@ -21,7 +22,7 @@ const AdminCategoryEdit = ({
     const router: AppRouterInstance = useRouter();
     const { getToken } = useAuth();
 
-    const fetchCategoryData = async () => {
+    const fetchCategoryData = async (): Promise<void> => {
         const token: string | null = await getToken();
 
         if (!token) return;
@@ -46,7 +47,9 @@ const AdminCategoryEdit = ({
         }
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (
+        e: React.ChangeEvent<HTMLInputElement>
+    ): void => {
         if (categoryData) {
             setCategoryData({
                 ...categoryData,
@@ -55,7 +58,7 @@ const AdminCategoryEdit = ({
         }
     };
 
-    const handleSave = async () => {
+    const handleSave = async (): Promise<void> => {
         const token: string | null = await getToken();
 
         if (!token || !categoryData) return;
@@ -85,7 +88,7 @@ const AdminCategoryEdit = ({
                 icon: "success",
                 timer: 5000,
                 didClose() {
-                    fetchCategoryData();
+                    router.push("/admin/categoty");
                 }
             });
         } else {
@@ -94,7 +97,7 @@ const AdminCategoryEdit = ({
                 icon: "error",
                 timer: 5000,
                 didClose() {
-                    fetchCategoryData();
+                    router.push("/admin/categoty");
                 }
             });
         }
@@ -118,7 +121,7 @@ const AdminCategoryEdit = ({
             {categoryData && (
                 <div className="space-y-4">
                     <div>
-                        <label className="block">Name</label>
+                        <Label className="block">Name</Label>
                         <Input
                             type="text"
                             name="category_name"

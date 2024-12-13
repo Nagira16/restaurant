@@ -23,7 +23,7 @@ const AdminCategoryDashBoard = (): JSX.Element => {
     const router: AppRouterInstance = useRouter();
     const { getToken } = useAuth();
 
-    const fetchAllCategories = async () => {
+    const fetchAllCategories = async (): Promise<void> => {
         const token: string | null = await getToken();
         if (!token) return;
 
@@ -49,7 +49,7 @@ const AdminCategoryDashBoard = (): JSX.Element => {
         }
     };
 
-    const handleDelete = async (categoryId: string) => {
+    const handleDelete = async (categoryId: string): Promise<void> => {
         const confirmDelete = window.confirm(
             "Are you sure you want to delete this category?"
         );
@@ -91,7 +91,7 @@ const AdminCategoryDashBoard = (): JSX.Element => {
                 </>
             ) : (
                 <>
-                    <div className="flex justify-between">
+                    <div className="flex items-center sm:justify-between flex-wrap">
                         <h1 className="text-3xl font-bold mb-4">
                             Category Management
                         </h1>
@@ -99,14 +99,12 @@ const AdminCategoryDashBoard = (): JSX.Element => {
                             fetchAllCategories={fetchAllCategories}
                         />
                     </div>
-                    <div className="overflow-x-auto">
+                    <div>
                         <Table>
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Order</TableHead>
-                                    <TableHead className="lg:table-cell hidden">
-                                        Category Name
-                                    </TableHead>
+                                    <TableHead>Category Name</TableHead>
                                     <TableHead>Actions</TableHead>
                                 </TableRow>
                             </TableHeader>

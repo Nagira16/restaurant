@@ -35,6 +35,7 @@ router.post("/roles", roleController_1.createRole);
 router.put("/roles/:id", roleController_1.updateRole);
 router.delete("/roles/:id", roleController_1.deleteRole);
 router.get("/reviews", reviewController_1.getAllReviews);
+router.delete("/reviews/:id", reviewController_1.deleteReview);
 router.get("/reservations", reservationController_1.getAllReservations);
 router.get("/orderDetails", orderDetailsController_1.getAllOrderDetails);
 router.get("/nutrients", nutrientsController_1.getAllNutrients);

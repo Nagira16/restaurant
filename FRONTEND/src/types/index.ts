@@ -122,6 +122,7 @@ export type FetchData = {
         | MenuWithCategoryName[]
         | NutrientsWithMenuName
         | NutrientsWithMenuName[]
+        | NutrientsWithMenuName[]
         | number
         | null;
 };
@@ -216,4 +217,15 @@ export type NutrientsWithMenuName = {
     menu: {
         name: string | null;
     };
+};
+
+export type ReviewWithUserMenuName = {
+    id: string;
+    user_id: string;
+    menu_id: string;
+    stars: number;
+    comments: string | null;
+    created_at: Date;
+    user: { name: string | null };
+    menu: { name: string | null };
 };

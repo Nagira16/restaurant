@@ -19,7 +19,7 @@ import {
     getRoleById,
     updateRole
 } from "../controllers/roleController";
-import { getAllReviews } from "../controllers/reviewController";
+import { deleteReview, getAllReviews } from "../controllers/reviewController";
 import { getAllReservations } from "../controllers/reservationController";
 import {
     createNutrient,
@@ -69,6 +69,7 @@ router.put("/roles/:id", updateRole);
 router.delete("/roles/:id", deleteRole);
 
 router.get("/reviews", getAllReviews);
+router.delete("/reviews/:id", deleteReview);
 
 router.get("/reservations", getAllReservations);
 

@@ -2,14 +2,28 @@ import { Review, User } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
 import { findUserByClerkId } from "./userController";
-import { ReviewWithUser } from "../types";
+import { ReviewWithUser, ReviewWithUserMenuName } from "../types";
 
 export const getAllReviews = async (
     _: Request,
     res: Response
 ): Promise<void> => {
     try {
-        const allReviews: Review[] = await prisma.review.findMany();
+        const allReviews: ReviewWithUserMenuName[] =
+            await prisma.review.findMany({
+                include: {
+                    user: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    menu: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            });
 
         res.status(200).json({
             results: allReviews,

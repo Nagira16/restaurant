@@ -14,7 +14,20 @@ const prismaClient_1 = require("../prismaClient");
 const userController_1 = require("./userController");
 const getAllReviews = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const allReviews = yield prismaClient_1.prisma.review.findMany();
+        const allReviews = yield prismaClient_1.prisma.review.findMany({
+            include: {
+                user: {
+                    select: {
+                        name: true
+                    }
+                },
+                menu: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        });
         res.status(200).json({
             results: allReviews,
             message: "Reviews Found Successfully",

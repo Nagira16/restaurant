@@ -133,6 +133,7 @@ const AdminNutrientEdit = ({
                             name="calories"
                             value={nutrientData.calories}
                             onChange={handleInputChange}
+                            min="0"
                         />
                     </div>
                     <div>
@@ -142,6 +143,7 @@ const AdminNutrientEdit = ({
                             name="protein"
                             value={nutrientData.protein}
                             onChange={handleInputChange}
+                            min="0"
                         />
                     </div>
                     <div>
@@ -151,6 +153,7 @@ const AdminNutrientEdit = ({
                             name="carbohydrates"
                             value={nutrientData.carbohydrates}
                             onChange={handleInputChange}
+                            min="0"
                         />
                     </div>
                     <div>
@@ -160,6 +163,7 @@ const AdminNutrientEdit = ({
                             name="fats"
                             value={nutrientData.fats}
                             onChange={handleInputChange}
+                            min="0"
                         />
                     </div>
                     <div>
@@ -169,6 +173,7 @@ const AdminNutrientEdit = ({
                             name="fiber"
                             value={nutrientData.fiber}
                             onChange={handleInputChange}
+                            min="0"
                         />
                     </div>
                     <div>
@@ -178,6 +183,7 @@ const AdminNutrientEdit = ({
                             name="sodium"
                             value={nutrientData.sodium}
                             onChange={handleInputChange}
+                            min="0"
                         />
                     </div>
                     <div>
@@ -187,6 +193,7 @@ const AdminNutrientEdit = ({
                             name="sugar"
                             value={nutrientData.sugar}
                             onChange={handleInputChange}
+                            min="0"
                         />
                     </div>
 

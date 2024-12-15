@@ -115,6 +115,7 @@ const AddMenuForm = ({ fetchAllMenus }: AddMenuFormProps): JSX.Element => {
                                 }}
                                 className="col-span-3"
                                 required
+                                min="0"
                             />
                         </div>
 

@@ -145,6 +145,7 @@ const AdminMenuEdit = ({ params }: { params: { id: string } }): JSX.Element => {
                             name="price"
                             value={menuData.price}
                             onChange={handleInputChange}
+                            min="0"
                         />
                     </div>
                     <div>

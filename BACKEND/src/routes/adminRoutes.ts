@@ -16,7 +16,6 @@ import {
     createRole,
     deleteRole,
     getAllRolesWithUsers,
-    getRoleById,
     updateRole
 } from "../controllers/roleController";
 import { deleteReview, getAllReviews } from "../controllers/reviewController";

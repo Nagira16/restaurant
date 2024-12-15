@@ -17,7 +17,7 @@ export type User = {
     clerk_id: string;
 };
 
-export type Table = {
+export type TableType = {
     id: string;
     number: number;
     capacity: number;
@@ -42,7 +42,7 @@ export type Reservation = {
     user_id: string;
     created_at: Date;
     num_of_people: number;
-    table_id: string;
+    tableType_id: string;
     status: string;
     location: string;
     reservationDateTime: Date;
@@ -99,7 +99,8 @@ export type FetchData = {
     results:
         | Menu[]
         | User[]
-        | Table[]
+        | TableType
+        | TableType[]
         | Role
         | Role[]
         | Review

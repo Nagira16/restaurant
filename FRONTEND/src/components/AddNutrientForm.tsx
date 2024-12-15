@@ -120,6 +120,7 @@ const AddNutrientForm = ({ fetchAllNutrients }: AddNutrientFormProps) => {
                             </Label>
                             <Input
                                 type="number"
+                                min="0"
                                 id="calories"
                                 value={calories}
                                 onChange={(e) => {
@@ -137,6 +138,7 @@ const AddNutrientForm = ({ fetchAllNutrients }: AddNutrientFormProps) => {
                             </Label>
                             <Input
                                 type="number"
+                                min="0"
                                 id="protein"
                                 value={protein}
                                 onChange={(e) => {
@@ -157,6 +159,7 @@ const AddNutrientForm = ({ fetchAllNutrients }: AddNutrientFormProps) => {
                             </Label>
                             <Input
                                 type="number"
+                                min="0"
                                 id="carbohydrates"
                                 value={carbohydrates}
                                 onChange={(e) => {
@@ -174,6 +177,7 @@ const AddNutrientForm = ({ fetchAllNutrients }: AddNutrientFormProps) => {
                             </Label>
                             <Input
                                 type="number"
+                                min="0"
                                 id="fats"
                                 value={fats}
                                 onChange={(e) => {
@@ -190,6 +194,8 @@ const AddNutrientForm = ({ fetchAllNutrients }: AddNutrientFormProps) => {
                                 Fiber
                             </Label>
                             <Input
+                                type="number"
+                                min="0"
                                 id="fiber"
                                 value={fiber}
                                 onChange={(e) => {
@@ -206,6 +212,8 @@ const AddNutrientForm = ({ fetchAllNutrients }: AddNutrientFormProps) => {
                                 Sugar
                             </Label>
                             <Input
+                                type="number"
+                                min="0"
                                 id="sugar"
                                 value={sugar}
                                 onChange={(e) => {
@@ -222,6 +230,8 @@ const AddNutrientForm = ({ fetchAllNutrients }: AddNutrientFormProps) => {
                                 Sodium
                             </Label>
                             <Input
+                                type="number"
+                                min="0"
                                 id="sodium"
                                 value={sodium}
                                 onChange={(e) => {

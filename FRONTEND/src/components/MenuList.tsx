@@ -6,6 +6,8 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import MenuCard from "./MenuCard";
 import { Skeleton } from "./ui/skeleton";
 import { Card, CardContent, CardDescription, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { CirclePlus } from "lucide-react";
 
 type MenuListProps = {
     menus: Menu[];
@@ -30,18 +32,32 @@ const MenuList = ({ menus, setMenus }: MenuListProps): JSX.Element => {
             {loading ? (
                 <div className="flex justify-center items-stretch flex-wrap">
                     {Array.from({ length: 11 }).map((_, i) => (
-                        <Card key={i} className="flex w-[450px] h-[300px] m-2">
-                            <Skeleton className="rounded-l-xl w-[200px] h-full" />
-                            <CardContent className="flex flex-col justify-between items-start my-10 text-left">
+                        <Card
+                            key={i}
+                            className="flex flex-col sm:flex-row w-[310px] sm:w-[450px] h-fit sm:h-[300px] m-2 shadow-lg hover:shadow-2xl transition-all duration-300"
+                        >
+                            <Skeleton className="w-full sm:w-[200px] h-[300px] rounded-t-xl sm:rounded-l-xl sm:rounded-tr-none" />
+
+                            <CardContent className="flex flex-col justify-between space-y-2 items-start my-5 sm:mt-10 ">
                                 <CardTitle className="text-xl">
-                                    <Skeleton className="h-4 w-36" />
+                                    <Skeleton className="h-5 w-36" />
                                 </CardTitle>
+
                                 <CardDescription>
-                                    <Skeleton className="h-32 w-40" />
+                                    <Skeleton className="h-16 w-60" />
                                 </CardDescription>
+
                                 <div className="flex space-x-2">
-                                    <Skeleton className="h-4 w-20" />
-                                    <Skeleton className="h-4 w-5" />
+                                    <Skeleton className="h-5 w-20" />
+
+                                    <Skeleton className="h-5 w-5" />
+                                </div>
+
+                                <div className="mt-5">
+                                    <Button className="mt-4 px-6 py-3 bg-red-600 text-white font-semibold rounded-2xl hover:bg-red-700">
+                                        <span>Add to Cart</span>
+                                        <CirclePlus />
+                                    </Button>
                                 </div>
                             </CardContent>
                         </Card>

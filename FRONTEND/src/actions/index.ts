@@ -11,6 +11,7 @@ import {
     Payment,
     ReviewWithUser,
     Role,
+    TableType,
     User,
     UserData
 } from "@/types";
@@ -388,6 +389,32 @@ export const addNewMenu = async (
     } else {
         console.log("==============", data.message);
         return data.results as Menu;
+    }
+};
+
+export const addNewTable = async (
+    token: string,
+    number: number,
+    capacity: number,
+    available: boolean
+): Promise<TableType | null> => {
+    const res: Response = await fetch("http://localhost:3001/admin/menus", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ number, capacity, available })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as TableType;
     }
 };
 

@@ -53,7 +53,7 @@ const Navbar: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="md:hidden flex items-center">
+                <div className="md:hidden flex items-center space-x-4">
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                         className="text-gray-800 focus:outline-none"
@@ -73,6 +73,16 @@ const Navbar: React.FC = () => {
                             />
                         </svg>
                     </button>
+
+                    {isSignedIn ? (
+                        <UserButton />
+                    ) : (
+                        <SignInButton mode="modal">
+                            <button className="px-4 py-2 border border-black rounded hover:bg-gray-100 w-full">
+                                Sign In
+                            </button>
+                        </SignInButton>
+                    )}
                 </div>
 
                 <div className="hidden md:flex items-center space-x-4">
@@ -120,42 +130,34 @@ const Navbar: React.FC = () => {
                                 {label}
                             </Link>
                         ))}
-                    </div>
-                    <div className="mt-4 flex">
+
                         {isSignedIn && (
                             <>
-                                <Link
-                                    href="/orders"
-                                    className="text-gray-800 hover:text-gray-600"
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    <HistoryIcon className="mr-2" />
+                                <Link href="/orders" className="relative">
+                                    <span className="text-gray-800 hover:text-gray-600 flex items-center">
+                                        Order History
+                                        <HistoryIcon
+                                            className="mx-2"
+                                            size={18}
+                                        />
+                                    </span>
                                 </Link>
-                                <Link
-                                    href="/cart"
-                                    className="text-gray-800 hover:text-gray-600"
-                                    onClick={() => setIsMenuOpen(false)}
-                                >
-                                    <ShoppingCart className="mr-2" />
+                                <Link href="/cart" className="relative">
+                                    <span className="text-gray-800 hover:text-gray-600 flex items-center">
+                                        Cart
+                                        <ShoppingCart
+                                            className="mx-2"
+                                            size={18}
+                                        />
+                                    </span>
                                     {cartItems.length > 0 && (
-                                        <span className="text-red-600">
-                                            ({cartItems.length})
+                                        <span className="absolute -top-[4px] left-[50px] bg-red-600 text-white rounded-full px-1 text-xs">
+                                            {cartItems.length}
                                         </span>
                                     )}
                                 </Link>
                             </>
                         )}
-                        <div className="flex flex-col space-y-10">
-                            {isSignedIn ? (
-                                <UserButton />
-                            ) : (
-                                <SignInButton mode="modal">
-                                    <button className="px-4 py-2 border border-black rounded hover:bg-gray-100 w-full">
-                                        Sign In
-                                    </button>
-                                </SignInButton>
-                            )}
-                        </div>
                     </div>
                 </div>
             )}

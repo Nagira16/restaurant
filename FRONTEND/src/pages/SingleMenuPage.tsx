@@ -11,7 +11,7 @@ type SingleMenuPageProps = {
 const SingleMenuPage = ({ menu_id }: SingleMenuPageProps): JSX.Element => {
     return (
         <>
-            <Card className="flex items-start justify-center flex-wrap lg:flex-nowrap space-x-14  h-full w-[450px] lg:w-[900px] mx-auto">
+            <Card className="grid grid-cols-1 lg:grid-cols-2 space-x-0 lg:space-x-14  h-full w-[310px] md:w-[450px] lg:w-[900px] mx-auto">
                 <div>
                     <SingleMenu menu_id={menu_id} />
                 </div>

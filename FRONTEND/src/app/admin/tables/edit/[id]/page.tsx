@@ -4,56 +4,79 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Endpoint, FetchData, Role } from "@/types";
+import { Endpoint, FetchData, TableType } from "@/types";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Swal from "sweetalert2";
 import { useAuth } from "@clerk/nextjs";
 import { Label } from "@/components/ui/label";
 import { getAllTablesById } from "@/actions";
 
-const AdminRoleEdit = ({ params }: { params: { id: string } }): JSX.Element => {
-    const roleId: string = params.id;
-    const [roleData, setRoleData] = useState<Role | null>(null);
+const AdminTableEdit = ({
+    params
+}: {
+    params: { id: string };
+}): JSX.Element => {
+    const tableId: string = params.id;
+    const [tableData, setTableData] = useState<TableType | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const router: AppRouterInstance = useRouter();
     const { getToken } = useAuth();
 
     const fetchRoleData = async (): Promise<void> => {
-        const result = await getAllTablesById<Role>(Endpoint.roles, roleId);
+        const result = await getAllTablesById<TableType>(
+            Endpoint.tables,
+            tableId
+        );
 
-        setRoleData(result);
+        setTableData(result);
         setIsLoading(false);
     };
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement>
     ): void => {
-        if (roleData) {
-            setRoleData({
-                ...roleData,
-                [e.target.name]: e.target.value
-            });
+        if (tableData) {
+            const { name, value, type, checked } = e.target;
+
+            if (name === "number" || name === "capacity") {
+                setTableData({
+                    ...tableData,
+                    [name]: value ? parseInt(value, 10) : 0
+                });
+            }
+
+            if (type === "checkbox") {
+                setTableData({
+                    ...tableData,
+                    [name]: checked
+                });
+            }
         }
     };
 
     const handleSave = async (): Promise<void> => {
         const token: string | null = await getToken();
 
-        if (!token || !roleData) return;
+        if (!token || !tableData) return;
 
         setIsSaving(true);
 
-        const res = await fetch(`http://localhost:3001/admin/roles/${roleId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                role_name: roleData.role_name
-            })
-        });
+        const res = await fetch(
+            `http://localhost:3001/admin/tables/${tableId}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    number: tableData.number,
+                    capacity: tableData.capacity,
+                    available: tableData.available
+                })
+            }
+        );
 
         const data: FetchData = await res.json();
         setIsSaving(false);
@@ -64,7 +87,7 @@ const AdminRoleEdit = ({ params }: { params: { id: string } }): JSX.Element => {
                 icon: "success",
                 timer: 5000,
                 didClose() {
-                    router.push("/admin/roles");
+                    router.push("/admin/tables");
                 }
             });
         } else {
@@ -73,7 +96,7 @@ const AdminRoleEdit = ({ params }: { params: { id: string } }): JSX.Element => {
                 icon: "error",
                 timer: 5000,
                 didClose() {
-                    router.push("/admin/roles");
+                    router.push("/admin/tables");
                 }
             });
         }
@@ -93,15 +116,34 @@ const AdminRoleEdit = ({ params }: { params: { id: string } }): JSX.Element => {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold mb-4">Edit Role</h1>
-            {roleData && (
+            <h1 className="text-3xl font-bold mb-4">Edit Table</h1>
+            {tableData && (
                 <div className="space-y-4">
                     <div>
-                        <Label className="block">Name</Label>
+                        <Label className="block">Table Number</Label>
                         <Input
-                            type="text"
-                            name="role_name"
-                            value={roleData.role_name}
+                            type="number"
+                            name="number"
+                            value={tableData.number}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div>
+                        <Label className="block">Table Capacity</Label>
+                        <Input
+                            type="number"
+                            name="capacity"
+                            value={tableData.capacity}
+                            onChange={handleInputChange}
+                            min="1"
+                        />
+                    </div>
+                    <div>
+                        <Label className="block">Table available</Label>
+                        <Input
+                            type="checkbox"
+                            name="available"
+                            checked={tableData.available}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -128,4 +170,4 @@ const AdminRoleEdit = ({ params }: { params: { id: string } }): JSX.Element => {
     );
 };
 
-export default AdminRoleEdit;
+export default AdminTableEdit;

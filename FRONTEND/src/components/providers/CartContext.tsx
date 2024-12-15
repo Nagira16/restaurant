@@ -1,6 +1,7 @@
 "use client";
 
 import { CartItem } from "@/types";
+import { useAuth } from "@clerk/nextjs";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import Swal from "sweetalert2";
 
@@ -15,8 +16,18 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
+    const { isSignedIn } = useAuth();
 
     const addToCart = (item: CartItem) => {
+        if (!isSignedIn) {
+            return Swal.fire({
+                title: "User Not Signed In",
+                text: "Please sign in to add items to your cart.",
+                icon: "error",
+                confirmButtonText: "Okay"
+            });
+        }
+
         setCartItems((prev) => {
             const existingItem = prev.find(
                 (cartItem) => cartItem.id === item.id

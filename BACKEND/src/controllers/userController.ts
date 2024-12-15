@@ -32,6 +32,46 @@ export const getAllUsers = async (_: Request, res: Response): Promise<void> => {
     }
 };
 
+export const getUserByClerkId = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const clerk_id: string = req.params.id;
+
+        const user: UserWithRoleName | null = await prisma.user.findUnique({
+            where: { clerk_id },
+            include: {
+                role: {
+                    select: {
+                        role_name: true
+                    }
+                }
+            }
+        });
+
+        if (user) {
+            res.status(200).json({
+                results: user,
+                message: "User Found Successfully",
+                success: true
+            });
+        } else {
+            res.status(404).json({
+                results: user,
+                message: "User Not Found",
+                success: false
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
+    }
+};
+
 export const getUserById = async (
     req: Request,
     res: Response
@@ -94,19 +134,19 @@ export const createUser = async (
             clerk_id: string;
         } = req.body;
 
-        const emailExist: boolean = await findUserByEmail(email);
-        const clerk_idExist: User | null = await prisma.user.findUnique({
-            where: { clerk_id }
-        });
+        const emailExist: UserWithRoleName | null = await findUserByEmail(
+            email
+        );
 
-        if (emailExist || clerk_idExist) {
+        if (emailExist) {
             res.status(409).json({
-                results: null,
+                results: emailExist,
                 message: "User already exists.",
                 success: false
             });
             return;
         }
+
         const role: Role | null = await prisma.role.findUnique({
             where: {
                 role_name: "Customer"
@@ -129,8 +169,13 @@ export const createUser = async (
             }
         });
 
+        const userWithRole: UserWithRoleName = {
+            ...newUser,
+            role: { role_name: "Customer" }
+        };
+
         res.status(201).json({
-            results: newUser,
+            results: userWithRole,
             message: "User Created Successfully",
             success: true
         });
@@ -258,12 +303,21 @@ export const deleteUser = async (
     }
 };
 
-const findUserByEmail = async (email: string): Promise<boolean> => {
-    const user: User | null = await prisma.user.findUnique({
-        where: { email }
+const findUserByEmail = async (
+    email: string
+): Promise<UserWithRoleName | null> => {
+    const user: UserWithRoleName | null = await prisma.user.findUnique({
+        where: { email },
+        include: {
+            role: {
+                select: {
+                    role_name: true
+                }
+            }
+        }
     });
 
-    return user ? true : false;
+    return user;
 };
 
 export const findUserByClerkId = async (req: Request): Promise<User | null> => {

@@ -8,6 +8,7 @@ import { useCart } from "@/components/providers/CartContext";
 import useUserAuth from "@/hooks/useUserAuth";
 import { HistoryIcon, ShoppingCart } from "lucide-react";
 import useUserAdmin from "@/hooks/useUserAdmin";
+import RoleButton from "./RoleButton";
 
 const Navbar: React.FC = () => {
     useUserAdmin();
@@ -52,6 +53,8 @@ const Navbar: React.FC = () => {
                         ))}
                     </div>
                 </div>
+
+                <RoleButton />
 
                 <div className="md:hidden flex items-center space-x-4">
                     <button

@@ -13,7 +13,8 @@ import {
     Role,
     TableType,
     User,
-    UserData
+    UserData,
+    UserWithRoleName
 } from "@/types";
 
 export const getAllTables = async <T>(endpoint: Endpoint): Promise<T[]> => {
@@ -41,9 +42,25 @@ export const getAllTablesById = async <T>(
         return null;
     } else {
         console.log("==============", data.message);
-        console.log(data.results);
 
         return data.results as T;
+    }
+};
+
+export const getUserByClerkId = async (
+    id: string
+): Promise<UserWithRoleName | null> => {
+    const res: Response = await fetch(
+        `http://localhost:3001/${Endpoint.users}/clerk/${id}`
+    );
+    const data: FetchData = await res.json();
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+
+        return data.results as UserWithRoleName;
     }
 };
 
@@ -97,7 +114,7 @@ export const getReviewRate = async (
     }
 };
 
-export const saveUser = async (user: UserData) => {
+export const saveUser = async (user: UserData): Promise<UserWithRoleName> => {
     const res: Response = await fetch("http://localhost:3001/users", {
         method: "POST",
         headers: {
@@ -114,7 +131,9 @@ export const saveUser = async (user: UserData) => {
     });
 
     const data: FetchData = await res.json();
-    console.log(data.message);
+    console.log("--------------", data.message);
+
+    return data.results as UserWithRoleName;
 };
 
 export const getClientSecret = async (

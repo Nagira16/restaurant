@@ -3,9 +3,12 @@
 import { useEffect } from "react";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { saveUser } from "@/actions";
-import { UserData } from "@/types";
+import { User, UserData, UserWithRoleName } from "@/types";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useRouter } from "next/navigation";
 
 const useUserAuth = () => {
+    const router: AppRouterInstance = useRouter();
     const { isSignedIn } = useAuth();
     const { user, isLoaded } = useUser();
 

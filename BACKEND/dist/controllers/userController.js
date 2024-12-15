@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findUserByClerkId = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getAllUsers = void 0;
+exports.findUserByClerkId = exports.deleteUser = exports.updateUser = exports.createUser = exports.getUserById = exports.getUserByClerkId = exports.getAllUsers = void 0;
 const prismaClient_1 = require("../prismaClient");
 const getAllUsers = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -39,6 +39,43 @@ const getAllUsers = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getAllUsers = getAllUsers;
+const getUserByClerkId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const clerk_id = req.params.id;
+        const user = yield prismaClient_1.prisma.user.findUnique({
+            where: { clerk_id },
+            include: {
+                role: {
+                    select: {
+                        role_name: true
+                    }
+                }
+            }
+        });
+        if (user) {
+            res.status(200).json({
+                results: user,
+                message: "User Found Successfully",
+                success: true
+            });
+        }
+        else {
+            res.status(404).json({
+                results: user,
+                message: "User Not Found",
+                success: false
+            });
+        }
+    }
+    catch (error) {
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
+    }
+});
+exports.getUserByClerkId = getUserByClerkId;
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
@@ -81,12 +118,9 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { name, email, phone, address, image, clerk_id } = req.body;
         const emailExist = yield findUserByEmail(email);
-        const clerk_idExist = yield prismaClient_1.prisma.user.findUnique({
-            where: { clerk_id }
-        });
-        if (emailExist || clerk_idExist) {
+        if (emailExist) {
             res.status(409).json({
-                results: null,
+                results: emailExist,
                 message: "User already exists.",
                 success: false
             });
@@ -111,8 +145,9 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 clerk_id
             }
         });
+        const userWithRole = Object.assign(Object.assign({}, newUser), { role: { role_name: "Customer" } });
         res.status(201).json({
-            results: newUser,
+            results: userWithRole,
             message: "User Created Successfully",
             success: true
         });
@@ -218,9 +253,16 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.deleteUser = deleteUser;
 const findUserByEmail = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield prismaClient_1.prisma.user.findUnique({
-        where: { email }
+        where: { email },
+        include: {
+            role: {
+                select: {
+                    role_name: true
+                }
+            }
+        }
     });
-    return user ? true : false;
+    return user;
 });
 const findUserByClerkId = (req) => __awaiter(void 0, void 0, void 0, function* () {
     const clerk_id = req.auth.userId;

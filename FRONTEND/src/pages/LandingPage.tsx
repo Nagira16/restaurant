@@ -111,7 +111,7 @@ const LandingPage: React.FC = () => {
                                 </span>
                             </Link>
                         </div>
-                        <div className="lg:w-[55%] flex space-x-4">
+                        <div className="lg:w-[55%] flex flex-wrap md:flex-nowrap justify-center lg:justify-normal space-y-4 md:space-y-0 space-x-0 md:space-x-4">
                             {dishes.map((dish, index) => (
                                 <Image
                                     key={index}

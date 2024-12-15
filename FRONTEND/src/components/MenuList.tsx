@@ -27,6 +27,14 @@ const MenuList = ({ menus, setMenus }: MenuListProps): JSX.Element => {
         setLoading(false);
     };
 
+    if (menus.length <= 0) {
+        return (
+            <div className="h-[100px] gird place-content-center font-bold text-lg">
+                Menus Not Found
+            </div>
+        );
+    }
+
     return (
         <div className="flex justify-center items-stretch flex-wrap">
             {loading ? (
@@ -64,7 +72,7 @@ const MenuList = ({ menus, setMenus }: MenuListProps): JSX.Element => {
                     ))}
                 </div>
             ) : (
-                menus?.map((m) => <MenuCard menu={m} key={m.id} />)
+                menus.map((m) => <MenuCard menu={m} key={m.id} />)
             )}
         </div>
     );

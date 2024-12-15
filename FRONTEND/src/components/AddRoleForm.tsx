@@ -43,7 +43,7 @@ const AddRoleForm = ({ fetchAllRoles }: AddRoleFormProps): JSX.Element => {
     };
 
     return (
-        <>
+        <div className="mb-3">
             <Dialog>
                 <DialogTrigger asChild>
                     <Button
@@ -85,7 +85,7 @@ const AddRoleForm = ({ fetchAllRoles }: AddRoleFormProps): JSX.Element => {
                     </form>
                 </DialogContent>
             </Dialog>
-        </>
+        </div>
     );
 };
 

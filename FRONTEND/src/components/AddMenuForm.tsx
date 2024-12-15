@@ -58,7 +58,7 @@ const AddMenuForm = ({ fetchAllMenus }: AddMenuFormProps): JSX.Element => {
     };
 
     return (
-        <>
+        <div className="mb-3">
             <Dialog>
                 <DialogTrigger asChild>
                     <Button
@@ -168,7 +168,7 @@ const AddMenuForm = ({ fetchAllMenus }: AddMenuFormProps): JSX.Element => {
                     </form>
                 </DialogContent>
             </Dialog>
-        </>
+        </div>
     );
 };
 

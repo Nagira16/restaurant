@@ -77,7 +77,7 @@ const AddNutrientForm = ({ fetchAllNutrients }: AddNutrientFormProps) => {
     };
 
     return (
-        <>
+        <div className="mb-3">
             <Dialog>
                 <DialogTrigger asChild>
                     <Button
@@ -254,7 +254,7 @@ const AddNutrientForm = ({ fetchAllNutrients }: AddNutrientFormProps) => {
                     </form>
                 </DialogContent>
             </Dialog>
-        </>
+        </div>
     );
 };
 

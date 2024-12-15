@@ -10,7 +10,7 @@ const AdminLandingPage = () => {
                 Manage your application settings, users, content, and more from
                 here.
             </p>
-            <div className="flex flex-col items-stretch space-y-6 lg:space-y-0 lg:space-x-4 lg:block">
+            <div className="flex flex-col items-stretch space-y-6 lg:space-y-0 lg:space-x-4 lg:block text-center">
                 <Link
                     href="/admin/users"
                     className="px-6 py-2 text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-colors"

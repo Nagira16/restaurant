@@ -52,7 +52,7 @@ const AddTableForm = ({ fetchAllTables }: AddTableFormProps): JSX.Element => {
     };
 
     return (
-        <>
+        <div className="mb-3">
             <Dialog>
                 <DialogTrigger asChild>
                     <Button
@@ -129,7 +129,7 @@ const AddTableForm = ({ fetchAllTables }: AddTableFormProps): JSX.Element => {
                     </form>
                 </DialogContent>
             </Dialog>
-        </>
+        </div>
     );
 };
 

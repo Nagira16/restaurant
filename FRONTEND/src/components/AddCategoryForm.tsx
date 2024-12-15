@@ -48,7 +48,7 @@ const AddCategoryForm = ({
     };
 
     return (
-        <>
+        <div className="mb-3">
             <Dialog>
                 <DialogTrigger asChild>
                     <Button
@@ -92,7 +92,7 @@ const AddCategoryForm = ({
                     </form>
                 </DialogContent>
             </Dialog>
-        </>
+        </div>
     );
 };
 

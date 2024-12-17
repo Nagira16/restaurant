@@ -63,6 +63,9 @@ const nextConfig = {
             },
             {
                 hostname: "scontent.fcxh3-1.fna.fbcdn.net"
+            },
+            {
+                hostname: "www.thecookierookie.com"
             }
         ]
     }

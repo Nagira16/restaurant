@@ -1,9 +1,13 @@
+"use client";
+
 import React from "react";
-import { SignInButton } from "@clerk/nextjs";
+import { SignInButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
 
 const LandingPage: React.FC = () => {
+    const { isSignedIn } = useUser();
+
     const features = [
         "Fresh and locally sourced ingredients",
         "Authentic Mexican spices, herbs, and chilies",
@@ -67,17 +71,20 @@ const LandingPage: React.FC = () => {
                                 Learn More
                             </span>
                         </Link>
-                        <SignInButton mode="modal">
-                            <button className="px-6 py-3 border border-black rounded-full hover:bg-gray-100 text-lg inline-flex items-center justify-center">
-                                Sign In
-                            </button>
-                        </SignInButton>
+                        {/* El botón de Sign In solo aparece si el usuario no está autenticado */}
+                        {!isSignedIn && (
+                            <SignInButton mode="modal">
+                                <button className="px-6 py-3 border border-black rounded-full hover:bg-gray-100 text-lg inline-flex items-center justify-center">
+                                    Sign In
+                                </button>
+                            </SignInButton>
+                        )}
                     </div>
                 </div>
                 <div className="mt-8 lg:mt-0 lg:ml-12 w-full lg:w-1/2 h-auto flex items-center justify-center">
                     <span className="text-gray-500">
                         <Image
-                            src="https://media.gettyimages.com/id/1316454127/es/foto/salsas-mexicanas-de-salsa-guacamole-salsa-cheedar-salsa-de-tomate-y-pico-de-gallo-con-patatas.jpg?s=612x612&w=0&k=20&c=djroCjmnGoooHypkFzg37B3UKcmOEuSGQGgzRncgdbI="
+                            src="https://www.thecookierookie.com/wp-content/uploads/2024/05/street-tacos-recipe-2.jpg"
                             alt="Mexican Sauces"
                             width={400}
                             height={300}
@@ -126,45 +133,6 @@ const LandingPage: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="mt-16">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-8">
-                        Meet Our Chefs
-                    </h3>
-                    <p className="text-gray-700 mb-8 text-lg">
-                        At Doña Vicky, our team of chefs brings years of
-                        culinary expertise and a deep love for Mexican cuisine.
-                        Their passion for authentic flavors, creativity, and
-                        traditional cooking techniques ensures that every dish
-                        served is a masterpiece.
-                    </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {chefs.map((chef, index) => (
-                            <div
-                                key={index}
-                                className="bg-white p-8 rounded-lg shadow-lg text-center"
-                            >
-                                <div className="w-40 h-40 mx-auto mb-4">
-                                    <Image
-                                        src={chef.imgSrc}
-                                        alt={chef.name}
-                                        width={160}
-                                        height={160}
-                                        className="object-cover rounded-full"
-                                    />
-                                </div>
-                                <h4 className="text-xl font-bold text-gray-900 mb-2">
-                                    {chef.name}
-                                </h4>
-                                <p className="text-lg text-green-600 mb-1">
-                                    {chef.experience}
-                                </p>
-                                <p className="text-gray-600 mb-4">
-                                    {chef.description}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
                 <div className="mt-16 text-center">
                     <h4 className="text-2xl font-bold text-gray-900 mb-4">
                         Want to Reserve a Table?

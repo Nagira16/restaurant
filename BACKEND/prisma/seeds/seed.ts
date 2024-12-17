@@ -35,35 +35,35 @@ const preSeeds = async () => {
     //     ]
     // });
 
-    // // USER
-    // await prisma.user.createMany({
-    //     data: [
-    //         {
-    //             name: "alex",
-    //             email: "alex@example.com",
-    //             phone: "1234567890",
-    //             role_id: "customer",
-    //             address: "1234 Ast Bcity",
-    //             clerk_id: "example11"
-    //         },
-    //         {
-    //             name: "nagira",
-    //             email: "nagira@example.com",
-    //             phone: "7894403211",
-    //             role_id: "admin",
-    //             address: "3333 Bst Fcity",
-    //             clerk_id: "example22"
-    //         },
-    //         {
-    //             name: "emma",
-    //             email: "emma@example.com",
-    //             phone: "0901234526",
-    //             role_id: "customer",
-    //             address: "2314 Dst ALcity",
-    //             clerk_id: "example33"
-    //         }
-    //     ]
-    // });
+    // USER
+    await prisma.user.createMany({
+        data: [
+            {
+                name: "alex",
+                email: "alex@example.com",
+                phone: "1234567890",
+                role_id: "customer",
+                address: "1234 Ast Bcity",
+                clerk_id: "example11"
+            },
+            {
+                name: "nagira",
+                email: "nagira@example.com",
+                phone: "7894403211",
+                role_id: "admin",
+                address: "3333 Bst Fcity",
+                clerk_id: "example22"
+            },
+            {
+                name: "emma",
+                email: "emma@example.com",
+                phone: "0901234526",
+                role_id: "customer",
+                address: "2314 Dst ALcity",
+                clerk_id: "example33"
+            }
+        ]
+    });
 
     // CATEGORY;
     await prisma.category.createMany({

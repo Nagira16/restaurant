@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { CardHeader, CardTitle, CardContent, CardDescription } from "./ui/card";
-import { Endpoint, Review, ReviewWithUser } from "@/types";
+import { Endpoint, ReviewWithUser } from "@/types";
 import "@smastrom/react-rating/style.css";
 import { Rating } from "@smastrom/react-rating";
 import ReviewForm from "./ReviewForm";

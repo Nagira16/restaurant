@@ -4,6 +4,7 @@ import {
     Dialog,
     DialogContent,
     DialogFooter,
+    DialogTitle,
     DialogTrigger
 } from "./ui/dialog";
 import { Label } from "./ui/label";
@@ -12,6 +13,7 @@ import { updateOrderDetails } from "@/actions";
 import Swal from "sweetalert2";
 
 type EditOrderDetailStatusMoblieProps = {
+    currentStatus: OrderDetailsStatus;
     totalPrice: number;
     orderDetailId: string;
     status: OrderDetailsStatus | null;
@@ -21,6 +23,7 @@ type EditOrderDetailStatusMoblieProps = {
 };
 
 const EditOrderDetailStatusMoblie = ({
+    currentStatus,
     totalPrice,
     orderDetailId,
     status,
@@ -43,6 +46,11 @@ const EditOrderDetailStatusMoblie = ({
             });
         } else {
             fetchAllOrderDetails();
+            Swal.fire({
+                title: "Status Saved Successfully",
+                icon: "success",
+                timer: 1500
+            });
         }
     };
 
@@ -50,14 +58,12 @@ const EditOrderDetailStatusMoblie = ({
         <>
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button
-                        variant="default"
-                        className="bg-blue-500 text-white hover:bg-blue-700 rounded-xl"
-                    >
-                        Edit
+                    <Button variant="outline" className="sm:mr-2 rounded-xl">
+                        Edit Status
                     </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
+                    <DialogTitle>Edit Order Status</DialogTitle>
                     <form action={handleEditStatus} className="grid gap-4 py-4">
                         <div className="grid grid-cols-3 items-center gap-4">
                             <Label htmlFor="totalPrice" className="text-right">
@@ -72,7 +78,7 @@ const EditOrderDetailStatusMoblie = ({
                             </Label>
                             <select
                                 id="status"
-                                value={status!}
+                                value={status || ""}
                                 onChange={(e) =>
                                     setStatus(
                                         e.target.value as OrderDetailsStatus
@@ -81,8 +87,8 @@ const EditOrderDetailStatusMoblie = ({
                                 className="col-span-3 p-2 border rounded-md"
                                 required
                             >
-                                <option value={status!}>
-                                    Current Status: {status}
+                                <option value="" disabled>
+                                    Current: {currentStatus}
                                 </option>
                                 <option value="PENDING">PENDING</option>
                                 <option value="PREPARING">PREPARING</option>

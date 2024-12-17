@@ -173,7 +173,7 @@ const AdminNutrientsDashBoard = (): JSX.Element => {
                                         <TableCell>
                                             <Button
                                                 variant="outline"
-                                                className="mr-2 rounded-xl"
+                                                className="sm:mr-2 rounded-xl"
                                                 onClick={() =>
                                                     router.push(
                                                         `/admin/nutrients/edit/${nutrient.id}`

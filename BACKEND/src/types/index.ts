@@ -76,3 +76,13 @@ export type ReviewWithUserMenuName = {
     user: { name: string | null };
     menu: { name: string | null };
 };
+
+export type Order_DetailsWithUserName = {
+    id: string;
+    payment_id: string;
+    total_price: Decimal;
+    user_id: string;
+    date: Date;
+    status: string;
+    user: { name: string | null };
+};

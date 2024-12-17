@@ -46,7 +46,10 @@ const AdminCategoryDashBoard = (): JSX.Element => {
             setAllCategories(result);
             setIsLoading(false);
         } else {
-            router.push("/");
+            Swal.fire({
+                title: data.message,
+                icon: "error"
+            });
         }
     };
 

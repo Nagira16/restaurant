@@ -51,7 +51,7 @@ export type Payment = {
     id: string;
     user_id: string;
     created_at: Date;
-    status: string;
+    status: PaymentStatus;
     stripe_id: string | null;
     amount: number;
     currency: string;
@@ -61,7 +61,7 @@ export type Payment = {
 export type Order_Details = {
     id: string;
     user_id: string;
-    status: string;
+    status: OrderDetailsStatus;
     payment_id: string;
     total_price: number;
     date: Date;
@@ -230,3 +230,22 @@ export type ReviewWithUserMenuName = {
     user: { name: string | null };
     menu: { name: string | null };
 };
+
+export type Order_DetailsWithUserName = {
+    id: string;
+    payment_id: string;
+    total_price: number;
+    user_id: string;
+    date: Date;
+    status: OrderDetailsStatus;
+    user: { name: string | null };
+};
+
+export type OrderDetailsStatus =
+    | "PENDING"
+    | "PREPARING"
+    | "COMPLETED"
+    | "CANCELED"
+    | "PICKUP";
+
+export type PaymentStatus = "PENDING" | "SUCCESS" | "FAILED";

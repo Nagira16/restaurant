@@ -45,7 +45,10 @@ const AdminReviewsDashBoard = (): JSX.Element => {
             setAllreviews(result);
             setIsLoading(false);
         } else {
-            router.push("/");
+            Swal.fire({
+                title: data.message,
+                icon: "error"
+            });
         }
     };
 

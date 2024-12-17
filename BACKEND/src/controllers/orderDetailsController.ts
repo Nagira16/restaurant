@@ -2,14 +2,23 @@ import { Order_Details, User } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
 import { findUserByClerkId } from "./userController";
+import { Order_DetailsWithUserName } from "../types";
 
 export const getAllOrderDetails = async (
     _: Request,
     res: Response
 ): Promise<void> => {
     try {
-        const allOrderDetails: Order_Details[] =
-            await prisma.order_Details.findMany();
+        const allOrderDetails: Order_DetailsWithUserName[] =
+            await prisma.order_Details.findMany({
+                include: {
+                    user: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            });
 
         res.status(200).json({
             results: allOrderDetails,

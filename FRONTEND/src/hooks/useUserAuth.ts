@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { saveUser } from "@/actions";
-import { User, UserData, UserWithRoleName } from "@/types";
+import { getUserByClerkId, saveUser } from "@/actions";
+import { UserData, UserWithRoleName } from "@/types";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 

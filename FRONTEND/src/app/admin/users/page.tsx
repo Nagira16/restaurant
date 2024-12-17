@@ -42,7 +42,10 @@ const AdminUserDashBoard = (): JSX.Element => {
             setAllUsers(result);
             setIsLoading(false);
         } else {
-            router.push("/");
+            Swal.fire({
+                title: data.message,
+                icon: "error"
+            });
         }
     };
 

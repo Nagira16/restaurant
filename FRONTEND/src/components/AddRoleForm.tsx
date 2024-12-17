@@ -13,7 +13,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { useAuth } from "@clerk/nextjs";
 import { addNewRole } from "@/actions";
-import { Category, Role } from "@/types";
+import { Role } from "@/types";
 import Swal from "sweetalert2";
 
 type AddRoleFormProps = {

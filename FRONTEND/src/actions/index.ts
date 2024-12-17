@@ -8,7 +8,9 @@ import {
     Menu,
     Nutrient,
     Order_Details,
+    OrderDetailsStatus,
     Payment,
+    PaymentStatus,
     ReviewWithUser,
     Role,
     TableType,
@@ -170,7 +172,7 @@ export const getClientSecret = async (
 
 export const updatePaymentStatus = async (
     stripe_id: string,
-    status: "SUCCESS" | "FAILED"
+    status: PaymentStatus
 ): Promise<null | Payment> => {
     const res: Response = await fetch(
         `http://localhost:3001/payments/${stripe_id}`,
@@ -474,5 +476,33 @@ export const addNewNutrient = async (
     } else {
         console.log("==============", data.message);
         return data.results as Nutrient;
+    }
+};
+
+export const updateOrderDetails = async (
+    orderDetailId: string,
+    status: OrderDetailsStatus
+): Promise<Order_Details | string> => {
+    const res: Response = await fetch(
+        `http://localhost:3001/orderDetails/${orderDetailId}`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                status
+            })
+        }
+    );
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return data.message;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Order_Details;
     }
 };

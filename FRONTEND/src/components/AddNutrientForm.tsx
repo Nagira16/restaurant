@@ -1,5 +1,5 @@
 import { addNewNutrient, getAllTables } from "@/actions";
-import { Endpoint, Menu, Nutrient, NutrientsWithMenuName } from "@/types";
+import { Endpoint, Menu, Nutrient } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import {

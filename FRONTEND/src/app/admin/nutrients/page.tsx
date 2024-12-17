@@ -11,13 +11,7 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table";
-import {
-    Endpoint,
-    FetchData,
-    Menu,
-    Nutrient,
-    NutrientsWithMenuName
-} from "@/types";
+import { Endpoint, FetchData, Nutrient, NutrientsWithMenuName } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
@@ -54,7 +48,10 @@ const AdminNutrientsDashBoard = (): JSX.Element => {
             setAllNutrients(result);
             setIsLoading(false);
         } else {
-            router.push("/");
+            Swal.fire({
+                title: data.message,
+                icon: "error"
+            });
         }
     };
 

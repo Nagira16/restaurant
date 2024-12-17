@@ -91,7 +91,7 @@ const LandingPage: React.FC = () => {
                         src="https://www.thecookierookie.com/wp-content/uploads/2024/05/street-tacos-recipe-2.jpg"
                         alt="Birria Dish"
                         width={700}
-                        height={450}
+                        height={600}
                         className="rounded-3xl shadow-lg object-cover"
                     />
                 </div>
@@ -111,7 +111,8 @@ const LandingPage: React.FC = () => {
                                     alt={dish.alt}
                                     width={600}
                                     height={900}
-                                    className="rounded-3xl shadow-md object-cover mx-auto"
+                                    objectFit="cover"
+                                    className="rounded-3xl shadow-md object-cover mx-auto h-[600px]"
                                 />
                                 <h3 className="text-2xl font-bold text-gray-900 mt-6">
                                     {dish.title}

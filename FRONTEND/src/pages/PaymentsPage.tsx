@@ -79,7 +79,10 @@ const PaymentPage = (): JSX.Element => {
                         >
                             <div className="flex items-center">
                                 <Image
-                                    src={item.image || "/placeholder.png"}
+                                    src={
+                                        item.image ||
+                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR15hCF5P6XrxJBMjZIlDjkSSxWwjOaNSlHJw&s"
+                                    }
                                     alt={item.name}
                                     width={100}
                                     height={100}

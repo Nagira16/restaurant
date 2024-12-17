@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMenu = exports.updateMenu = exports.createMenu = exports.getMenuById = exports.getAllMenus = void 0;
+exports.deleteMenu = exports.updateMenu = exports.createMenu = exports.getMenuWithCategoryNameById = exports.getMenuById = exports.getAllMenusWithCategoryName = exports.getAllMenus = void 0;
 const prismaClient_1 = require("../prismaClient");
 const getAllMenus = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -30,6 +30,33 @@ const getAllMenus = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getAllMenus = getAllMenus;
+const getAllMenusWithCategoryName = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const allMenus = yield prismaClient_1.prisma.menu.findMany({
+            include: {
+                category: {
+                    select: {
+                        category_name: true
+                    }
+                }
+            }
+        });
+        res.status(200).json({
+            results: allMenus,
+            message: "Menus Found Successfully",
+            success: true
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({
+            results: null,
+            message: "Server Falied",
+            success: false
+        });
+    }
+});
+exports.getAllMenusWithCategoryName = getAllMenusWithCategoryName;
 const getMenuById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.id;
@@ -61,6 +88,44 @@ const getMenuById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getMenuById = getMenuById;
+const getMenuWithCategoryNameById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        const menu = yield prismaClient_1.prisma.menu.findUnique({
+            where: { id },
+            include: {
+                category: {
+                    select: {
+                        category_name: true
+                    }
+                }
+            }
+        });
+        if (menu) {
+            res.status(200).json({
+                results: menu,
+                message: "Menu Found Successfully",
+                success: true
+            });
+        }
+        else {
+            res.status(404).json({
+                results: menu,
+                message: "Menu Not Found Successfully",
+                success: false
+            });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
+    }
+});
+exports.getMenuWithCategoryNameById = getMenuWithCategoryNameById;
 const createMenu = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Check if current user role is Admin

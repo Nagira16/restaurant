@@ -17,7 +17,7 @@ export type User = {
     clerk_id: string;
 };
 
-export type Table = {
+export type TableType = {
     id: string;
     number: number;
     capacity: number;
@@ -42,7 +42,7 @@ export type Reservation = {
     user_id: string;
     created_at: Date;
     num_of_people: number;
-    table_id: string;
+    tableType_id: string;
     status: string;
     location: string;
     reservationDateTime: Date;
@@ -51,7 +51,7 @@ export type Payment = {
     id: string;
     user_id: string;
     created_at: Date;
-    status: string;
+    status: PaymentStatus;
     stripe_id: string | null;
     amount: number;
     currency: string;
@@ -61,7 +61,7 @@ export type Payment = {
 export type Order_Details = {
     id: string;
     user_id: string;
-    status: string;
+    status: OrderDetailsStatus;
     payment_id: string;
     total_price: number;
     date: Date;
@@ -99,7 +99,9 @@ export type FetchData = {
     results:
         | Menu[]
         | User[]
-        | Table[]
+        | TableType
+        | TableType[]
+        | Role
         | Role[]
         | Review
         | Review[]
@@ -111,10 +113,17 @@ export type FetchData = {
         | Item_Order_Details
         | Item_Order_Details[]
         | Nutrient
+        | Nutrient[]
+        | Category
         | Category[]
         | ReviewWithUser
         | UserWithRoleName
         | UserWithRoleName[]
+        | MenuWithCategoryName
+        | MenuWithCategoryName[]
+        | NutrientsWithMenuName
+        | NutrientsWithMenuName[]
+        | NutrientsWithMenuName[]
         | number
         | null;
 };
@@ -130,6 +139,7 @@ export enum Endpoint {
     payments = "payments",
     orderDetails = "orderDetails",
     nutrients = "nutrients",
+    category = "category",
     categories = "categories",
     itemOrderDetails = "itemOrderDetails"
 }
@@ -182,3 +192,60 @@ export type UserWithRoleName = {
         role_name: string;
     };
 };
+
+export type MenuWithCategoryName = {
+    name: string;
+    id: string;
+    description: string | null;
+    price: number;
+    category_id: string | null;
+    image: string | null;
+    category: {
+        category_name: string;
+    } | null;
+};
+
+export type NutrientsWithMenuName = {
+    id: string;
+    menu_id: string;
+    calories: number;
+    protein: number;
+    carbohydrates: number;
+    fats: number;
+    fiber: number;
+    sugar: number;
+    sodium: number;
+    menu: {
+        name: string | null;
+    };
+};
+
+export type ReviewWithUserMenuName = {
+    id: string;
+    user_id: string;
+    menu_id: string;
+    stars: number;
+    comments: string | null;
+    created_at: Date;
+    user: { name: string | null };
+    menu: { name: string | null };
+};
+
+export type Order_DetailsWithUserName = {
+    id: string;
+    payment_id: string;
+    total_price: number;
+    user_id: string;
+    date: Date;
+    status: OrderDetailsStatus;
+    user: { name: string | null };
+};
+
+export type OrderDetailsStatus =
+    | "PENDING"
+    | "PREPARING"
+    | "COMPLETED"
+    | "CANCELED"
+    | "PICKUP";
+
+export type PaymentStatus = "PENDING" | "SUCCESS" | "FAILED";

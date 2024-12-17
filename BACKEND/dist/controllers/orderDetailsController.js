@@ -14,7 +14,15 @@ const prismaClient_1 = require("../prismaClient");
 const userController_1 = require("./userController");
 const getAllOrderDetails = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const allOrderDetails = yield prismaClient_1.prisma.order_Details.findMany();
+        const allOrderDetails = yield prismaClient_1.prisma.order_Details.findMany({
+            include: {
+                user: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        });
         res.status(200).json({
             results: allOrderDetails,
             message: "Order Details Found Successfully",

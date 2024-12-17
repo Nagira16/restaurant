@@ -3,6 +3,8 @@ import { getAllUsers } from "../controllers/userController";
 import {
     createMenu,
     deleteMenu,
+    getAllMenusWithCategoryName,
+    getMenuWithCategoryNameById,
     updateMenu
 } from "../controllers/menuController";
 import {
@@ -14,20 +16,22 @@ import {
     createRole,
     deleteRole,
     getAllRolesWithUsers,
-    getRoleById,
     updateRole
 } from "../controllers/roleController";
-import { getAllReviews } from "../controllers/reviewController";
+import { deleteReview, getAllReviews } from "../controllers/reviewController";
 import { getAllReservations } from "../controllers/reservationController";
 import {
     createNutrient,
     deleteNutrient,
     getAllNutrients,
+    getNutrientById,
     updateNutrient
 } from "../controllers/nutrientsController";
 import {
     createCategory,
     deleteCategory,
+    getAllCategories,
+    getCategoryById,
     updateCategory
 } from "../controllers/categoryController";
 import { getAllOrderDetails } from "../controllers/orderDetailsController";
@@ -38,9 +42,19 @@ const router = Router();
 
 // http://localhost:3001/admin
 
+router.get("/", (_: Request, res: Response) => {
+    res.status(200).json({
+        results: null,
+        message: "User Auth",
+        success: true
+    });
+});
+
 router.get("/users", getAllUsers);
 
-router.post("/menus/:id", createMenu);
+router.get("/menus", getAllMenusWithCategoryName);
+router.post("/menus", createMenu);
+router.get("/menus/:id", getMenuWithCategoryNameById);
 router.put("/menus/:id", updateMenu);
 router.delete("/menus/:id", deleteMenu);
 
@@ -54,6 +68,7 @@ router.put("/roles/:id", updateRole);
 router.delete("/roles/:id", deleteRole);
 
 router.get("/reviews", getAllReviews);
+router.delete("/reviews/:id", deleteReview);
 
 router.get("/reservations", getAllReservations);
 
@@ -61,21 +76,16 @@ router.get("/orderDetails", getAllOrderDetails);
 
 router.get("/nutrients", getAllNutrients);
 router.post("/nutrients", createNutrient);
+router.get("/nutrients/:id", getNutrientById);
 router.put("/nutrients/:id", updateNutrient);
 router.delete("/nutrients/:id", deleteNutrient);
 
+router.get("/categories", getAllCategories);
 router.post("/category", createCategory);
+router.get("/category/:id", getCategoryById);
 router.put("/category/:id", updateCategory);
 router.delete("/category/:id", deleteCategory);
 
 router.get("/itemOrderDetails", getAllItemOrderDetails);
-
-router.get("/", (_: Request, res: Response) => {
-    res.status(200).json({
-        results: null,
-        message: "User Auth",
-        success: true
-    });
-});
 
 export default router;

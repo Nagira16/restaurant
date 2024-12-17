@@ -33,10 +33,10 @@ const MenuNutrient = ({ menu_id }: NutrientProps): JSX.Element => {
     }, [menu_id]);
 
     return (
-        <>
+        <div className="w-[310px] md:w-[400px] space-y-5 mx-auto">
             {loading ? (
-                <div className="w-[450px] space-y-5">
-                    <CardHeader>
+                <>
+                    <CardHeader className="lg:mt-[70px]">
                         <CardTitle className="text-4xl">Nutrients</CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -72,11 +72,11 @@ const MenuNutrient = ({ menu_id }: NutrientProps): JSX.Element => {
                             </h3>
                         </CardDescription>
                     </CardContent>
-                </div>
+                </>
             ) : (
                 nutrient && (
-                    <div className="w-[450px] space-y-5">
-                        <CardHeader>
+                    <>
+                        <CardHeader className="lg:mt-[70px]">
                             <CardTitle className="text-4xl">
                                 Nutrients
                             </CardTitle>
@@ -107,10 +107,10 @@ const MenuNutrient = ({ menu_id }: NutrientProps): JSX.Element => {
                                 </h3>
                             </CardDescription>
                         </CardContent>
-                    </div>
+                    </>
                 )
             )}
-        </>
+        </div>
     );
 };
 

@@ -1,14 +1,22 @@
 "use server";
 
 import {
+    Category,
     Endpoint,
     FetchData,
     Item_Order_Details,
+    Menu,
+    Nutrient,
     Order_Details,
+    OrderDetailsStatus,
     Payment,
+    PaymentStatus,
     ReviewWithUser,
+    Role,
+    TableType,
     User,
-    UserData
+    UserData,
+    UserWithRoleName
 } from "@/types";
 
 export const getAllTables = async <T>(endpoint: Endpoint): Promise<T[]> => {
@@ -36,9 +44,25 @@ export const getAllTablesById = async <T>(
         return null;
     } else {
         console.log("==============", data.message);
-        console.log(data.results);
 
         return data.results as T;
+    }
+};
+
+export const getUserByClerkId = async (
+    id: string
+): Promise<UserWithRoleName | null> => {
+    const res: Response = await fetch(
+        `http://localhost:3001/${Endpoint.users}/clerk/${id}`
+    );
+    const data: FetchData = await res.json();
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+
+        return data.results as UserWithRoleName;
     }
 };
 
@@ -92,7 +116,7 @@ export const getReviewRate = async (
     }
 };
 
-export const saveUser = async (user: UserData) => {
+export const saveUser = async (user: UserData): Promise<UserWithRoleName> => {
     const res: Response = await fetch("http://localhost:3001/users", {
         method: "POST",
         headers: {
@@ -109,7 +133,9 @@ export const saveUser = async (user: UserData) => {
     });
 
     const data: FetchData = await res.json();
-    console.log(data.message);
+    console.log("--------------", data.message);
+
+    return data.results as UserWithRoleName;
 };
 
 export const getClientSecret = async (
@@ -146,7 +172,7 @@ export const getClientSecret = async (
 
 export const updatePaymentStatus = async (
     stripe_id: string,
-    status: "SUCCESS" | "FAILED"
+    status: PaymentStatus
 ): Promise<null | Payment> => {
     const res: Response = await fetch(
         `http://localhost:3001/payments/${stripe_id}`,
@@ -252,10 +278,16 @@ export const getAllOrderDetails = async (token: string) => {
     }
 };
 
-export const UserDelete = async (userId: string) => {
-    const res: Response = await fetch(`http://localhost:3001/users/${userId}`, {
-        method: "DELETE"
-    });
+export const deleteById = async <T>(
+    endpoint: Endpoint,
+    id: string
+): Promise<T | null> => {
+    const res: Response = await fetch(
+        `http://localhost:3001/${endpoint}/${id}`,
+        {
+            method: "DELETE"
+        }
+    );
 
     const data: FetchData = await res.json();
 
@@ -264,6 +296,213 @@ export const UserDelete = async (userId: string) => {
         return null;
     } else {
         console.log("Success:", data.message);
-        return data.results as User[];
+        return data.results as T;
+    }
+};
+
+export const adminDeleteById = async <T>(
+    token: string,
+    endpoint: Endpoint,
+    id: string
+): Promise<T | null> => {
+    const res: Response = await fetch(
+        `http://localhost:3001/admin/${endpoint}/${id}`,
+        {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("Error:", data.message);
+        return null;
+    } else {
+        console.log("Success:", data.message);
+        return data.results as T;
+    }
+};
+
+export const addNewCategory = async (
+    token: string,
+    category_name: string
+): Promise<Category | null> => {
+    const res: Response = await fetch("http://localhost:3001/admin/category", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            category_name
+        })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Category;
+    }
+};
+
+export const addNewRole = async (
+    token: string,
+    role_name: string
+): Promise<Role | null> => {
+    const res: Response = await fetch("http://localhost:3001/admin/roles", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            role_name
+        })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Role;
+    }
+};
+
+export const addNewMenu = async (
+    token: string,
+    name: string,
+    description: string | null,
+    price: number,
+    category_name: string,
+    image: string
+): Promise<Menu | null> => {
+    const res: Response = await fetch("http://localhost:3001/admin/menus", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            name,
+            description,
+            price,
+            category_name,
+            image
+        })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Menu;
+    }
+};
+
+export const addNewTable = async (
+    token: string,
+    number: number,
+    capacity: number,
+    available: boolean
+): Promise<TableType | null> => {
+    const res: Response = await fetch("http://localhost:3001/admin/menus", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ number, capacity, available })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as TableType;
+    }
+};
+
+export const addNewNutrient = async (
+    token: string,
+    menu_id: string,
+    calories: number,
+    protein: number,
+    carbohydrates: number,
+    fats: number,
+    fiber: number,
+    sugar: number,
+    sodium: number
+): Promise<Nutrient | null> => {
+    const res: Response = await fetch("http://localhost:3001/admin/nutrients", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            menu_id,
+            calories,
+            protein,
+            carbohydrates,
+            fats,
+            fiber,
+            sugar,
+            sodium
+        })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Nutrient;
+    }
+};
+
+export const updateOrderDetails = async (
+    orderDetailId: string,
+    status: OrderDetailsStatus
+): Promise<Order_Details | string> => {
+    const res: Response = await fetch(
+        `http://localhost:3001/orderDetails/${orderDetailId}`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                status
+            })
+        }
+    );
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return data.message;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Order_Details;
     }
 };

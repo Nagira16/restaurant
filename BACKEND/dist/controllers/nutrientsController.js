@@ -9,11 +9,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteNutrient = exports.updateNutrient = exports.createNutrient = exports.getNutrientByMenuId = exports.getAllNutrients = void 0;
+exports.deleteNutrient = exports.updateNutrient = exports.createNutrient = exports.getNutrientByMenuId = exports.getNutrientById = exports.getAllNutrients = void 0;
 const prismaClient_1 = require("../prismaClient");
 const getAllNutrients = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const allNutrients = yield prismaClient_1.prisma.nutrients.findMany();
+        const allNutrients = yield prismaClient_1.prisma.nutrients.findMany({
+            include: {
+                menu: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        });
         res.status(200).json({
             results: allNutrients,
             message: "Nutrients Found Successfully",
@@ -30,6 +38,37 @@ const getAllNutrients = (_, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getAllNutrients = getAllNutrients;
+const getNutrientById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.id;
+        const nutrient = yield prismaClient_1.prisma.nutrients.findUnique({
+            where: { id }
+        });
+        if (nutrient) {
+            res.status(200).json({
+                results: nutrient,
+                message: "Nutrient Found Successfully",
+                success: true
+            });
+        }
+        else {
+            res.status(404).json({
+                results: nutrient,
+                message: "Nutrient Not Found",
+                success: false
+            });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
+    }
+});
+exports.getNutrientById = getNutrientById;
 const getNutrientByMenuId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const menu_id = req.params.id;

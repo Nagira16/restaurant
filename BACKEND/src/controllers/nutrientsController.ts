@@ -1,19 +1,63 @@
 import { Nutrients } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
+import { NutrientsWithMenuName } from "../types";
 
 export const getAllNutrients = async (
     _: Request,
     res: Response
 ): Promise<void> => {
     try {
-        const allNutrients: Nutrients[] = await prisma.nutrients.findMany();
+        const allNutrients: NutrientsWithMenuName[] =
+            await prisma.nutrients.findMany({
+                include: {
+                    menu: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            });
 
         res.status(200).json({
             results: allNutrients,
             message: "Nutrients Found Successfully",
             success: true
         });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            results: null,
+            message: "Server Failed",
+            success: false
+        });
+    }
+};
+
+export const getNutrientById = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+    try {
+        const id: string = req.params.id;
+
+        const nutrient: Nutrients | null = await prisma.nutrients.findUnique({
+            where: { id }
+        });
+
+        if (nutrient) {
+            res.status(200).json({
+                results: nutrient,
+                message: "Nutrient Found Successfully",
+                success: true
+            });
+        } else {
+            res.status(404).json({
+                results: nutrient,
+                message: "Nutrient Not Found",
+                success: false
+            });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).json({

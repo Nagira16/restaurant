@@ -7,15 +7,16 @@ import { useEffect, useState } from "react";
 import { FetchData, UserWithRoleName } from "@/types";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Swal from "sweetalert2";
+import { Label } from "@/components/ui/label";
 
-const AdminUserEdit = ({ params }: { params: { id: string } }) => {
+const AdminUserEdit = ({ params }: { params: { id: string } }): JSX.Element => {
     const userId: string = params.id;
     const [userData, setUserData] = useState<UserWithRoleName | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const router: AppRouterInstance = useRouter();
 
-    const fetchUserData = async () => {
+    const fetchUserData = async (): Promise<void> => {
         const res: Response = await fetch(
             `http://localhost:3001/users/${userId}`,
             {
@@ -34,7 +35,9 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
         }
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (
+        e: React.ChangeEvent<HTMLInputElement>
+    ): void => {
         if (userData) {
             setUserData({
                 ...userData,
@@ -43,7 +46,7 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
         }
     };
 
-    const handleSave = async () => {
+    const handleSave = async (): Promise<void> => {
         if (!userData) return;
 
         setIsSaving(true);
@@ -71,7 +74,7 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
                 icon: "success",
                 timer: 5000,
                 didClose() {
-                    router.push("/admin");
+                    router.push("/admin/users");
                 }
             });
         } else {
@@ -80,7 +83,7 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
                 icon: "error",
                 timer: 5000,
                 didClose() {
-                    router.push("/admin");
+                    router.push("/admin/users");
                 }
             });
         }
@@ -91,7 +94,11 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
     }, []);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="min-h-screen grid place-content-center animate-pulse">
+                Loading...
+            </div>
+        );
     }
 
     return (
@@ -100,7 +107,7 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
             {userData && (
                 <div className="space-y-4">
                     <div>
-                        <label className="block">Name</label>
+                        <Label className="block">Name</Label>
                         <Input
                             type="text"
                             name="name"
@@ -109,7 +116,7 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
                         />
                     </div>
                     <div>
-                        <label className="block">Email</label>
+                        <Label className="block">Email</Label>
                         <Input
                             type="email"
                             name="email"
@@ -118,7 +125,7 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
                         />
                     </div>
                     <div>
-                        <label className="block">Role</label>
+                        <Label className="block">Role</Label>
                         <Input
                             type="text"
                             name="role_name"
@@ -136,12 +143,14 @@ const AdminUserEdit = ({ params }: { params: { id: string } }) => {
                     <div className="flex gap-2">
                         <Button
                             variant="outline"
-                            onClick={() => router.push("/admin")}
+                            className="rounded-xl"
+                            onClick={() => router.back()}
                         >
-                            Cancel
+                            Back
                         </Button>
                         <Button
-                            variant="destructive"
+                            variant="outline"
+                            className="rounded-xl"
                             onClick={handleSave}
                             disabled={isSaving}
                         >

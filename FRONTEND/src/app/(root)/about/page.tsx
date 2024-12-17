@@ -19,7 +19,7 @@ const page = () => {
                 our culture and a commitment to excellence. Join us and be part
                 of our story — where every meal is a celebration.
             </p>
-            <div className="flex justify-center mt-8 space-x-4">
+            <div className="flex flex-wrap sm:flex-nowrap justify-center mt-8 space-y-4 sm:space-y-0 space-x-0 sm:space-x-4">
                 <Image
                     src="https://scontent.fcxh2-1.fna.fbcdn.net/v/t39.30808-6/459161284_122221884386011350_423131921714823147_n.jpg?stp=cp6_dst-jpg&_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_ohc=Kh2cIkb6GZcQ7kNvgFDkL-H&_nc_zt=23&_nc_ht=scontent.fcxh2-1.fna&_nc_gid=AuYCYL3JARZ7f0IqtigT7Zc&oh=00_AYA2XhtI9x0fyXaT75VKxM8E6kNqjurwf6L-1kjfqOGtYA&oe=6742EB8B"
                     alt="Authentic Mexican Dish"

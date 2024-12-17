@@ -80,7 +80,7 @@ const data = {
 
 const AdminAppSidebar = ({
     ...props
-}: React.ComponentProps<typeof Sidebar>) => {
+}: React.ComponentProps<typeof Sidebar>): JSX.Element => {
     return (
         <Sidebar {...props}>
             <SidebarHeader className="font-bold text-xl border-b-2 border-blue-500">

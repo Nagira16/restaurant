@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { CardHeader, CardTitle, CardContent, CardDescription } from "./ui/card";
-import { Endpoint, Review, ReviewWithUser } from "@/types";
+import { Endpoint, ReviewWithUser } from "@/types";
 import "@smastrom/react-rating/style.css";
 import { Rating } from "@smastrom/react-rating";
 import ReviewForm from "./ReviewForm";
@@ -51,15 +51,14 @@ const Reviews = ({ menu_id }: ReviewsProp): JSX.Element => {
                 comments
             );
             if (newReview) {
-                console.log(newReview.user);
                 setReviews((prev) => [...prev, newReview]);
             }
         }
     };
 
     return (
-        <div className="w-[450px] space-y-1">
-            <CardHeader className=" grid grid-cols-2 w-[400px]">
+        <div className="w-[310px] md:w-[400px] space-y-5 mx-auto">
+            <CardHeader className=" grid grid-cols-1 space-y-5 md:space-y-0 md:grid-cols-2 w-[310px] md:w-[400px]">
                 <CardTitle className="text-4xl">Reviews</CardTitle>
                 <ReviewForm
                     rating={rating}
@@ -70,56 +69,52 @@ const Reviews = ({ menu_id }: ReviewsProp): JSX.Element => {
             </CardHeader>
             <CardContent>
                 {loading ? (
-                    <Skeleton className="h-[200px] w-[355px]" />
+                    <Skeleton className="h-[250px] w-full" />
                 ) : (
                     reviews &&
                     (reviews.length === 0 ? (
-                        <CardDescription className="h-[200px] w-[355px]">
+                        <CardDescription className="h-[250px] w-full">
                             <p>No reviews yet.</p>
                         </CardDescription>
                     ) : (
-                        <div className="h-[200px] w-[355px] overflow-y-auto overflow-x-hidden">
+                        <div className="h-[250px] w-full overflow-y-auto overflow-x-hidden">
                             {reviews.map((r) => (
                                 <div
                                     key={r.id}
-                                    className="my-1 p-2 w-full  border"
+                                    className="my-1 p-2 w-full border"
                                 >
-                                    <div className="w-full">
-                                        <div className="flex items-start justify-start ml-3 space-x-5">
-                                            <Image
-                                                src={
-                                                    r.user.image ||
-                                                    "https://cdn.iconscout.com/icon/free/png-256/free-user-icon-download-in-svg-png-gif-file-formats--profile-avatar-account-person-app-interface-pack-icons-1401302.png?f=webp&w=256"
-                                                }
-                                                alt="Profile"
-                                                width={30}
-                                                height={30}
-                                                className="rounded-full"
-                                            />
+                                    <div className="flex items-start justify-start ml-3 space-x-5">
+                                        <Image
+                                            src={
+                                                r.user.image ||
+                                                "https://cdn.iconscout.com/icon/free/png-256/free-user-icon-download-in-svg-png-gif-file-formats--profile-avatar-account-person-app-interface-pack-icons-1401302.png?f=webp&w=256"
+                                            }
+                                            alt="Profile"
+                                            width={30}
+                                            height={30}
+                                            className="rounded-full"
+                                        />
 
-                                            <p>
-                                                {r.user?.name || "Unknown User"}
-                                            </p>
-                                            <Rating
-                                                value={r.stars}
-                                                readOnly
-                                                className="max-w-[90px]"
-                                            />
-                                        </div>
+                                        <p>{r.user?.name || "Unknown User"}</p>
+                                        <Rating
+                                            value={r.stars}
+                                            readOnly
+                                            className="max-w-[90px]"
+                                        />
+                                    </div>
 
-                                        <div className="flex items-center justify-start my-2 ml-3 break-words">
-                                            <p className="my-3 w-full">
-                                                {r.comments}
-                                            </p>
-                                        </div>
+                                    <div className="flex items-center justify-start my-2 ml-3 break-words">
+                                        <p className="my-3 w-full">
+                                            {r.comments}
+                                        </p>
+                                    </div>
 
-                                        <div className="flex items-end justify-end">
-                                            <p>
-                                                {new Date(
-                                                    r.created_at
-                                                ).toLocaleDateString()}
-                                            </p>
-                                        </div>
+                                    <div className="flex items-end justify-end">
+                                        <p>
+                                            {new Date(
+                                                r.created_at
+                                            ).toLocaleDateString()}
+                                        </p>
                                     </div>
                                 </div>
                             ))}

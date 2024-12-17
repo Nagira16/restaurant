@@ -1,5 +1,6 @@
 "use client";
 
+import { getUserByClerkId } from "@/actions";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -8,10 +9,32 @@ import {
     BreadcrumbSeparator,
     BreadcrumbPage
 } from "@/components/ui/breadcrumb";
-import { usePathname } from "next/navigation";
+import { UserWithRoleName } from "@/types";
+import { useUser } from "@clerk/nextjs";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const DynamicBreadcrumb = () => {
+    const { user } = useUser();
+    const router: AppRouterInstance = useRouter();
     const pathName = usePathname();
+
+    useEffect(() => {
+        const fetchUser = async (clerkId: string) => {
+            const result: UserWithRoleName | null = await getUserByClerkId(
+                clerkId
+            );
+
+            if (!result) return;
+
+            if (result.role.role_name !== "Admin") return router.push("/");
+        };
+
+        if (user?.id) {
+            fetchUser(user.id);
+        }
+    }, [user]);
 
     const pathSegments = pathName
         ? pathName.split("/").filter((segment) => segment)

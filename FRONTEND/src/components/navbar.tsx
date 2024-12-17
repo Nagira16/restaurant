@@ -70,7 +70,7 @@ const Navbar: React.FC = () => {
                         <UserButton />
                     ) : (
                         <SignInButton mode="modal">
-                            <button className="px-4 py-2 border border-black rounded hover:bg-gray-100">
+                            <button className="px-4 py-2 bg-[#C41E25] text-white rounded hover:bg-[#A71A20] transition-colors">
                                 Sign In
                             </button>
                         </SignInButton>

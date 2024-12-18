@@ -18,9 +18,9 @@ const Navbar: React.FC = () => {
 
     const links = [
         { href: "/menus", label: "Menu" },
+        { href: "/about", label: "About Us" },
         { href: "/story", label: "Our Story" },
-        { href: "/contact", label: "Contact Us" },
-        { href: "/about", label: "About Us" }
+        { href: "/contact", label: "Contact Us" }
     ];
 
     return (
@@ -51,10 +51,9 @@ const Navbar: React.FC = () => {
                                 {label}
                             </Link>
                         ))}
+                        <RoleButton />
                     </div>
                 </div>
-
-                <RoleButton />
 
                 <div className="md:hidden flex items-center space-x-4">
                     <button

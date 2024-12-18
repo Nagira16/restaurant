@@ -35,7 +35,7 @@ const preSeeds = async () => {
     //     ]
     // });
 
-    // USER
+    // USER;
     // await prisma.user.createMany({
     //     data: [
     //         {

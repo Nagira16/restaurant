@@ -131,7 +131,7 @@ const SingleMenu = ({ menu_id }: SingleMenuProps): JSX.Element => {
                                 </div>
                             </div>
                             <Button
-                                className="w-full rounded-xl bg-green-700 text-white hover:bg-green-800"
+                                className="w-full rounded-xl bg-red-600 text-white hover:bg-red-700"
                                 size="lg"
                                 onClick={() =>
                                     addToCart({

@@ -14,7 +14,6 @@ import {
     ReviewWithUser,
     Role,
     TableType,
-    User,
     UserData,
     UserWithRoleName
 } from "@/types";
@@ -160,7 +159,11 @@ export const getClientSecret = async (
 
     const data: FetchData = await res.json();
 
+    // FIXE//////////////////////////////////////////
+
     if (!data.success) {
+        console.log("HELLO");
+
         console.log("==============", data.message);
         return null;
     } else {
@@ -169,6 +172,8 @@ export const getClientSecret = async (
         return data.clientSecret || null;
     }
 };
+
+//////////////////////////////////////
 
 export const updatePaymentStatus = async (
     stripe_id: string,

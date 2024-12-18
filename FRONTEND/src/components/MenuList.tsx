@@ -35,7 +35,7 @@ const MenuList = ({ menus, setMenus }: MenuListProps): JSX.Element => {
                 </div>
             );
         }
-    }, 5000);
+    }, 3000);
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 py-8 gap-6 lg:gap-12 mx-2">

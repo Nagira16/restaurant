@@ -9,8 +9,8 @@ const MenuListPage: React.FC = () => {
     const [menus, setMenus] = useState<Menu[]>([]);
 
     return (
-        <div className="text-center space-y-1 mt-4">
-            <div className="relative w-full">
+        <div className="space-y-1 mt-4">
+            <div className="relative w-full text-left">
                 <h1 className="text-3xl sm:text-4xl font-bold">
                     Our Special Menus
                 </h1>

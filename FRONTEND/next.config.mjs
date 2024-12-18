@@ -66,6 +66,21 @@ const nextConfig = {
             },
             {
                 hostname: "www.thecookierookie.com"
+            },
+            {
+                hostname: "www.maricruzavalos.com"
+            },
+            {
+                hostname: "coopcancook.com"
+            },
+            {
+                hostname: "images.squarespace-cdn.com"
+            },
+            {
+                hostname: "www.isabeleats.com"
+            },
+            {
+                hostname: "m.media-amazon.com"
             }
         ]
     }

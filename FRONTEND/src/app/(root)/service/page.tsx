@@ -23,7 +23,7 @@ const ServicePage = () => {
                 <div className="bg-white shadow-lg rounded-lg overflow-hidden group hover:shadow-2xl transition-all duration-300">
                     <div className="relative h-64">
                         <Image
-                            src="https://images.squarespace-cdn.com/content/v1/6001f6e8b4d633626a2e4273/1623713054757-TSWPQ9Y46VWMKEWPLR2F/1.jpg"
+                            src="https://media.istockphoto.com/id/2021971495/photo/3-beef-birria-tacos-stacked-on-black-plate.jpg?s=612x612&w=0&k=20&c=hjeeTH2QUP5vjun8RThM5WJLZbxoRVyiK8ODZ-qsV4g="
                             alt="Dine-In"
                             layout="fill"
                             className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -44,7 +44,7 @@ const ServicePage = () => {
                 <div className="bg-white shadow-lg rounded-lg overflow-hidden group hover:shadow-2xl transition-all duration-300">
                     <div className="relative h-64">
                         <Image
-                            src="https://scontent.fcxh3-1.fna.fbcdn.net/v/t1.6435-9/155525014_109838191136659_949389403497147727_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=X9QfjNB_dRgQ7kNvgGvy0Vn&_nc_zt=23&_nc_ht=scontent.fcxh3-1.fna&_nc_gid=ARA9J2cpu3xN-3owJJRzNu5&oh=00_AYDoYxTwjSZ1_-rLpPq3Xng-Ic2fghthYlJgG9YhVXF9YA&oe=6789D5A8"
+                            src="https://m.media-amazon.com/images/I/81DUssM+MNL.jpg"
                             alt="Takeaway"
                             layout="fill"
                             className="object-cover group-hover:scale-105 transition-transform duration-300"

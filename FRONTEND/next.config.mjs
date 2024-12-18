@@ -78,6 +78,9 @@ const nextConfig = {
             },
             {
                 hostname: "www.isabeleats.com"
+            },
+            {
+                hostname: "m.media-amazon.com"
             }
         ]
     }

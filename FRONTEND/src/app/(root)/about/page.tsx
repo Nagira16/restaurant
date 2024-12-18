@@ -85,15 +85,15 @@ export default function AboutPage() {
                         </p>
                     </div>
                 </div>
-
-                <div className="text-center bg-red-600 text-white py-12 px-4 rounded-2xl">
-                    <h2 className="text-3xl font-bold mb-4">
+                <div className="py-16 text-center bg-red-100 rounded-3xl">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-4">
                         Join Us for a Memorable Experience
                     </h2>
-                    <p className="text-lg mb-6">
-                        Come taste the authentic flavors of Mexico at Doña Vicky
+                    <p className="text-gray-700 mb-6 text-base">
+                        Come taste the authentic flavors of Mexico at Doña
+                        Vicky.
                     </p>
-                    <button className="bg-white text-red-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+                    <button className="px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700 cursor-pointer text-base transition-all">
                         Visit Us Today
                     </button>
                 </div>

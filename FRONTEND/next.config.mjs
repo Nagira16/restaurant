@@ -66,6 +66,9 @@ const nextConfig = {
             },
             {
                 hostname: "www.thecookierookie.com"
+            },
+            {
+                hostname: "www.maricruzavalos.com"
             }
         ]
     }

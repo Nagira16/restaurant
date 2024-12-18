@@ -26,14 +26,15 @@ const MenuList = ({ menus, setMenus }: MenuListProps): JSX.Element => {
         setMenus(results);
         setLoading(false);
     };
-
-    if (menus.length <= 0) {
-        return (
-            <div className="h-[100px] gird place-content-center font-bold text-lg">
-                Menus Not Found
-            </div>
-        );
-    }
+    setTimeout(() => {
+        if (menus.length <= 0) {
+            return (
+                <div className="h-[100px] gird place-content-center font-bold text-lg">
+                    Menus Not Found
+                </div>
+            );
+        }
+    }, 3000);
 
     return (
         <div className="flex justify-center items-stretch flex-wrap">

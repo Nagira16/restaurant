@@ -6,8 +6,8 @@ const OurStory = () => {
     return (
         <div className="bg-white py-16 px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16 space-y-16">
             {/* Hero Section */}
-            <section className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center lg:gap-16 gap-12">
-                <div className="lg:w-1/2 space-y-8">
+            <section className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-center lg:justify-between lg:gap-16 gap-12">
+                <div className="lg:w-1/2 space-y-8 text-center lg:text-left">
                     <h1 className="text-5xl font-extrabold text-gray-900 leading-tight">
                         Our Story
                     </h1>
@@ -27,28 +27,30 @@ const OurStory = () => {
                         loved by locals and visitors alike for their rich taste
                         and traditional preparation.
                     </p>
-                    <Link
-                        href="/menus"
-                        className="px-6 py-2 bg-green-600 text-white font-medium rounded-md shadow-lg hover:bg-green-700 hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 inline-block"
-                    >
-                        Explore Our Menu
-                    </Link>
+                    <div className="flex justify-center lg:justify-start">
+                        <Link
+                            href="/menus"
+                            className="px-6 py-2 bg-red-600 text-white font-medium rounded-2xl shadow-lg hover:bg-red-700 hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 inline-block"
+                        >
+                            Explore Our Menu
+                        </Link>
+                    </div>
                 </div>
-                <div className="lg:w-1/2">
+                <div className="lg:w-1/2 flex justify-center">
                     <div className="relative">
                         <Image
                             src="https://www.isabeleats.com/wp-content/uploads/2024/04/birria-tacos-recipe-5.jpg"
                             alt="Authentic Mexican Cuisine"
-                            width={700}
-                            height={500}
-                            className="rounded-lg object-cover shadow-lg"
+                            width={450}
+                            height={350}
+                            className="rounded-2xl object-cover shadow-lg"
                         />
                     </div>
                 </div>
             </section>
 
             {/* Call to Action Section */}
-            <section className="mt-16 bg-green-50 py-12 text-center rounded-lg shadow-lg max-w-6xl mx-auto space-y-6">
+            <section className="mt-16 bg-red-50 py-12 text-center rounded-2xl shadow-lg max-w-6xl mx-auto space-y-6">
                 <h2 className="text-3xl font-bold text-gray-900">
                     Be Part of Our Story
                 </h2>
@@ -59,7 +61,7 @@ const OurStory = () => {
                 </p>
                 <Link
                     href="/book-table"
-                    className="inline-block px-8 py-3 bg-green-600 text-white font-medium rounded-md shadow-lg hover:bg-green-700 hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                    className="inline-block px-8 py-3 bg-red-600 text-white font-medium rounded-2xl shadow-lg hover:bg-red-700 hover:shadow-xl transition-all focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
                 >
                     Reserve Your Table
                 </Link>

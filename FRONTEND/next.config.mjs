@@ -75,6 +75,9 @@ const nextConfig = {
             },
             {
                 hostname: "images.squarespace-cdn.com"
+            },
+            {
+                hostname: "www.isabeleats.com"
             }
         ]
     }

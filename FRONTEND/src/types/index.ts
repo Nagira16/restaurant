@@ -124,6 +124,7 @@ export type FetchData = {
         | NutrientsWithMenuName
         | NutrientsWithMenuName[]
         | NutrientsWithMenuName[]
+        | ReservationWithUserNameTableNumber[]
         | number
         | null;
 };
@@ -249,3 +250,20 @@ export type OrderDetailsStatus =
     | "PICKUP";
 
 export type PaymentStatus = "PENDING" | "SUCCESS" | "FAILED";
+
+export type ReservationWithUserNameTableNumber = {
+    id: string;
+    user_id: string;
+    num_of_people: number;
+    table_id: string | null;
+    status: string;
+    location: string;
+    reservationDateTime: Date;
+    created_at: Date;
+    user: {
+        name: string;
+    };
+    table: {
+        number: number;
+    } | null;
+};

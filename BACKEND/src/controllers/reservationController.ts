@@ -2,14 +2,28 @@ import { Reservation, User } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
 import { findUserByClerkId } from "./userController";
+import { ReservationWithUserNameTableNumber } from "../types";
 
 export const getAllReservations = async (
     _: Request,
     res: Response
 ): Promise<void> => {
     try {
-        const allReservations: Reservation[] =
-            await prisma.reservation.findMany();
+        const allReservations: ReservationWithUserNameTableNumber[] =
+            await prisma.reservation.findMany({
+                include: {
+                    user: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    table: {
+                        select: {
+                            number: true
+                        }
+                    }
+                }
+            });
 
         res.status(200).json({
             results: allReservations,

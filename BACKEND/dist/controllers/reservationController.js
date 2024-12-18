@@ -14,7 +14,20 @@ const prismaClient_1 = require("../prismaClient");
 const userController_1 = require("./userController");
 const getAllReservations = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const allReservations = yield prismaClient_1.prisma.reservation.findMany();
+        const allReservations = yield prismaClient_1.prisma.reservation.findMany({
+            include: {
+                user: {
+                    select: {
+                        name: true
+                    }
+                },
+                table: {
+                    select: {
+                        number: true
+                    }
+                }
+            }
+        });
         res.status(200).json({
             results: allReservations,
             message: "Reservations Found Successfully",

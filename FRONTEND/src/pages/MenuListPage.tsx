@@ -11,7 +11,7 @@ const MenuListPage: React.FC = () => {
     return (
         <div className="text-center space-y-1 mt-4">
             <div className="relative w-full">
-                <h1 className="text-3xl sm:text-5xl font-bold">
+                <h1 className="text-3xl sm:text-4xl font-bold">
                     Our Special Menus
                 </h1>
                 <p className="opacity-50">Made with premium ingredients</p>

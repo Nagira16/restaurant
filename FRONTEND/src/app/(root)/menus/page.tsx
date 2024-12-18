@@ -3,7 +3,7 @@ import React from "react";
 
 const page: React.FC = () => {
     return (
-        <div>
+        <div className="container mx-auto">
             <MenuListPage />
         </div>
     );

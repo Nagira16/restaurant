@@ -69,6 +69,12 @@ const nextConfig = {
             },
             {
                 hostname: "www.maricruzavalos.com"
+            },
+            {
+                hostname: "coopcancook.com"
+            },
+            {
+                hostname: "images.squarespace-cdn.com"
             }
         ]
     }

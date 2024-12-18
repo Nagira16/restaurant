@@ -18,6 +18,7 @@ import {
     UserData,
     UserWithRoleName
 } from "@/types";
+import { log } from "console";
 
 export const getAllTables = async <T>(endpoint: Endpoint): Promise<T[]> => {
     const res: Response = await fetch(`http://localhost:3001/${endpoint}`);
@@ -160,7 +161,11 @@ export const getClientSecret = async (
 
     const data: FetchData = await res.json();
 
+    // FIXE//////////////////////////////////////////
+
     if (!data.success) {
+        console.log("HELLO");
+
         console.log("==============", data.message);
         return null;
     } else {
@@ -169,6 +174,8 @@ export const getClientSecret = async (
         return data.clientSecret || null;
     }
 };
+
+//////////////////////////////////////
 
 export const updatePaymentStatus = async (
     stripe_id: string,

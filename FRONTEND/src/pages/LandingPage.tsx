@@ -55,15 +55,15 @@ const LandingPage: React.FC = () => {
     ];
 
     return (
-        <div className="bg-white py-24 px-8">
+        <div className="bg-white py-8 px-8">
             {/* Header Section */}
-            <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 min-h-[80vh]">
+            <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-8 h-auto pt-0 mt-0 mb-12">
                 <div className="max-w-xl text-center lg:text-left">
-                    <h1 className="text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                    <h1 className="text-6xl font-bold text-gray-900 mb-4 leading-tight">
                         Experience the True Taste of{" "}
                         <span className="text-green-600">Doña Vicky</span>
                     </h1>
-                    <p className="text-gray-700 text-xl mb-8">
+                    <p className="text-gray-700 text-xl mb-6">
                         Welcome to Doña Vicky, where birria takes center stage.
                         Enjoy the bold and authentic flavors that celebrate
                         Mexico’s rich culinary heritage. From our savory
@@ -98,22 +98,36 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* Our Signature Dishes */}
-            <div className="py-24">
+            <div className="py-20 bg-gradient-to-b from-gray-50 to-gray-100">
                 <div className="max-w-7xl mx-auto text-center">
-                    <h2 className="text-4xl font-bold text-gray-900 mb-12">
-                        Our Signature Dishes
-                    </h2>
+                    <div className="flex flex-col items-center">
+                        {/* Subtítulo */}
+                        <p className="text-lg text-gray-500 uppercase tracking-widest mb-2">
+                            Experience Excellence
+                        </p>
+                        {/* Título Principal */}
+                        <h2 className="text-5xl font-bold text-gray-900 mb-4">
+                            Our Signature Dishes
+                        </h2>
+                        {/* Separador */}
+                        <div className="w-24 h-1 bg-green-500 rounded-full mb-8"></div>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                         {dishes.map((dish, index) => (
-                            <div key={index} className="text-center">
-                                <Image
-                                    src={dish.src}
-                                    alt={dish.alt}
-                                    width={600}
-                                    height={900}
-                                    objectFit="cover"
-                                    className="rounded-3xl shadow-md object-cover mx-auto h-[600px]"
-                                />
+                            <div
+                                key={index}
+                                className="relative group text-center bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 transform hover:scale-105 hover:-translate-y-2"
+                            >
+                                <div className="overflow-hidden rounded-2xl">
+                                    <Image
+                                        src={dish.src}
+                                        alt={dish.alt}
+                                        width={500}
+                                        height={600}
+                                        objectFit="cover"
+                                        className="rounded-2xl transform transition-transform duration-500 group-hover:scale-110 group-hover:translate-y-[-10px]"
+                                    />
+                                </div>
                                 <h3 className="text-2xl font-bold text-gray-900 mt-6">
                                     {dish.title}
                                 </h3>
@@ -127,11 +141,19 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* Meet Our Chefs */}
-            <div className="py-24 bg-gray-50">
+            <div className="py-20 bg-gray-50">
                 <div className="max-w-7xl mx-auto text-center">
-                    <h3 className="text-4xl font-bold text-gray-900 mb-12">
+                    {/* <h3 className="text-4xl font-bold text-gray-900 mb-12">
                         Meet Our Chefs
-                    </h3>
+                    </h3> */}
+                    <div className="flex flex-col items-center mb-12">
+                        <h3 className="text-4xl font-bold text-gray-900 mb-4">
+                            Meet Our Chefs
+                        </h3>
+                        {/* Separador */}
+                        <div className="w-24 h-1 bg-green-500 rounded-full"></div>
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                         {chefs.map((chef, index) => (
                             <div

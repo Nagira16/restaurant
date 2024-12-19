@@ -18,7 +18,14 @@ import cros from "cors";
 const app = express();
 
 app.use(express.json());
-app.use(cros());
+app.use(
+    cros({
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+        exposedHeaders: ["Cache-Control"]
+    })
+);
 app.use(
     clerkMiddleware({
         publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,

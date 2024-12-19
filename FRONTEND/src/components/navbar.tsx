@@ -51,6 +51,29 @@ const Navbar: React.FC = () => {
                                 {label}
                             </Link>
                         ))}
+
+                        {isSignedIn && (
+                            <>
+                                <Link
+                                    href="/orders"
+                                    className="text-gray-800 hover:text-gray-600"
+                                >
+                                    Order Hisotry
+                                </Link>
+                                <Link href="/cart" className="relative">
+                                    <span className="text-gray-800 hover:text-gray-600">
+                                        {/* <ShoppingCart /> */}
+                                        Cart
+                                    </span>
+                                    {cartItems.length > 0 && (
+                                        <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-sm">
+                                            {cartItems.length}
+                                        </span>
+                                    )}
+                                </Link>
+                            </>
+                        )}
+
                         <RoleButton />
                     </div>
                 </div>
@@ -88,25 +111,6 @@ const Navbar: React.FC = () => {
                 </div>
 
                 <div className="hidden md:flex items-center space-x-4">
-                    {isSignedIn && (
-                        <>
-                            <Link href="/orders" className="relative">
-                                <span className="text-gray-800 hover:text-gray-600">
-                                    <HistoryIcon />
-                                </span>
-                            </Link>
-                            <Link href="/cart" className="relative">
-                                <span className="text-gray-800 hover:text-gray-600">
-                                    <ShoppingCart />
-                                </span>
-                                {cartItems.length > 0 && (
-                                    <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-2 text-sm">
-                                        {cartItems.length}
-                                    </span>
-                                )}
-                            </Link>
-                        </>
-                    )}
                     {isSignedIn ? (
                         <UserButton />
                     ) : (

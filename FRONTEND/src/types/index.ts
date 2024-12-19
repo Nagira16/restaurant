@@ -37,6 +37,7 @@ export type Review = {
     comments: string;
     created_at: Date;
 };
+
 export type Reservation = {
     id: string;
     user_id: string;
@@ -47,6 +48,7 @@ export type Reservation = {
     location: string;
     reservationDateTime: Date;
 };
+
 export type Payment = {
     id: string;
     user_id: string;
@@ -61,7 +63,7 @@ export type Payment = {
 export type Order_Details = {
     id: string;
     user_id: string;
-    status: OrderDetailsStatus;
+    status: string;
     payment_id: string;
     total_price: number;
     date: Date;

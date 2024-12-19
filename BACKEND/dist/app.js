@@ -21,7 +21,12 @@ const middleware_1 = require("./middleware");
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["Cache-Control"]
+}));
 app.use((0, express_2.clerkMiddleware)({
     publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     secretKey: process.env.CLERK_SECRET_KEY

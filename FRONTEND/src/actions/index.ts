@@ -11,6 +11,7 @@ import {
     OrderDetailsStatus,
     Payment,
     PaymentStatus,
+    Reservation,
     ReviewWithUser,
     Role,
     TableType,
@@ -509,5 +510,37 @@ export const updateOrderDetails = async (
     } else {
         console.log("==============", data.message);
         return data.results as Order_Details;
+    }
+};
+
+export const reserveTable = async (
+    token: string,
+    num_of_people: number,
+    table_id: string,
+    location: string,
+    reservationDateTime: Date
+): Promise<Reservation | null> => {
+    const res: Response = await fetch("http://localhost:3001/reservations", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            num_of_people,
+            table_id,
+            location,
+            reservationDateTime
+        })
+    });
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return data.results as null;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Reservation;
     }
 };

@@ -8,7 +8,6 @@ import CheckoutForm from "@/components/CheckoutForm";
 import { useAuth } from "@clerk/nextjs";
 import { useCart } from "@/components/providers/CartContext";
 import Image from "next/image";
-import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { CartItem } from "@/types";

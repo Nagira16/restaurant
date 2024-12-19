@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteReservation = exports.updateReservation = exports.createReservation = exports.getReservationById = exports.getAllReservationsByUserId = exports.getAllReservations = void 0;
+exports.updateTableAvailability = exports.deleteReservation = exports.updateReservation = exports.createReservation = exports.getReservationById = exports.getAllReservationsByUserId = exports.getAllReservations = void 0;
 const prismaClient_1 = require("../prismaClient");
 const userController_1 = require("./userController");
 const getAllReservations = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -117,6 +117,20 @@ const createReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
             });
             return;
         }
+        const existingReservation = yield prismaClient_1.prisma.reservation.findFirst({
+            where: {
+                table_id: table_id,
+                reservationDateTime: reservationDateTime
+            }
+        });
+        if (existingReservation) {
+            res.status(400).json({
+                results: null,
+                message: "Table is already reserved for this time.",
+                success: false
+            });
+            return;
+        }
         const newReservation = yield prismaClient_1.prisma.reservation.create({
             data: {
                 user_id: user.id,
@@ -126,6 +140,14 @@ const createReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 reservationDateTime
             }
         });
+        // await prisma.table.update({
+        //     where: {
+        //         id: table_id
+        //     },
+        //     data: {
+        //         available: false
+        //     }
+        // });
         res.status(201).json({
             results: newReservation,
             message: "Reservation Created Successfully",
@@ -216,3 +238,32 @@ const deleteReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.deleteReservation = deleteReservation;
+const updateTableAvailability = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const currentDateTime = new Date();
+        const finishedReservations = yield prismaClient_1.prisma.reservation.findMany({
+            where: {
+                reservationDateTime: {
+                    lte: currentDateTime
+                },
+                table: {
+                    available: false
+                }
+            }
+        });
+        for (const reservation of finishedReservations) {
+            yield prismaClient_1.prisma.table.update({
+                where: {
+                    id: reservation.table_id
+                },
+                data: {
+                    available: true
+                }
+            });
+        }
+    }
+    catch (error) {
+        console.error("Error updating table availability:", error);
+    }
+});
+exports.updateTableAvailability = updateTableAvailability;

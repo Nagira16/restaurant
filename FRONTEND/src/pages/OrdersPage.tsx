@@ -93,9 +93,7 @@ const OrdersPage = (): JSX.Element => {
 
     return (
         <div className="p-4 mx-auto max-w-5xl">
-            <h1 className="text-3xl sm:text-4xl font-bold my-5">
-                Order Details
-            </h1>
+            <h1 className="text-3xl font-bold my-5">Order Details</h1>
             <div className="rounded-lg border bg-card">
                 <Table>
                     <TableHeader>

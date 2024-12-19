@@ -128,7 +128,7 @@ export default function ContactForm() {
                     <div className="flex items-start space-x-4 mt-6">
                         <Clock className="w-6 h-6 text-red-600" />
                         <div>
-                            <p className="text-gray-600 mt-1">
+                            <p className="text-gray-600">
                                 Monday - Friday: 10:00 AM - 5:00 PM
                                 <br />
                                 Saturday: Closed

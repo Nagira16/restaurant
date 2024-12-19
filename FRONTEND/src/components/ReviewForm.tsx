@@ -31,7 +31,7 @@ const ReviewForm = ({
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="bg-green-600 text-white rounded-2xl">
+                <Button className="bg-green-700 text-white rounded-xl hover:bg-green-800">
                     Write a Review
                 </Button>
             </DialogTrigger>

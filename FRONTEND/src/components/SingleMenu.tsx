@@ -1,23 +1,14 @@
 "use client";
 
 import { Endpoint, Menu } from "@/types";
-import {
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle
-} from "./ui/card";
-import Image from "next/image";
-import { getAllTablesById } from "@/actions";
-import { ChangeEvent, useEffect, useState } from "react";
-import { Skeleton } from "./ui/skeleton";
 import { Button } from "./ui/button";
 import { useCart } from "./providers/CartContext";
-import { CirclePlus } from "lucide-react";
-import BackButton from "./BackButton";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import { ChangeEvent, useEffect, useState } from "react";
+import { getAllTablesById } from "@/actions";
+import Image from "next/image";
+import { Skeleton } from "./ui/skeleton";
 
 type SingleMenuProps = {
     menu_id: string;
@@ -58,86 +49,90 @@ const SingleMenu = ({ menu_id }: SingleMenuProps): JSX.Element => {
     const isAddToCartDisabled = quantities <= 0;
 
     return (
-        <div className="w-[310px] md:w-[400px] space-y-5 mx-auto">
-            <BackButton />
+        <div className="space-y-6">
             {loading ? (
                 <>
-                    <CardHeader>
-                        <CardTitle>
-                            <Skeleton className="h-[40px] w-full" />
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <Skeleton className="h-[330px] md:h-[440px] w-full rounded-xl" />
-                    </CardContent>
-                    <CardFooter className="flex flex-col items-stretch space-y-3">
-                        <Skeleton className="h-[20px] w-[70px]" />
+                    <Skeleton className="h-[610px] w-full rounded-xl" />
+                    <div className="space-y-2">
+                        <Skeleton className="h-[30px] w-[200px] rounded-xl" />
 
-                        <CardDescription>
-                            <Skeleton className="h-[50px] w-full" />
-                        </CardDescription>
+                        <Skeleton className="h-[25px] w-[200px] rounded-xl" />
 
-                        <div className="flex items-center space-x-5">
-                            <Label htmlFor="quantity" className="text-md">
-                                Quantity:
-                            </Label>
-                            <Input value={1} />
+                        <Skeleton className="h-[20px] w-[500px] rounded-xl" />
+                    </div>
+                    <div className="space-y-4">
+                        <div className="flex items-center space-x-4">
+                            <div className="grid gap-2">
+                                <Label
+                                    htmlFor="quantity"
+                                    className="text-sm font-medium leading-none"
+                                >
+                                    Quantity
+                                </Label>
+                                <Input
+                                    type="number"
+                                    id="quantity"
+                                    defaultValue="1"
+                                    min="1"
+                                    value={quantities}
+                                    className="w-24"
+                                    disabled={true}
+                                />
+                            </div>
                         </div>
-
                         <Button
-                            disabled={isAddToCartDisabled}
-                            className="mt-4 px-6 py-3 bg-red-600 text-white font-semibold rounded-2xl hover:bg-red-700"
+                            className="w-full rounded-xl"
+                            size="lg"
+                            disabled={true}
                         >
-                            <span>Add to Cart</span>
-                            <CirclePlus />
+                            Add to Cart
                         </Button>
-                    </CardFooter>
+                    </div>
                 </>
             ) : (
                 menu && (
                     <>
-                        <CardHeader>
-                            <CardTitle className="text-4xl">
-                                {menu.name}
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent>
+                        <div className="relative aspect-square overflow-hidden rounded-xl">
                             <Image
                                 src={menu.image}
                                 alt={menu.name}
-                                width={300}
-                                height={300}
-                                style={{ width: "100%", height: "auto" }}
+                                className="object-cover"
+                                fill
                                 priority
-                                className="rounded-xl"
                             />
-                        </CardContent>
-                        <CardFooter className="flex flex-col items-stretch space-y-3">
-                            <p>
-                                $
-                                {parseFloat(
-                                    menu.price.toString() || "0"
-                                ).toFixed(2)}
+                        </div>
+                        <div className="space-y-2">
+                            <h1 className="text-3xl font-bold">{menu.name}</h1>
+                            <p className="text-xl font-semibold text-primary">
+                                $ {parseInt(menu.price.toString()).toFixed(2)}
                             </p>
-
-                            <CardDescription>
+                            <p className="text-muted-foreground">
                                 {menu.description}
-                            </CardDescription>
-
-                            <div className="flex items-center space-x-5">
-                                <Label htmlFor="quantity" className="text-md">
-                                    Quantity:
-                                </Label>
-                                <Input
-                                    type="number"
-                                    value={quantities}
-                                    name="quantity"
-                                    onChange={handleQuantityChange}
-                                    min="1"
-                                />
+                            </p>
+                        </div>
+                        <div className="space-y-4">
+                            <div className="flex items-center space-x-4">
+                                <div className="grid gap-2">
+                                    <Label
+                                        htmlFor="quantity"
+                                        className="text-sm font-medium leading-none"
+                                    >
+                                        Quantity
+                                    </Label>
+                                    <Input
+                                        type="number"
+                                        id="quantity"
+                                        defaultValue="1"
+                                        min="1"
+                                        value={quantities}
+                                        className="w-24 rounded-xl"
+                                        onChange={handleQuantityChange}
+                                    />
+                                </div>
                             </div>
-
                             <Button
+                                className="w-full rounded-xl bg-red-600 text-white hover:bg-red-700"
+                                size="lg"
                                 onClick={() =>
                                     addToCart({
                                         id: menu_id,
@@ -148,12 +143,10 @@ const SingleMenu = ({ menu_id }: SingleMenuProps): JSX.Element => {
                                     })
                                 }
                                 disabled={isAddToCartDisabled}
-                                className="mt-4 px-6 py-3 bg-red-600 text-white font-semibold rounded-2xl hover:bg-red-700"
                             >
-                                <span>Add to Cart</span>
-                                <CirclePlus />
+                                Add to Cart
                             </Button>
-                        </CardFooter>
+                        </div>
                     </>
                 )
             )}

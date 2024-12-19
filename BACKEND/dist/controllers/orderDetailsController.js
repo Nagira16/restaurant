@@ -67,6 +67,7 @@ const getAllOrderDetailsByUserId = (req, res) => __awaiter(void 0, void 0, void 
 exports.getAllOrderDetailsByUserId = getAllOrderDetailsByUserId;
 const getOrderDetailsById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        res.setHeader("Cache-Control", "no-store");
         const id = req.params.id;
         const orderDetails = yield prismaClient_1.prisma.order_Details.findUnique({
             where: { id }

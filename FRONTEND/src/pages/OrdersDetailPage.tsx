@@ -1,8 +1,16 @@
 import { getAllTablesById } from "@/actions";
-import { Endpoint, ItemOrderDetailsWithMenuInfo, Order_Details } from "@/types";
+import {
+    Endpoint,
+    FetchData,
+    ItemOrderDetailsWithMenuInfo,
+    Order_Details
+} from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import BackButton from "@/components/BackButton";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import LocationCard from "@/components/LocationCard";
 
 type OrdersDetailPageProps = {
     orderId: string;
@@ -11,142 +19,136 @@ type OrdersDetailPageProps = {
 const OrdersDetailPage = async ({
     orderId
 }: OrdersDetailPageProps): Promise<JSX.Element> => {
-    const orderDetails = await getAllTablesById<Order_Details | null>(
-        Endpoint.orderDetails,
-        orderId
+    // const orderDetails = await getAllTablesById<Order_Details | null>(
+    //     Endpoint.orderDetails,
+    //     orderId
+    // );
+
+    const res: Response = await fetch(
+        `http://localhost:3001/orderDetails/${orderId}?nocache=` +
+            new Date().getTime()
     );
+
+    const data: FetchData = await res.json();
+
+    const orderDetails = data.results as Order_Details;
 
     const itemOrderDetails = await getAllTablesById<
         ItemOrderDetailsWithMenuInfo[] | null
     >(Endpoint.itemOrderDetails, orderId);
 
-    if (!orderDetails) {
+    const getStatusColor = (status: string) => {
+        const colors = {
+            COMPLETED: "bg-green-500/10 text-green-500 hover:bg-green-500/20",
+            PENDING: "bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20",
+            PREPARING: "bg-blue-500/10 text-blue-500 hover:bg-blue-500/20",
+            PICKUP: "bg-purple-500/10 text-purple-500 hover:bg-purple-500/20"
+        } as const;
+
         return (
-            <div className="container mx-auto p-6 text-center text-red-500">
-                <p>No order details found.</p>
-            </div>
+            colors[status as keyof typeof colors] ||
+            "bg-gray-500/10 text-gray-500 hover:bg-gray-500/20"
         );
-    }
+    };
 
     return (
         <div className="container mx-auto p-6 space-y-6">
             <BackButton />
-            <Card className="shadow-lg hover:shadow-2xl transition-all duration-300">
-                <CardHeader className="bg-green-500 text-white rounded-t-xl">
-                    <CardTitle className="text-xl font-bold">
+            <Card>
+                <CardHeader className="bg-green-500/10">
+                    <CardTitle className="text-xl text-green-700">
                         Order Details
                     </CardTitle>
                 </CardHeader>
-                <CardContent className="mt-2">
-                    <div className="space-y-3">
-                        <p className="text-lg font-semibold text-gray-800">
-                            <strong>Order ID:</strong>
-                            <span className="text-gray-600">
+                <CardContent className="p-6">
+                    <dl className="grid gap-4">
+                        <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
+                            <dt className="text-sm font-medium text-gray-500">
+                                Order ID
+                            </dt>
+                            <dd className="text-sm font-mono text-gray-900">
                                 {orderDetails.id}
-                            </span>
-                        </p>
-                        <p className="text-lg font-semibold text-gray-800">
-                            <strong>Status:</strong>
-                            <span
-                                className={`${
-                                    orderDetails.status === "PENDING"
-                                        ? "text-yellow-500"
-                                        : "text-green-500"
-                                }`}
-                            >
-                                {orderDetails.status}
-                            </span>
-                        </p>
-                        <p className="text-lg font-semibold text-gray-800">
-                            <strong>Total Price:</strong>
-                            <span className="font-bold text-blue-600">
+                            </dd>
+                        </div>
+                        <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
+                            <dt className="text-sm font-medium text-gray-500">
+                                Status
+                            </dt>
+                            <dd>
+                                <Badge
+                                    variant="secondary"
+                                    className={getStatusColor(
+                                        orderDetails.status
+                                    )}
+                                >
+                                    {orderDetails.status}
+                                </Badge>
+                            </dd>
+                        </div>
+                        <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
+                            <dt className="text-sm font-medium text-gray-500">
+                                Total Price
+                            </dt>
+                            <dd className="text-sm font-medium text-gray-900">
                                 $
                                 {parseFloat(
                                     orderDetails.total_price.toString()
                                 ).toFixed(2)}
-                            </span>
-                        </p>
-                        <p className="text-lg font-semibold text-gray-800">
-                            <strong>Order Date:</strong>
-                            <span className="text-gray-600">
+                            </dd>
+                        </div>
+                        <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
+                            <dt className="text-sm font-medium text-gray-500">
+                                Order Date
+                            </dt>
+                            <dd className="text-sm text-gray-900">
                                 {new Date(orderDetails.date).toLocaleString()}
-                            </span>
-                        </p>
-                    </div>
+                            </dd>
+                        </div>
+                    </dl>
                 </CardContent>
             </Card>
 
             {itemOrderDetails && itemOrderDetails.length > 0 && (
-                <Card className="shadow-lg hover:shadow-2xl transition-all duration-300">
-                    <CardHeader className="bg-orange-500 text-white rounded-t-xl">
-                        <CardTitle className="text-xl font-bold">
+                <Card>
+                    <CardHeader className="bg-orange-500/10">
+                        <CardTitle className="text-xl text-orange-700">
                             Items Ordered
                         </CardTitle>
                     </CardHeader>
-                    <CardContent>
-                        <ul className="flex justify-center sm:justify-start sm:space-x-4 flex-wrap">
+                    <CardContent className="p-6">
+                        <div className="grid gap-6">
                             {itemOrderDetails.map((item) => (
-                                <li
-                                    key={item.id}
-                                    className="flex flex-col justify-start items-center md:items-start mt-7 space-y-1"
-                                >
-                                    <Image
-                                        src={item.menu.image!}
-                                        alt={item.menu.name!}
-                                        width={150}
-                                        height={100}
-                                        className="rounded-xl h-[200px]"
-                                    />
-                                    <span className="font-semibold text-gray-700">
-                                        {item.menu.name}
-                                    </span>
-                                    <span className="text-gray-600">
-                                        Quantity: {item.quantity}
-                                    </span>
-                                </li>
+                                <div key={item.id}>
+                                    <div className="flex gap-4">
+                                        <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg">
+                                            <Image
+                                                src={item.menu.image!}
+                                                alt={item.menu.name!}
+                                                className="object-cover"
+                                                fill
+                                            />
+                                        </div>
+                                        <div className="flex flex-1 flex-col">
+                                            <div className="flex flex-col sm:flex-row justify-between">
+                                                <h4 className="text-base font-medium text-gray-900">
+                                                    {item.menu.name}
+                                                </h4>
+                                                <p className="text-sm text-gray-600">
+                                                    Quantity: {item.quantity}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <Separator />
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </CardContent>
                 </Card>
             )}
-            <Card>
-                <CardHeader className="bg-red-500 text-white rounded-t-xl">
-                    <CardTitle className="text-xl font-bold">
-                        Pick Up Location
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="p-4">
-                    <div>
-                        <p className="text-lg font-semibold">Store Location:</p>
-                        <p className="text-gray-600">
-                            428 Carrall St, Vancouver, BC V6B 2J7, Canada
-                        </p>
-                    </div>
 
-                    <div className="mt-4">
-                        <p className="text-lg font-semibold">
-                            Pick Up Instructions:
-                        </p>
-                        <p className="text-gray-600">
-                            Please come to the main entrance and head to the
-                            pick-up counter.
-                        </p>
-                    </div>
-
-                    <div className="mt-4">
-                        <p className="text-lg font-semibold">
-                            Location on Map:
-                        </p>
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2602.755305810403!2d-123.10676632351112!3d49.28103367139255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x548671006edf8f2b%3A0x5aeee343927d6445!2sDo%C3%B1a%20Vicky%20Mexican%20Food%20Chinatown!5e0!3m2!1sja!2sca!4v1733905408182!5m2!1sja!2sca"
-                            className="border-0 w-full h-[400px] max-w-full"
-                            allowFullScreen={true}
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                        />
-                    </div>
-                </CardContent>
-            </Card>
+            <LocationCard />
         </div>
     );
 };

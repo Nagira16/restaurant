@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { Order_Details, Payment } from "@/types";
 import { useAuth } from "@clerk/nextjs";
+import { Card } from "./ui/card";
 
 type CheckoutFormProps = {
     clientSecret: string | null;
@@ -110,20 +111,22 @@ const CheckoutForm = ({ clientSecret }: CheckoutFormProps): JSX.Element => {
     };
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            className="w-full h-full px-7 space-y-5 my-5"
-        >
-            <PaymentElement />
-            {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-            <Button
-                type="submit"
-                disabled={!stripe || isLoading}
-                className="bg-green-600 text-white rounded-2xl px-20"
+        <Card>
+            <form
+                onSubmit={handleSubmit}
+                className="w-full h-full px-7 space-y-5 my-5 text-center"
             >
-                {isLoading ? "Processing..." : "Order Confirm"}
-            </Button>
-        </form>
+                <PaymentElement />
+                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+                <Button
+                    type="submit"
+                    disabled={!stripe || isLoading}
+                    className="bg-green-600 text-white rounded-2xl px-20"
+                >
+                    {isLoading ? "Processing..." : "Order Confirm"}
+                </Button>
+            </form>
+        </Card>
     );
 };
 

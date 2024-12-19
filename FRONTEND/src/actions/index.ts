@@ -14,11 +14,9 @@ import {
     ReviewWithUser,
     Role,
     TableType,
-    User,
     UserData,
     UserWithRoleName
 } from "@/types";
-import { log } from "console";
 
 export const getAllTables = async <T>(endpoint: Endpoint): Promise<T[]> => {
     const res: Response = await fetch(`http://localhost:3001/${endpoint}`);

@@ -5,94 +5,106 @@ import { useCart } from "@/components/providers/CartContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const CartPage: React.FC = () => {
     const { cartItems, removeFromCart, clearCart } = useCart();
     const router = useRouter();
 
     return (
-        <div className="max-w-6xl mx-auto p-6">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4 text-center">
-                Your Shopping Cart
-            </h1>
-            {cartItems.length === 0 ? (
-                <div className="text-center">
-                    <p className="text-gray-600">
-                        Your cart is currently empty.
-                    </p>
-                    <Button
-                        onClick={() => router.push("/menus")}
-                        className="mt-6 px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700"
+        <Card className="w-full max-w-3xl mx-auto my-5">
+            <CardHeader>
+                <CardTitle className="text-2xl font-bold text-center">
+                    Your Shopping Cart
+                </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                {cartItems.map((item) => (
+                    <div
+                        key={item.id}
+                        className="flex items-center space-x-4 py-2"
                     >
-                        Continue Shopping
-                    </Button>
-                </div>
-            ) : (
-                <div>
-                    <div className="space-y-4">
-                        {cartItems.map((item) => (
-                            <div
-                                key={item.id}
-                                className="flex items-center justify-between bg-white p-4 shadow rounded-lg"
+                        <div className="relative h-24 w-24 overflow-hidden rounded-lg">
+                            <Image
+                                src={item.image}
+                                alt={item.name}
+                                fill
+                                className="object-cover"
+                            />
+                        </div>
+                        <div className="flex-1 space-y-1">
+                            <h3 className="font-semibold text-lg">
+                                {item.name}
+                            </h3>
+                            <p className="text-muted-foreground">
+                                ${parseFloat(item.price.toString()).toFixed(2)}{" "}
+                                x {item.quantity}
+                            </p>
+                        </div>
+                        <button
+                            onClick={() => removeFromCart(item.id)}
+                            className="text-red-500 hover:text-red-700 transition-colors"
+                        >
+                            Remove
+                        </button>
+                    </div>
+                ))}
+                {cartItems.length === 0 && (
+                    <div className=" text-center">
+                        <p className="text-muted-foreground py-8">
+                            Your cart is empty
+                        </p>
+                        <Button
+                            onClick={() => router.push("/menus")}
+                            className="mt- px-4 bg-red-600 text-white font-semibold hover:bg-red-700 rounded-xl"
+                        >
+                            Continue Shopping
+                        </Button>
+                    </div>
+                )}
+            </CardContent>
+            {cartItems.length > 0 && (
+                <>
+                    <Separator className="my-4" />
+                    <CardFooter className="flex flex-col space-y-4 sm:flex-row sm:justify-between sm:space-y-0 p-6">
+                        <div className="flex space-x-4">
+                            <Button
+                                variant="destructive"
+                                onClick={clearCart}
+                                className="w-full sm:w-auto border rounded-xl"
                             >
-                                <div className="flex items-center">
-                                    <Image
-                                        src={item.image || "/placeholder.png"}
-                                        alt={item.name}
-                                        width={100}
-                                        height={100}
-                                        className="rounded-lg"
-                                    />
-                                    <div className="ml-4">
-                                        <h3 className="text-lg font-semibold">
-                                            {item.name}
-                                        </h3>
-                                        <p className="text-gray-600">
-                                            $
-                                            {parseFloat(
-                                                item.price?.toString() || "0"
-                                            ).toFixed(2)}
-                                            x {item.quantity}
-                                        </p>
-                                    </div>
-                                </div>
-                                <button
-                                    onClick={() => removeFromCart(item.id)}
-                                    className="text-red-600 hover:underline"
-                                >
-                                    Remove
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="mt-6 text-lg font-bold text-right">
-                        Total: $
-                        {cartItems
-                            .reduce(
-                                (total, item) =>
-                                    total + item.price * item.quantity,
-                                0
-                            )
-                            .toFixed(2)}
-                    </div>
-                    <div className="space-x-20">
-                        <Button
-                            onClick={clearCart}
-                            className="mt-4 px-6 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700"
-                        >
-                            Clear Cart
-                        </Button>
-
-                        <Button
-                            onClick={() => router.push("/payment")}
-                            className="mt-4 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700"
-                        >
-                            Check Out
-                        </Button>
-                    </div>
-                </div>
+                                Clear Cart
+                            </Button>
+                            <Button
+                                onClick={() => router.push("/payment")}
+                                className="w-full sm:w-auto bg-green-600 hover:bg-green-700 rounded-xl"
+                            >
+                                Check Out
+                            </Button>
+                        </div>
+                        <div className="text-right">
+                            <p className="text-lg font-semibold">
+                                Total: $
+                                {cartItems
+                                    .reduce(
+                                        (total, item) =>
+                                            total + item.price * item.quantity,
+                                        0
+                                    )
+                                    .toFixed(2)}
+                            </p>
+                        </div>
+                    </CardFooter>
+                </>
             )}
-        </div>
+        </Card>
     );
 };
 

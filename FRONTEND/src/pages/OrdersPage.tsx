@@ -1,9 +1,9 @@
 "use client";
 
 import { getAllOrderDetails } from "@/actions";
+import { Badge } from "@/components/ui/badge";
 import {
     Table,
-    TableCaption,
     TableHeader,
     TableHead,
     TableRow,
@@ -70,48 +70,75 @@ const OrdersPage = (): JSX.Element => {
         );
     }
 
+    const formatCurrency = (amount: number) => {
+        return new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "CAD"
+        }).format(amount);
+    };
+
+    const getStatusColor = (status: string) => {
+        const colors = {
+            COMPLETED: "bg-green-500/10 text-green-500 hover:bg-green-500/20",
+            PENDING: "bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20",
+            PREPARING: "bg-blue-500/10 text-blue-500 hover:bg-blue-500/20",
+            PICKUP: "bg-purple-500/10 text-purple-500 hover:bg-purple-500/20"
+        } as const;
+
+        return (
+            colors[status as keyof typeof colors] ||
+            "bg-gray-500/10 text-gray-500 hover:bg-gray-500/20"
+        );
+    };
+
     return (
-        <div>
-            <Table>
-                <TableCaption>A list of your recent orders.</TableCaption>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="w-[100px]">Id</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Amount</TableHead>
-                        <TableHead className="text-right">Date</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {orderDetails.map((order, i) => (
-                        <TableRow key={order.id}>
-                            <TableCell className="font-medium">
-                                <Link href={`orders/${order.id}`} passHref>
-                                    {i + 1}
-                                </Link>
-                            </TableCell>
-                            <TableCell>
-                                <Link href={`orders/${order.id}`} passHref>
-                                    {order.status}
-                                </Link>
-                            </TableCell>
-                            <TableCell>
-                                <Link href={`orders/${order.id}`} passHref>
-                                    $
-                                    {parseFloat(
-                                        order.total_price.toString()
-                                    ).toFixed(2)}
-                                </Link>
-                            </TableCell>
-                            <TableCell className="text-right">
-                                <Link href={`orders/${order.id}`} passHref>
-                                    {new Date(order.date).toLocaleString()}
-                                </Link>
-                            </TableCell>
+        <div className="p-4 mx-auto max-w-5xl">
+            <h1 className="text-3xl font-bold my-5">Order Details</h1>
+            <div className="rounded-lg border bg-card">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[100px]">Id</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead className="text-right">Amount</TableHead>
+                            <TableHead className="text-right">Date</TableHead>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+                    </TableHeader>
+                    <TableBody>
+                        {orderDetails.map((order, i) => (
+                            <TableRow key={order.id} className="h-[80px]">
+                                <TableCell className="font-medium">
+                                    <Link href={`/orders/${order.id}`}>
+                                        {i + 1}
+                                    </Link>
+                                </TableCell>
+                                <TableCell>
+                                    <Link href={`/orders/${order.id}`}>
+                                        <Badge
+                                            variant="secondary"
+                                            className={getStatusColor(
+                                                order.status
+                                            )}
+                                        >
+                                            {order.status}
+                                        </Badge>
+                                    </Link>
+                                </TableCell>
+                                <TableCell className="text-right font-medium">
+                                    <Link href={`/orders/${order.id}`}>
+                                        {formatCurrency(order.total_price)}
+                                    </Link>
+                                </TableCell>
+                                <TableCell className="text-right text-muted-foreground">
+                                    <Link href={`/orders/${order.id}`}>
+                                        {new Date(order.date).toLocaleString()}
+                                    </Link>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
         </div>
     );
 };

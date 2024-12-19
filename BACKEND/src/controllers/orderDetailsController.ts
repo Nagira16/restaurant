@@ -72,6 +72,7 @@ export const getOrderDetailsById = async (
     res: Response
 ): Promise<void> => {
     try {
+        res.setHeader("Cache-Control", "no-store");
         const id: string = req.params.id;
 
         const orderDetails: Order_Details | null =

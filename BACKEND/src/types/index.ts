@@ -86,3 +86,20 @@ export type Order_DetailsWithUserName = {
     status: string;
     user: { name: string | null };
 };
+
+export type ReservationWithUserNameTableNumber = {
+    id: string;
+    user_id: string;
+    num_of_people: number;
+    table_id: string | null;
+    status: string;
+    location: string;
+    reservationDateTime: Date;
+    created_at: Date;
+    user: {
+        name: string;
+    };
+    table: {
+        number: number;
+    } | null;
+};

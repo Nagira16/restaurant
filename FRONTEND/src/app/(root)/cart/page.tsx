@@ -84,7 +84,7 @@ const CartPage: React.FC = () => {
                             </Button>
                             <Button
                                 onClick={() => router.push("/payment")}
-                                className="w-full sm:w-auto bg-green-600 hover:bg-green-700 rounded-xl"
+                                className="w-full sm:w-auto bg-red-500 hover:bg-red-700 rounded-xl text-white"
                             >
                                 Check Out
                             </Button>

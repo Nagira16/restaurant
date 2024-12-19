@@ -139,6 +139,22 @@ export const createReservation = async (
             return;
         }
 
+        const existingReservation = await prisma.reservation.findFirst({
+            where: {
+                table_id: table_id,
+                reservationDateTime: reservationDateTime
+            }
+        });
+
+        if (existingReservation) {
+            res.status(400).json({
+                results: null,
+                message: "Table is already reserved for this time.",
+                success: false
+            });
+            return;
+        }
+
         const newReservation: Reservation = await prisma.reservation.create({
             data: {
                 user_id: user.id,
@@ -148,6 +164,15 @@ export const createReservation = async (
                 reservationDateTime
             }
         });
+
+        // await prisma.table.update({
+        //     where: {
+        //         id: table_id
+        //     },
+        //     data: {
+        //         available: false
+        //     }
+        // });
 
         res.status(201).json({
             results: newReservation,
@@ -266,5 +291,36 @@ export const deleteReservation = async (
             message: "Server Failed",
             success: false
         });
+    }
+};
+
+export const updateTableAvailability = async (): Promise<void> => {
+    try {
+        const currentDateTime = new Date();
+
+        const finishedReservations: Reservation[] =
+            await prisma.reservation.findMany({
+                where: {
+                    reservationDateTime: {
+                        lte: currentDateTime
+                    },
+                    table: {
+                        available: false
+                    }
+                }
+            });
+
+        for (const reservation of finishedReservations) {
+            await prisma.table.update({
+                where: {
+                    id: reservation.table_id!
+                },
+                data: {
+                    available: true
+                }
+            });
+        }
+    } catch (error) {
+        console.error("Error updating table availability:", error);
     }
 };

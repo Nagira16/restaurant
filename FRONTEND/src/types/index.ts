@@ -43,8 +43,8 @@ export type Reservation = {
     user_id: string;
     created_at: Date;
     num_of_people: number;
-    tableType_id: string;
-    status: string;
+    table_id: string;
+    status: ReservationStatus;
     location: string;
     reservationDateTime: Date;
 };
@@ -107,6 +107,7 @@ export type FetchData = {
         | Role[]
         | Review
         | Review[]
+        | Reservation
         | Reservation[]
         | Payment
         | Payment[]
@@ -252,6 +253,12 @@ export type OrderDetailsStatus =
     | "PICKUP";
 
 export type PaymentStatus = "PENDING" | "SUCCESS" | "FAILED";
+
+export type ReservationStatus =
+    | "PENDING"
+    | "CONFIRMED"
+    | "COMPLETED"
+    | "CANCELED";
 
 export type ReservationWithUserNameTableNumber = {
     id: string;

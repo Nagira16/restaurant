@@ -13,7 +13,9 @@ import itemOrderDetailsRouter from "./routes/itemOrderDetailsRoutes";
 import adminRouter from "./routes/adminRoutes";
 import { clerkMiddleware } from "@clerk/express";
 import { adminMiddleware } from "./middleware";
+import cron from "node-cron";
 import cros from "cors";
+import { updateTableAvailability } from "./controllers/reservationController";
 
 const app = express();
 
@@ -32,6 +34,11 @@ app.use(
         secretKey: process.env.CLERK_SECRET_KEY
     })
 );
+
+cron.schedule("* * * * *", () => {
+    console.log("Checking and updating table availability...");
+    updateTableAvailability();
+});
 
 app.get("/", (req, res) => {
     res.send({ messege: "worksss!!!" });

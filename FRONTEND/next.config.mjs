@@ -81,6 +81,9 @@ const nextConfig = {
             },
             {
                 hostname: "m.media-amazon.com"
+            },
+            {
+                hostname: "eatingwithblim.com"
             }
         ]
     }

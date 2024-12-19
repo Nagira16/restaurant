@@ -18,15 +18,15 @@ const ServicePage = () => {
             </div>
 
             {/* Services Section */}
-            <div className="max-w-6xl mx-auto px-6 mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="max-w-5xl mx-auto px-6 mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Dine-In Card */}
-                <div className="bg-white shadow-lg rounded-lg overflow-hidden group hover:shadow-2xl transition-all duration-300">
-                    <div className="relative h-64">
+                <div className="bg-white shadow-lg rounded-3xl overflow-hidden group hover:shadow-2xl transition-all duration-300">
+                    <div className="relative h-80">
                         <Image
-                            src="https://media.istockphoto.com/id/2021971495/photo/3-beef-birria-tacos-stacked-on-black-plate.jpg?s=612x612&w=0&k=20&c=hjeeTH2QUP5vjun8RThM5WJLZbxoRVyiK8ODZ-qsV4g="
+                            src="https://coopcancook.com/wp-content/uploads/2020/09/Photo-Jul-30-11-28-30-AM.jpg"
                             alt="Dine-In"
                             layout="fill"
-                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            className="object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-300"
                         />
                     </div>
                     <div className="p-6 text-center">
@@ -41,13 +41,13 @@ const ServicePage = () => {
                 </div>
 
                 {/* Takeaway Card */}
-                <div className="bg-white shadow-lg rounded-lg overflow-hidden group hover:shadow-2xl transition-all duration-300">
-                    <div className="relative h-64">
+                <div className="bg-white shadow-lg rounded-3xl overflow-hidden group hover:shadow-2xl transition-all duration-300">
+                    <div className="relative h-80">
                         <Image
                             src="https://m.media-amazon.com/images/I/81DUssM+MNL.jpg"
                             alt="Takeaway"
                             layout="fill"
-                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            className="object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-300"
                         />
                     </div>
                     <div className="p-6 text-center">
@@ -73,7 +73,7 @@ const ServicePage = () => {
                 </p>
                 <Link
                     href="/contact"
-                    className="mt-6 inline-block px-6 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition-all"
+                    className="mt-6 inline-block px-6 py-3 bg-red-600 text-white font-semibold rounded-full hover:bg-red-700 transition-all"
                 >
                     Contact Us
                 </Link>

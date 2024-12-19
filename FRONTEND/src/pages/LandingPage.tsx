@@ -11,6 +11,7 @@ const LandingPage: React.FC = () => {
     const dishes = [
         {
             src: "https://scontent.fcxh3-1.fna.fbcdn.net/v/t39.30808-6/458921322_122220809468011350_4146606072115599973_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=m-nydNT1KtYQ7kNvgHXrrZJ&_nc_zt=23&_nc_ht=scontent.fcxh3-1.fna&_nc_gid=A1WubAsyYOdqxsYTwEEonMj&oh=00_AYANeyBXZrYeW2ZYCbeyLCe50yrO6e0uZkG0AUPpndNzxg&oe=6766E3AC",
+
             alt: "Quesabirrias",
             title: "Quesabirrias",
             description:
@@ -61,7 +62,7 @@ const LandingPage: React.FC = () => {
                 <div className="max-w-xl text-center lg:text-left">
                     <h1 className="text-6xl font-bold text-gray-900 mb-4 leading-tight">
                         Experience the True Taste of{" "}
-                        <span className="text-green-600">Doña Vicky</span>
+                        <span className="text-red-600">Doña Vicky</span>
                     </h1>
                     <p className="text-gray-700 text-xl mb-6">
                         Welcome to Doña Vicky, where birria takes center stage.
@@ -73,13 +74,13 @@ const LandingPage: React.FC = () => {
                     </p>
                     <div className="flex justify-center lg:justify-start gap-4">
                         <Link href="/about">
-                            <button className="px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800 text-lg w-40 text-center">
+                            <button className="px-6 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 text-lg w-40 text-center">
                                 Learn More
                             </button>
                         </Link>
                         {!isSignedIn && (
                             <SignInButton mode="modal">
-                                <button className="px-6 py-3 bg-white text-black border border-black rounded-full hover:bg-gray-100 text-lg w-40 text-center">
+                                <button className="px-6 py-3 bg-white text-red-600 border border-red-600 rounded-full hover:bg-red-50 text-lg w-40 text-center">
                                     Sign In
                                 </button>
                             </SignInButton>
@@ -98,40 +99,39 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* Our Signature Dishes */}
-            <div className="py-20 bg-gradient-to-b from-gray-50 to-gray-100">
+            <div className="py-16 bg-gradient-to-b from-gray-50 to-gray-100">
                 <div className="max-w-7xl mx-auto text-center">
                     <div className="flex flex-col items-center">
-                        {/* Subtítulo */}
-                        <p className="text-lg text-gray-500 uppercase tracking-widest mb-2">
+                        <p className="text-sm text-gray-500 uppercase tracking-widest mb-2">
                             Experience Excellence
                         </p>
-                        {/* Título Principal */}
-                        <h2 className="text-5xl font-bold text-gray-900 mb-4">
+
+                        <h2 className="text-3xl font-bold text-gray-900 mb-4">
                             Our Signature Dishes
                         </h2>
-                        {/* Separador */}
-                        <div className="w-24 h-1 bg-green-500 rounded-full mb-8"></div>
+
+                        <div className="w-16 h-1 bg-red-500 rounded-full mb-6"></div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {dishes.map((dish, index) => (
                             <div
                                 key={index}
-                                className="relative group text-center bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 transform hover:scale-105 hover:-translate-y-2"
+                                className="relative group flex flex-col items-center bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-4 transform hover:scale-105 hover:-translate-y-1"
                             >
-                                <div className="overflow-hidden rounded-2xl">
+                                <div className="w-[300px] h-[250px] overflow-hidden rounded-xl flex items-center justify-center">
                                     <Image
                                         src={dish.src}
                                         alt={dish.alt}
-                                        width={500}
-                                        height={600}
+                                        width={300}
+                                        height={250}
                                         objectFit="cover"
-                                        className="rounded-2xl transform transition-transform duration-500 group-hover:scale-110 group-hover:translate-y-[-10px]"
+                                        className="rounded-xl transform transition-transform duration-500 group-hover:scale-105"
                                     />
                                 </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mt-6">
+                                <h3 className="text-xl font-semibold text-gray-900 mt-4">
                                     {dish.title}
                                 </h3>
-                                <p className="text-gray-700 mt-2 text-lg">
+                                <p className="text-gray-600 mt-2 text-base">
                                     {dish.description}
                                 </p>
                             </div>
@@ -140,18 +140,14 @@ const LandingPage: React.FC = () => {
                 </div>
             </div>
 
-            {/* Meet Our Chefs */}
             <div className="py-20 bg-gray-50">
                 <div className="max-w-7xl mx-auto text-center">
-                    {/* <h3 className="text-4xl font-bold text-gray-900 mb-12">
-                        Meet Our Chefs
-                    </h3> */}
                     <div className="flex flex-col items-center mb-12">
-                        <h3 className="text-4xl font-bold text-gray-900 mb-4">
+                        <h3 className="text-3xl font-bold text-gray-900 mb-4">
                             Meet Our Chefs
                         </h3>
-                        {/* Separador */}
-                        <div className="w-24 h-1 bg-green-500 rounded-full"></div>
+
+                        <div className="w-24 h-1 bg-red-500 rounded-full"></div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
@@ -167,10 +163,10 @@ const LandingPage: React.FC = () => {
                                     height={350}
                                     className="rounded-full mx-auto mb-4 object-cover"
                                 />
-                                <h4 className="text-2xl font-semibold text-gray-900">
+                                <h4 className="text-xl font-semibold text-gray-900">
                                     {chef.name}
                                 </h4>
-                                <p className="text-green-600 font-medium mb-2">
+                                <p className="text-red-600 font-medium mb-2">
                                     {chef.experience}
                                 </p>
                                 <p className="text-gray-600">
@@ -182,16 +178,16 @@ const LandingPage: React.FC = () => {
                 </div>
             </div>
 
-            <div className="py-16 text-center bg-green-100 rounded-3xl">
-                <h4 className="text-3xl font-bold text-gray-900 mb-4">
+            <div className="py-16 text-center bg-red-100 rounded-3xl">
+                <h4 className="text-2xl font-bold text-gray-900 mb-4">
                     Want to Reserve a Table?
                 </h4>
-                <p className="text-gray-700 mb-6 text-lg">
+                <p className="text-gray-700 mb-6 text-base">
                     Join us for an unforgettable dining experience at Doña
                     Vicky.
                 </p>
                 <Link href="/book-table">
-                    <span className="px-6 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 cursor-pointer text-lg">
+                    <span className="px-6 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 cursor-pointer text-lg">
                         Book a Table
                     </span>
                 </Link>

@@ -31,8 +31,8 @@ const Footer: React.FC = () => {
 
     return (
         <footer className="bg-gray-100 py-8">
-            {" "}
-            <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* ///////////////CHECK THIS */}
+            <div className=" max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {/* Logo and Address Section */}
                 <div className="space-y-4">
                     <Link href="/">

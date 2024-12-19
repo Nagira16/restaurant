@@ -174,7 +174,10 @@ const ReservationSuccessPage = ({ id }: { id: string }) => {
                     <Button variant="outline" asChild>
                         <Link href="/">Go back to home</Link>
                     </Button>
-                    <Button asChild>
+                    <Button
+                        asChild
+                        className="bg-red-500 hover:bg-red-700 text-white"
+                    >
                         <Link href="/book-table">Make a new reservation</Link>
                     </Button>
                 </CardFooter>

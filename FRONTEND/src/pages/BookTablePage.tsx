@@ -244,7 +244,7 @@ const ReservationForm = (): JSX.Element => {
 
                     <Button
                         type="submit"
-                        className="w-full bg-sage-500 hover:bg-sage-600"
+                        className="w-full bg-red-500 hover:bg-red-700 text-white"
                         disabled={!date || !time || !guests || !location}
                     >
                         Complete Reservation

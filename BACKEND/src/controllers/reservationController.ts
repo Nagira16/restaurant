@@ -2,7 +2,10 @@ import { Reservation, User } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
 import { findUserByClerkId } from "./userController";
-import { ReservationWithUserNameTableNumber } from "../types";
+import {
+    ReservationStatus,
+    ReservationWithUserNameTableNumber
+} from "../types";
 import nodemailer from "nodemailer";
 
 export const getAllReservations = async (
@@ -244,44 +247,6 @@ export const updateReservation = async (
             });
 
             if (user) {
-                console.log(process.env.USERPASSWORD);
-                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
-                    res.status(404).json({
-                        results: null,
-                        message: "Env Not Found",
-                        success: false
-                    });
-                    return;
-                }
-
-                const transporter = nodemailer.createTransport({
-                    service: "gmail",
-                    auth: {
-                        user: process.env.USEREMAIL,
-                        pass: process.env.USERPASSWORD
-                    },
-                    tls: {
-                        rejectUnauthorized: false
-                    }
-                });
-
-                const mailOptions = {
-                    from: process.env.USEREMAIL,
-                    to: user.email,
-                    subject: `Your reservaion #${updatedReservation.id} is completed!`,
-                    text: `Hello, your reservaion #${updatedReservation.id} is completed!`
-                };
-
-                transporter.sendMail(mailOptions);
-            }
-        }
-        if (updatedReservation.status === "COMPLETED") {
-            const user = await prisma.user.findUnique({
-                where: { id: updatedReservation.user_id }
-            });
-
-            if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,
@@ -319,7 +284,6 @@ export const updateReservation = async (
             });
 
             if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,
@@ -357,7 +321,6 @@ export const updateReservation = async (
             });
 
             if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,

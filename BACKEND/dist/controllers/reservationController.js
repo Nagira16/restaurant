@@ -198,40 +198,6 @@ const updateReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 where: { id: updatedReservation.user_id }
             });
             if (user) {
-                console.log(process.env.USERPASSWORD);
-                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
-                    res.status(404).json({
-                        results: null,
-                        message: "Env Not Found",
-                        success: false
-                    });
-                    return;
-                }
-                const transporter = nodemailer_1.default.createTransport({
-                    service: "gmail",
-                    auth: {
-                        user: process.env.USEREMAIL,
-                        pass: process.env.USERPASSWORD
-                    },
-                    tls: {
-                        rejectUnauthorized: false
-                    }
-                });
-                const mailOptions = {
-                    from: process.env.USEREMAIL,
-                    to: user.email,
-                    subject: `Your reservaion #${updatedReservation.id} is completed!`,
-                    text: `Hello, your reservaion #${updatedReservation.id} is completed!`
-                };
-                transporter.sendMail(mailOptions);
-            }
-        }
-        if (updatedReservation.status === "COMPLETED") {
-            const user = yield prismaClient_1.prisma.user.findUnique({
-                where: { id: updatedReservation.user_id }
-            });
-            if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,
@@ -264,7 +230,6 @@ const updateReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 where: { id: updatedReservation.user_id }
             });
             if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,
@@ -297,7 +262,6 @@ const updateReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 where: { id: updatedReservation.user_id }
             });
             if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,

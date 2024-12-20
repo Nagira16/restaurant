@@ -198,7 +198,6 @@ export const updateOrderDetails = async (
             });
 
             if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,
@@ -236,7 +235,6 @@ export const updateOrderDetails = async (
             });
 
             if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,
@@ -274,7 +272,6 @@ export const updateOrderDetails = async (
             });
 
             if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,
@@ -312,7 +309,6 @@ export const updateOrderDetails = async (
             });
 
             if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,

@@ -164,7 +164,6 @@ const updateOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, funct
                 where: { id: orderDetails.user_id }
             });
             if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,
@@ -197,7 +196,6 @@ const updateOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, funct
                 where: { id: orderDetails.user_id }
             });
             if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,
@@ -230,7 +228,6 @@ const updateOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, funct
                 where: { id: orderDetails.user_id }
             });
             if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,
@@ -263,7 +260,6 @@ const updateOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, funct
                 where: { id: orderDetails.user_id }
             });
             if (user) {
-                console.log(process.env.USERPASSWORD);
                 if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
                     res.status(404).json({
                         results: null,

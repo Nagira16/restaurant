@@ -103,3 +103,16 @@ export type ReservationWithUserNameTableNumber = {
         number: number;
     } | null;
 };
+
+export type Order_Details_Status =
+    | "PENDING"
+    | "PREPARING"
+    | "COMPLETED"
+    | "CANCELED"
+    | "PICKUP";
+
+export type ReservationStatus =
+    | "PENDING"
+    | "CONFIRMED"
+    | "COMPLETED"
+    | "CANCELED";

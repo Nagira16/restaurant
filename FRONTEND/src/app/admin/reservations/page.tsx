@@ -1,5 +1,6 @@
 "use client";
 
+import EditReservationStatus from "@/components/EditReservationStatus";
 import { Button } from "@/components/ui/button";
 import {
     Table,
@@ -9,7 +10,12 @@ import {
     TableHeader,
     TableRow
 } from "@/components/ui/table";
-import { FetchData, ReservationWithUserNameTableNumber } from "@/types";
+import {
+    FetchData,
+    Reservation,
+    ReservationStatus,
+    ReservationWithUserNameTableNumber
+} from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
@@ -20,8 +26,10 @@ const AdminReservationsDashBoard = (): JSX.Element => {
     const [allReservations, setAllReservations] = useState<
         ReservationWithUserNameTableNumber[]
     >([]);
+    const [statusMap, setStatusMap] = useState<
+        Map<string, ReservationStatus | null>
+    >(new Map());
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const router: AppRouterInstance = useRouter();
     const { getToken } = useAuth();
 
     const fetchAllReservations = async (): Promise<void> => {
@@ -44,6 +52,11 @@ const AdminReservationsDashBoard = (): JSX.Element => {
         if (data.success) {
             const result = data.results as ReservationWithUserNameTableNumber[];
             setAllReservations(result);
+            const newStatusMap = new Map<string, ReservationStatus | null>();
+            result.forEach((reservation) => {
+                newStatusMap.set(reservation.id, reservation.status);
+            });
+            setStatusMap(newStatusMap);
             setIsLoading(false);
         } else {
             Swal.fire({
@@ -56,6 +69,17 @@ const AdminReservationsDashBoard = (): JSX.Element => {
     useEffect(() => {
         fetchAllReservations();
     }, []);
+
+    const handleStatusChange = (
+        reservationId: string,
+        newStatus: ReservationStatus
+    ) => {
+        setStatusMap((prev) => {
+            const updatedMap = new Map(prev);
+            updatedMap.set(reservationId, newStatus);
+            return updatedMap;
+        });
+    };
 
     return (
         <div>
@@ -71,67 +95,83 @@ const AdminReservationsDashBoard = (): JSX.Element => {
                         <h1 className="text-3xl font-bold mb-4">
                             Reservations Management
                         </h1>
-                        {/* <AddNutrientForm
-                            fetchAllNutrients={fetchAllNutrients}
-                        /> */}
                     </div>
                     <div>
                         <Table>
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Order</TableHead>
-                                    <TableHead>Menu Name</TableHead>
-                                    <TableHead>Calories</TableHead>
+                                    <TableHead>User Name</TableHead>
+                                    <TableHead>Table Number</TableHead>
                                     <TableHead className="lg:table-cell hidden">
-                                        Sugar
+                                        Num Of People
                                     </TableHead>
+                                    <TableHead className="lg:table-cell hidden">
+                                        Status
+                                    </TableHead>
+                                    <TableHead>Reservartion Date</TableHead>
+                                    <TableHead>Location</TableHead>
+                                    <TableHead>Create At</TableHead>
                                     <TableHead>Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {allReservations.map((reservation, i) => (
-                                    <TableRow key={reservation.id}>
-                                        <TableCell>{i + 1}</TableCell>
-                                        <TableCell>
-                                            {reservation.user.name}
-                                        </TableCell>
-                                        <TableCell>
-                                            {reservation.table?.number}
-                                        </TableCell>
-                                        <TableCell className="lg:table-cell hidden">
-                                            {reservation.num_of_people}
-                                        </TableCell>
-                                        <TableCell className="lg:table-cell hidden">
-                                            {reservation.status}
-                                        </TableCell>
-                                        <TableCell className="lg:table-cell hidden">
-                                            {new Date(
-                                                reservation.reservationDateTime
-                                            ).toLocaleString()}
-                                        </TableCell>
-                                        <TableCell className="lg:table-cell hidden">
-                                            {reservation.location}
-                                        </TableCell>
-                                        <TableCell className="lg:table-cell hidden">
-                                            {new Date(
-                                                reservation.created_at
-                                            ).toLocaleString()}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Button
-                                                variant="outline"
-                                                className="sm:mr-2 rounded-xl"
-                                                onClick={() =>
-                                                    router.push(
-                                                        `/admin/reservations/edit/${reservation.id}`
-                                                    )
-                                                }
-                                            >
-                                                Edit
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                {allReservations.map((reservation, i) => {
+                                    const currentStatus =
+                                        statusMap.get(reservation.id) ||
+                                        reservation.status;
+
+                                    return (
+                                        <TableRow key={reservation.id}>
+                                            <TableCell>{i + 1}</TableCell>
+                                            <TableCell>
+                                                {reservation.user.name}
+                                            </TableCell>
+                                            <TableCell>
+                                                {reservation.table?.number}
+                                            </TableCell>
+                                            <TableCell className="lg:table-cell hidden">
+                                                {reservation.num_of_people}
+                                            </TableCell>
+                                            <TableCell className="lg:table-cell hidden">
+                                                {reservation.status}
+                                            </TableCell>
+                                            <TableCell className="lg:table-cell hidden">
+                                                {new Date(
+                                                    reservation.reservationDateTime
+                                                ).toLocaleString()}
+                                            </TableCell>
+                                            <TableCell className="lg:table-cell hidden">
+                                                {reservation.location}
+                                            </TableCell>
+                                            <TableCell className="lg:table-cell hidden">
+                                                {new Date(
+                                                    reservation.created_at
+                                                ).toLocaleString()}
+                                            </TableCell>
+                                            <TableCell>
+                                                <EditReservationStatus
+                                                    currentStatus={
+                                                        reservation.status
+                                                    }
+                                                    reservationId={
+                                                        reservation.id
+                                                    }
+                                                    status={currentStatus}
+                                                    setStatus={(newStatus) =>
+                                                        handleStatusChange(
+                                                            reservation.id,
+                                                            newStatus as ReservationStatus
+                                                        )
+                                                    }
+                                                    fetchAllReservations={
+                                                        fetchAllReservations
+                                                    }
+                                                />
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
                             </TableBody>
                         </Table>
                     </div>

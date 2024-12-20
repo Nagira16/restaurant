@@ -16,6 +16,7 @@ import { adminMiddleware } from "./middleware";
 import cron from "node-cron";
 import cros from "cors";
 import { updateTableAvailability } from "./controllers/reservationController";
+require("dotenv").config({ path: ".env.local" });
 
 const app = express();
 

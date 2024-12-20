@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteOrderDetails = exports.updateOrderDetails = exports.createOrderDetails = exports.getOrderDetailsById = exports.getAllOrderDetailsByUserId = exports.getAllOrderDetails = void 0;
 const prismaClient_1 = require("../prismaClient");
+const nodemailer_1 = __importDefault(require("nodemailer"));
 const userController_1 = require("./userController");
 const getAllOrderDetails = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -155,6 +159,138 @@ const updateOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, funct
                 status: status || orderDetails.status
             }
         });
+        if (updatedOrderDetails.status === "PREPARING") {
+            const user = yield prismaClient_1.prisma.user.findUnique({
+                where: { id: orderDetails.user_id }
+            });
+            if (user) {
+                console.log(process.env.USERPASSWORD);
+                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
+                    res.status(404).json({
+                        results: null,
+                        message: "Env Not Found",
+                        success: false
+                    });
+                    return;
+                }
+                const transporter = nodemailer_1.default.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: process.env.USEREMAIL,
+                        pass: process.env.USERPASSWORD
+                    },
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+                const mailOptions = {
+                    from: process.env.USEREMAIL,
+                    to: user.email,
+                    subject: `Your order #${orderDetails.id} is preparing!`,
+                    text: `Hello, your order #${orderDetails.id} is now preparing. We'll send email when your order is ready for pickup!`
+                };
+                transporter.sendMail(mailOptions);
+            }
+        }
+        if (updatedOrderDetails.status === "PICKUP") {
+            const user = yield prismaClient_1.prisma.user.findUnique({
+                where: { id: orderDetails.user_id }
+            });
+            if (user) {
+                console.log(process.env.USERPASSWORD);
+                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
+                    res.status(404).json({
+                        results: null,
+                        message: "Env Not Found",
+                        success: false
+                    });
+                    return;
+                }
+                const transporter = nodemailer_1.default.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: process.env.USEREMAIL,
+                        pass: process.env.USERPASSWORD
+                    },
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+                const mailOptions = {
+                    from: process.env.USEREMAIL,
+                    to: user.email,
+                    subject: `Your order #${orderDetails.id} is ready for pickup!`,
+                    text: `Hello, your order #${orderDetails.id} is now ready for pickup. Please visit us to collect it!`
+                };
+                transporter.sendMail(mailOptions);
+            }
+        }
+        if (updatedOrderDetails.status === "CANCELED") {
+            const user = yield prismaClient_1.prisma.user.findUnique({
+                where: { id: orderDetails.user_id }
+            });
+            if (user) {
+                console.log(process.env.USERPASSWORD);
+                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
+                    res.status(404).json({
+                        results: null,
+                        message: "Env Not Found",
+                        success: false
+                    });
+                    return;
+                }
+                const transporter = nodemailer_1.default.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: process.env.USEREMAIL,
+                        pass: process.env.USERPASSWORD
+                    },
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+                const mailOptions = {
+                    from: process.env.USEREMAIL,
+                    to: user.email,
+                    subject: `Your order #${orderDetails.id} is canceled!`,
+                    text: `Hello, your order #${orderDetails.id} is canceled!`
+                };
+                transporter.sendMail(mailOptions);
+            }
+        }
+        if (updatedOrderDetails.status === "COMPLETED") {
+            const user = yield prismaClient_1.prisma.user.findUnique({
+                where: { id: orderDetails.user_id }
+            });
+            if (user) {
+                console.log(process.env.USERPASSWORD);
+                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
+                    res.status(404).json({
+                        results: null,
+                        message: "Env Not Found",
+                        success: false
+                    });
+                    return;
+                }
+                const transporter = nodemailer_1.default.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: process.env.USEREMAIL,
+                        pass: process.env.USERPASSWORD
+                    },
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+                const mailOptions = {
+                    from: process.env.USEREMAIL,
+                    to: user.email,
+                    subject: `Your order #${orderDetails.id} is completed!`,
+                    text: `Hello, your order #${orderDetails.id} is completed!`
+                };
+                transporter.sendMail(mailOptions);
+            }
+        }
         res.status(200).json({
             results: updatedOrderDetails,
             message: "Order Details Updated Successfully",

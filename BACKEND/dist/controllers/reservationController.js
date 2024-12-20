@@ -8,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateTableAvailability = exports.deleteReservation = exports.updateReservation = exports.createReservation = exports.getReservationById = exports.getAllReservationsByUserId = exports.getAllReservations = void 0;
 const prismaClient_1 = require("../prismaClient");
 const userController_1 = require("./userController");
+const nodemailer_1 = __importDefault(require("nodemailer"));
 const getAllReservations = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allReservations = yield prismaClient_1.prisma.reservation.findMany({
@@ -189,6 +193,138 @@ const updateReservation = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 status: status || reservation.status
             }
         });
+        if (updatedReservation.status === "COMPLETED") {
+            const user = yield prismaClient_1.prisma.user.findUnique({
+                where: { id: updatedReservation.user_id }
+            });
+            if (user) {
+                console.log(process.env.USERPASSWORD);
+                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
+                    res.status(404).json({
+                        results: null,
+                        message: "Env Not Found",
+                        success: false
+                    });
+                    return;
+                }
+                const transporter = nodemailer_1.default.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: process.env.USEREMAIL,
+                        pass: process.env.USERPASSWORD
+                    },
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+                const mailOptions = {
+                    from: process.env.USEREMAIL,
+                    to: user.email,
+                    subject: `Your reservaion #${updatedReservation.id} is completed!`,
+                    text: `Hello, your reservaion #${updatedReservation.id} is completed!`
+                };
+                transporter.sendMail(mailOptions);
+            }
+        }
+        if (updatedReservation.status === "COMPLETED") {
+            const user = yield prismaClient_1.prisma.user.findUnique({
+                where: { id: updatedReservation.user_id }
+            });
+            if (user) {
+                console.log(process.env.USERPASSWORD);
+                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
+                    res.status(404).json({
+                        results: null,
+                        message: "Env Not Found",
+                        success: false
+                    });
+                    return;
+                }
+                const transporter = nodemailer_1.default.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: process.env.USEREMAIL,
+                        pass: process.env.USERPASSWORD
+                    },
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+                const mailOptions = {
+                    from: process.env.USEREMAIL,
+                    to: user.email,
+                    subject: `Your reservaion #${updatedReservation.id} is completed!`,
+                    text: `Hello, your reservaion #${updatedReservation.id} is completed!`
+                };
+                transporter.sendMail(mailOptions);
+            }
+        }
+        if (updatedReservation.status === "CONFIRMED") {
+            const user = yield prismaClient_1.prisma.user.findUnique({
+                where: { id: updatedReservation.user_id }
+            });
+            if (user) {
+                console.log(process.env.USERPASSWORD);
+                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
+                    res.status(404).json({
+                        results: null,
+                        message: "Env Not Found",
+                        success: false
+                    });
+                    return;
+                }
+                const transporter = nodemailer_1.default.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: process.env.USEREMAIL,
+                        pass: process.env.USERPASSWORD
+                    },
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+                const mailOptions = {
+                    from: process.env.USEREMAIL,
+                    to: user.email,
+                    subject: `Your reservaion #${updatedReservation.id} is confirmed!`,
+                    text: `Hello, your reservaion #${updatedReservation.id} is confirmed!`
+                };
+                transporter.sendMail(mailOptions);
+            }
+        }
+        if (updatedReservation.status === "CANCELED") {
+            const user = yield prismaClient_1.prisma.user.findUnique({
+                where: { id: updatedReservation.user_id }
+            });
+            if (user) {
+                console.log(process.env.USERPASSWORD);
+                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
+                    res.status(404).json({
+                        results: null,
+                        message: "Env Not Found",
+                        success: false
+                    });
+                    return;
+                }
+                const transporter = nodemailer_1.default.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: process.env.USEREMAIL,
+                        pass: process.env.USERPASSWORD
+                    },
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+                const mailOptions = {
+                    from: process.env.USEREMAIL,
+                    to: user.email,
+                    subject: `Your reservaion #${updatedReservation.id} is canceled!`,
+                    text: `Hello, your reservaion #${updatedReservation.id} is canceled!`
+                };
+                transporter.sendMail(mailOptions);
+            }
+        }
         res.status(200).json({
             results: updatedReservation,
             message: "Reservation Updated Successfully",

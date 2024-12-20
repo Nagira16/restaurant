@@ -27,8 +27,19 @@ const RoleButton = () => {
     }, [user]);
     return (
         <div>
-            {userRole === "Admin" && <Link href={"/admin"}>Admin</Link>}
-            {userRole === "Store" && <Link href={"/"}>User</Link>}
+            {userRole === "Admin" && (
+                <Link
+                    className="text-gray-800 hover:text-gray-600"
+                    href={"/admin"}
+                >
+                    Admin
+                </Link>
+            )}
+            {userRole === "Store" && (
+                <Link className="text-gray-800 hover:text-gray-600" href={"/"}>
+                    User
+                </Link>
+            )}
         </div>
     );
 };

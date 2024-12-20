@@ -14,7 +14,7 @@ const BackButton = (): JSX.Element => {
                 className="flex items-center mb-6"
             >
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Orders
+                Back
             </button>
         </>
     );

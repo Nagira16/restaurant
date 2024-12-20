@@ -12,6 +12,7 @@ import {
     Payment,
     PaymentStatus,
     Reservation,
+    ReservationStatus,
     ReviewWithUser,
     Role,
     TableType,
@@ -425,7 +426,7 @@ export const addNewTable = async (
     capacity: number,
     available: boolean
 ): Promise<TableType | null> => {
-    const res: Response = await fetch("http://localhost:3001/admin/menus", {
+    const res: Response = await fetch("http://localhost:3001/admin/tables", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -510,6 +511,34 @@ export const updateOrderDetails = async (
     } else {
         console.log("==============", data.message);
         return data.results as Order_Details;
+    }
+};
+
+export const updateReservations = async (
+    reservationId: string,
+    status: ReservationStatus
+): Promise<Reservation | string> => {
+    const res: Response = await fetch(
+        `http://localhost:3001/reservations/${reservationId}`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                status
+            })
+        }
+    );
+
+    const data: FetchData = await res.json();
+
+    if (!data.success) {
+        console.log("==============", data.message);
+        return data.message;
+    } else {
+        console.log("==============", data.message);
+        return data.results as Reservation;
     }
 };
 

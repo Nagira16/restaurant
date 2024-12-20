@@ -44,7 +44,7 @@ const ServicePage = () => {
                 <div className="bg-white shadow-lg rounded-3xl overflow-hidden group hover:shadow-2xl transition-all duration-300">
                     <div className="relative h-80">
                         <Image
-                            src="https://m.media-amazon.com/images/I/81DUssM+MNL.jpg"
+                            src="https://i.pinimg.com/736x/7a/11/ac/7a11acfe2be87d5fa5816aedad41172d.jpg"
                             alt="Takeaway"
                             layout="fill"
                             className="object-cover rounded-t-3xl group-hover:scale-105 transition-transform duration-300"

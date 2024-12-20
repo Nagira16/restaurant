@@ -1,6 +1,7 @@
 import { Order_Details, User } from "@prisma/client";
 import { Request, Response } from "express";
 import { prisma } from "../prismaClient";
+import nodemailer from "nodemailer";
 import { findUserByClerkId } from "./userController";
 import { Order_DetailsWithUserName } from "../types";
 
@@ -190,6 +191,158 @@ export const updateOrderDetails = async (
                     status: status || orderDetails.status
                 }
             });
+
+        if (updatedOrderDetails.status === "PREPARING") {
+            const user = await prisma.user.findUnique({
+                where: { id: orderDetails.user_id }
+            });
+
+            if (user) {
+                console.log(process.env.USERPASSWORD);
+                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
+                    res.status(404).json({
+                        results: null,
+                        message: "Env Not Found",
+                        success: false
+                    });
+                    return;
+                }
+
+                const transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: process.env.USEREMAIL,
+                        pass: process.env.USERPASSWORD
+                    },
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+
+                const mailOptions = {
+                    from: process.env.USEREMAIL,
+                    to: user.email,
+                    subject: `Your order #${orderDetails.id} is preparing!`,
+                    text: `Hello, your order #${orderDetails.id} is now preparing. We'll send email when your order is ready for pickup!`
+                };
+
+                transporter.sendMail(mailOptions);
+            }
+        }
+
+        if (updatedOrderDetails.status === "PICKUP") {
+            const user = await prisma.user.findUnique({
+                where: { id: orderDetails.user_id }
+            });
+
+            if (user) {
+                console.log(process.env.USERPASSWORD);
+                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
+                    res.status(404).json({
+                        results: null,
+                        message: "Env Not Found",
+                        success: false
+                    });
+                    return;
+                }
+
+                const transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: process.env.USEREMAIL,
+                        pass: process.env.USERPASSWORD
+                    },
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+
+                const mailOptions = {
+                    from: process.env.USEREMAIL,
+                    to: user.email,
+                    subject: `Your order #${orderDetails.id} is ready for pickup!`,
+                    text: `Hello, your order #${orderDetails.id} is now ready for pickup. Please visit us to collect it!`
+                };
+
+                transporter.sendMail(mailOptions);
+            }
+        }
+
+        if (updatedOrderDetails.status === "CANCELED") {
+            const user = await prisma.user.findUnique({
+                where: { id: orderDetails.user_id }
+            });
+
+            if (user) {
+                console.log(process.env.USERPASSWORD);
+                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
+                    res.status(404).json({
+                        results: null,
+                        message: "Env Not Found",
+                        success: false
+                    });
+                    return;
+                }
+
+                const transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: process.env.USEREMAIL,
+                        pass: process.env.USERPASSWORD
+                    },
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+
+                const mailOptions = {
+                    from: process.env.USEREMAIL,
+                    to: user.email,
+                    subject: `Your order #${orderDetails.id} is canceled!`,
+                    text: `Hello, your order #${orderDetails.id} is canceled!`
+                };
+
+                transporter.sendMail(mailOptions);
+            }
+        }
+
+        if (updatedOrderDetails.status === "COMPLETED") {
+            const user = await prisma.user.findUnique({
+                where: { id: orderDetails.user_id }
+            });
+
+            if (user) {
+                console.log(process.env.USERPASSWORD);
+                if (!process.env.USEREMAIL || !process.env.USERPASSWORD) {
+                    res.status(404).json({
+                        results: null,
+                        message: "Env Not Found",
+                        success: false
+                    });
+                    return;
+                }
+
+                const transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: process.env.USEREMAIL,
+                        pass: process.env.USERPASSWORD
+                    },
+                    tls: {
+                        rejectUnauthorized: false
+                    }
+                });
+
+                const mailOptions = {
+                    from: process.env.USEREMAIL,
+                    to: user.email,
+                    subject: `Your order #${orderDetails.id} is completed!`,
+                    text: `Hello, your order #${orderDetails.id} is completed!`
+                };
+
+                transporter.sendMail(mailOptions);
+            }
+        }
 
         res.status(200).json({
             results: updatedOrderDetails,

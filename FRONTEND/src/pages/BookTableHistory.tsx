@@ -71,7 +71,9 @@ const BookTableHistory = () => {
                             <TableHead className="text-right">
                                 Number Of People
                             </TableHead>
-                            <TableHead className="text-right">Date</TableHead>
+                            <TableHead className="text-right">
+                                Reservation Date
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

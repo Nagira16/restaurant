@@ -83,7 +83,7 @@ const AdminAppSidebar = ({
 }: React.ComponentProps<typeof Sidebar>): JSX.Element => {
     return (
         <Sidebar {...props}>
-            <SidebarHeader className="font-bold text-xl border-b-2 border-blue-500">
+            <SidebarHeader className="font-bold text-xl border-b p-4">
                 Dona Vicky For Admin
             </SidebarHeader>
             <SidebarContent className="gap-0">

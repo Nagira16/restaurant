@@ -58,7 +58,13 @@ const Navbar: React.FC = () => {
                                     href="/orders"
                                     className="text-gray-800 hover:text-gray-600"
                                 >
-                                    Order Hisotry
+                                    Order History
+                                </Link>
+                                <Link
+                                    href="/book-table/history"
+                                    className="text-gray-800 hover:text-gray-600"
+                                >
+                                    Reservation History
                                 </Link>
                                 <Link href="/cart" className="relative">
                                     <span className="text-gray-800 hover:text-gray-600">

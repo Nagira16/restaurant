@@ -52,7 +52,7 @@ const DynamicBreadcrumb = () => {
                         "/" + pathSegments.slice(0, index + 1).join("/");
 
                     return (
-                        <div key={index} className=" flex items-center">
+                        <div key={index} className="flex items-center">
                             <BreadcrumbSeparator className="mr-2">
                                 /
                             </BreadcrumbSeparator>

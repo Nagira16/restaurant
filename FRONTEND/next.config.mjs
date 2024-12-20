@@ -84,6 +84,9 @@ const nextConfig = {
             },
             {
                 hostname: "eatingwithblim.com"
+            },
+            {
+                hostname: "i.pinimg.com"
             }
         ]
     }

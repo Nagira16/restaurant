@@ -265,7 +265,7 @@ export type ReservationWithUserNameTableNumber = {
     user_id: string;
     num_of_people: number;
     table_id: string | null;
-    status: string;
+    status: ReservationStatus;
     location: string;
     reservationDateTime: Date;
     created_at: Date;
